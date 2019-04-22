@@ -8,16 +8,8 @@ import blockchainReducer from './site/blockChainExplorer.reducer';
 import authReducer from './developer/auth.reducer';
 import cookieReducer from './cookie.reducer';
 import { dialogReducer } from 'redux-dialog';
-
-const init = {};
+import errors from '../reducers/errors/errorsReducer';
 
 export const rootReducer = combineReducers<IRootReducerState>({
-	init
-	// categoriesStore,
-	// statsReducer,
-	// blockchainReducer,
-	// auth: authReducer,
-	// form: formReducer,
-	// dialogReducer,
-	// cookieReducer,
+	errors
 });

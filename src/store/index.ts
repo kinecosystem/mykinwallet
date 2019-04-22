@@ -9,7 +9,9 @@ import rootSaga from './saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-export interface IRootReducerState {}
+export interface IRootReducerState {
+	errors: [];
+}
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 

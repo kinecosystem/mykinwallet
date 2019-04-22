@@ -1,14 +1,5 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from './src/store';
+export { default as wrapRootElement } from './wrapWithProvider';
 
-export const wrapRootElement = ({ element }) => {
-    return (
-        <Provider store={store}>
-                {element}
-        </Provider>
-    )
-}
 /**
  * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
  *

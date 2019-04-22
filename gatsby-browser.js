@@ -1,3 +1,5 @@
+export { default as wrapRootElement } from './wrapWithProvider';
+
 /**
  * Implement Gatsby's Browser APIs in this file.
  *

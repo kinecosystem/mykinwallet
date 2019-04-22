@@ -1,0 +1,3 @@
+export default {
+	SET_TEMPLATE_ERROR: 'SET_TEMPLATE_ERROR'
+};
