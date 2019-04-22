@@ -20,13 +20,20 @@ export const H1 = styled.h1`
     `}
 `;
 
-export const H6 = styled.h6`
+export const H6 = styled.div`
 	${({ theme }) => theme.h6.mobile}
 	${media.md`
     ${({ theme }) => theme.h6.desktop}
     `}
     font-family:primaryFont;
 	margin: 0 0 36px 0;
+`;
+export const ErrorText = styled.div`
+	${({ theme }) => theme.h6.mobile}
+	${media.md`
+    ${({ theme }) => theme.h6.desktop}
+    `}
+    font-family:primaryFont;
 `;
 
 export const H3 = styled.h3`

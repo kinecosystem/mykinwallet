@@ -9,7 +9,6 @@ export default function(state = initialState, action: any) {
 		case type.SET_TEMPLATE_ERROR: {
 			return { ...state, errors: [...action.payload] };
 		}
-		default:
-			return state;
 	}
+	return state;
 }

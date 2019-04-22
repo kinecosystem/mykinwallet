@@ -19,13 +19,15 @@ interface ITemplate {
 		};
 		step: number;
 		children: ReactNode;
+		actions: object;
 	};
 }
 const errorMock = ['sdas asd as   asd asd as dasdasfkja las asd m', 'ryehjnbgf tgjrtyj  tjrtgjrtgjr rtj rty jr'];
 
-const Template: React.SFC<ITemplate> = props => {
-	console.log(props);
-	const { title, step, children } = props;
+const Template: React.FunctionComponent<ITemplate> = props => {
+	const { title, step, children, actions, store } = props;
+	const childrenWithProps = React.Children.map(children, child => React.cloneElement(child, { actions, store }));
+	console.log(store);
 	return (
 		<Layout background={purpleLight}>
 			<Structure_container>
@@ -35,8 +37,8 @@ const Template: React.SFC<ITemplate> = props => {
 				<SideContainer>
 					<SideContainer_content>
 						<Progressbar step={step} />
-						<Error errors={errorMock} />
-						<Context actions={props}>{children}</Context>
+						<Error errors={store.errors} />
+						{childrenWithProps}
 						<Conditions />
 					</SideContainer_content>
 				</SideContainer>
@@ -47,12 +49,14 @@ const Template: React.SFC<ITemplate> = props => {
 
 const mapStateToProps = state => {
 	return {
-		errors: state.errors
+		store: {
+			errors: state.errors.errors
+		}
 	};
 };
 
 const mapDispatchToProps = dispatch => {
-	return { action: bindActionCreators({ ...setTemplateErrors }, dispatch) };
+	return { actions: bindActionCreators({ setTemplateErrors }, dispatch) };
 };
 
 export default connect(

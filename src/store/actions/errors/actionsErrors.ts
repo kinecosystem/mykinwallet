@@ -1,6 +1,6 @@
 import type from './types';
 
-export const setTemplateErros = payload => ({
+export const setTemplateErrors = payload => ({
 	type: type.SET_TEMPLATE_ERROR,
 	payload
 });
