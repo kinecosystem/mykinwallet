@@ -1,7 +1,7 @@
 import type from '../../actions/errors/types';
 
 const initialState = {
-	errors: []
+	errors: ['asdas']
 };
 
 export default function(state = initialState, action: any) {

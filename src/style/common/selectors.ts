@@ -20,29 +20,34 @@ export const H1 = styled.h1`
     `}
 `;
 
-export const H6 = styled.div`
+export const H6 = styled.header`
 	${({ theme }) => theme.h6.mobile}
 	${media.md`
     ${({ theme }) => theme.h6.desktop}
     `}
     font-family:primaryFont;
 	margin: 0 0 36px 0;
+	font-family: ${({ bold }) => bold && 'sailecBold'};
 `;
-export const ErrorText = styled.div`
+
+export const SmallTitle = styled.header`
 	${({ theme }) => theme.h6.mobile}
 	${media.md`
     ${({ theme }) => theme.h6.desktop}
     `}
     font-family:primaryFont;
+	font-family: ${({ bold }) => bold && 'sailecBold'};
+	margin: ${({ bold }) => bold && '0 0 36px 0'};
 `;
 
-export const H3 = styled.h3`
+export const H3 = styled.header`
 	font-family: SailecBold;
-	margin: 0;
+    margin: 0;
 	${({ theme }) => theme.h3.mobile}
 	${media.md`
     ${({ theme }) => theme.h3.desktop}
     `}
+    color: ${({ theme }) => theme.blackish};
 `;
 
 export const A = styled.span`

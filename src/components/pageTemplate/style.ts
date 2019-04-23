@@ -60,20 +60,39 @@ export const SideContainer_content = styled.div`
 
 export const Conditions = styled.div`
 	width: 100%;
-	${grid('2em', 'flex-start', 'initial', 'auto auto', 'auto')}
 	position:relative;
 	bottom:0;
-	margin-top:38px;
-	${media.sm`
-		margin-top:184px;
-	`}
+	margin-top:67px;
+	font-size: 11px;
+	line-height:21px;
+	${grid('2em', 'flex-start', 'initial', 'auto auto', 'auto')}
+	/* ${media.sm`
+	margin-top:67px;
+	`} */
 	${media.md`
-		margin-top:67px;
+		font-size: 12px;
+		line-height:23px;
+		${grid('2em', 'flex-start', 'initial', 'auto auto', 'auto')}
+		margin-top:184px;
 	`}
 	${media.lg`
 		margin-top:71px;
 	`}
 	${media.xl`
 		margin-top:75px;
+	`}
+`;
+
+export const Github = styled.div`
+	color: white;
+	text-decoration: underline;
+	font-size: 17px;
+	line-height: 28px;
+	margin-top: 60px;
+	${media.sm`
+		margin-top:54px;
+	`}
+	${media.md`
+		margin-top:-17px;
 	`}
 `;

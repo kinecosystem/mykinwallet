@@ -56,7 +56,18 @@ h3 {
 	margin: 0 auto;
 	min-height: 70vh;
 	overflow: hidden;
+	padding-bottom: 102px;
+}
 
+@media screen and (min-width: 768px) {
+	.container {
+		padding-bottom: 60px;
+	}
+}
+@media screen and (min-width: 992px) {
+	.container {
+		padding-bottom: 102px;
+	}
 }
 
 .lightText {

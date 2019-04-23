@@ -8,16 +8,14 @@ export const Grid = styled.div`
 	height: 100%;
 	z-index: 1;
     position: relative;
-    padding-bottom:102px;
 	${media.sm`
-    max-width:95%;
+        max-width:95%;
     `}
 	${media.md`
-    max-width:690px;
-    padding-bottom:60px;
+        max-width:690px;
     `}
 	${media.lg`
-        padding-bottom:102px;
+        
         max-width:922px;
     `}
 	${media.xl`

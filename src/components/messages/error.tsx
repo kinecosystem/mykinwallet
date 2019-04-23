@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { ErrorContainer, ErrorItem } from './style';
-import { ErrorText } from 'common/selectors';
+import { MessageBox, ErrorContainer, ErrorText } from './style';
 
 interface IError {
 	errors: string[];
@@ -10,13 +9,13 @@ const Error: React.SFC<IError> = ({ errors }) => {
 	const parseErrors = aErros =>
 		aErros.map((sError, i) => {
 			return (
-				<ErrorItem key={`${sError}_${i}`}>
+				<MessageBox type="error" key={`${sError}_${i}`}>
 					<ErrorText>{sError}</ErrorText>
-				</ErrorItem>
+				</MessageBox>
 			);
 		});
-
-	return <ErrorContainer>{parseErrors(errors)}</ErrorContainer>;
+	/** active means if errors is displayed make add margin */
+	return <ErrorContainer active={errors.length}>{parseErrors(errors)}</ErrorContainer>;
 };
 
 export default Error;

@@ -25,7 +25,7 @@ export const header = styled.div`
 	height: 118px;
 	position: sticky;
 	width: 100%;
-	transition: all 0.3s ease-in;
+	/* transition: all 0.3s ease-in; */
 
 	@media (max-width: 1366px) {
 	}

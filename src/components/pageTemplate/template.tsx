@@ -2,10 +2,10 @@ import React, { ReactNode, useEffect } from 'react';
 import Layout from 'src/components/layout';
 import { purpleLight } from 'style/theme/generalVariables';
 import Title from 'src/components/title/title';
-import { Structure_container, SideContainer, SideContainer_content } from './style';
+import { Structure_container, SideContainer, SideContainer_content, Github } from './style';
 import Progressbar from 'src/components/progress/Line';
 import Conditions from './Conditions';
-import Error from 'src/components/error/error';
+import Error from 'src/components/messages/error';
 import { connect } from 'react-redux';
 import { setTemplateErrors } from 'src/store/actions/errors/actionsErrors';
 import { bindActionCreators } from 'redux';
@@ -21,11 +21,12 @@ interface ITemplate {
 		step: number;
 		children: ReactNode;
 		actions: object;
+		github: boolean;
 	};
 }
 
 const Template: React.FunctionComponent<ITemplate> = props => {
-	const { title, step, children, actions, store } = props;
+	const { title, step, children, actions, store, github } = props;
 	const childrenWithProps = React.Children.map(children, child => React.cloneElement(child, { actions, store }));
 	useEffect(() => {
 		/** clean store errors every time component unmount */
@@ -45,6 +46,7 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 						<Conditions />
 					</SideContainer_content>
 				</SideContainer>
+				<Github>Github -></Github>
 			</Structure_container>
 		</Layout>
 	);
