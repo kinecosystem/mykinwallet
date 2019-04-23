@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Component } from 'react';
 import Template from 'src/components/pageTemplate/template';
+
 const IndexPage = () => {
 	return (
 		<Template step={1} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
-			<Homepage />
+			<Ledger />
 		</Template>
 	);
 };
@@ -17,8 +18,16 @@ interface IHompage {
 	};
 }
 
-const Homepage: React.FunctionComponent<IHompage> = props => {
-
-	return 'asdasd';
-};
+class Ledger extends Component {
+	constructor(props) {
+		super(props);
+	}
+	componentWillUnmount() {
+		console.log('cleanning');
+		this.props.actions.setTemplateErrors([]);
+	}
+	render() {
+		return 'asdsadasdasd';
+	}
+}
 export default IndexPage;

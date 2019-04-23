@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import Layout from 'src/components/layout';
 import { purpleLight } from 'style/theme/generalVariables';
 import Title from 'src/components/title/title';
@@ -9,6 +9,7 @@ import Error from 'src/components/error/error';
 import { connect } from 'react-redux';
 import { setTemplateErrors } from 'src/store/actions/errors/actionsErrors';
 import { bindActionCreators } from 'redux';
+
 import Context from './context';
 
 interface ITemplate {
@@ -22,12 +23,14 @@ interface ITemplate {
 		actions: object;
 	};
 }
-const errorMock = ['sdas asd as   asd asd as dasdasfkja las asd m', 'ryehjnbgf tgjrtyj  tjrtgjrtgjr rtj rty jr'];
 
 const Template: React.FunctionComponent<ITemplate> = props => {
 	const { title, step, children, actions, store } = props;
 	const childrenWithProps = React.Children.map(children, child => React.cloneElement(child, { actions, store }));
-	console.log(store);
+	useEffect(() => {
+		/** clean store errors every time component unmount */
+		if (store.errors.length) return () => actions.setTemplateErrors([]);
+	});
 	return (
 		<Layout background={purpleLight}>
 			<Structure_container>
