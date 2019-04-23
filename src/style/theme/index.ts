@@ -56,6 +56,16 @@ const KinTheme = {
 			font-size:22px;
 			line-height:31px;
 		`
+	},
+	smallText: {
+		desktop: `
+			font-size:12px;
+			line-height:23px;
+		`,
+		mobile: `
+			font-size:11px;
+			line-height:21px;
+		`
 	}
 };
 
