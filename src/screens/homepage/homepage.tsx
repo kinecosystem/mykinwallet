@@ -4,6 +4,7 @@ import Message from 'src/components/messages/info';
 import { H3, H6 } from 'common/selectors';
 import WalletPathItem from 'src/components/box/WalletPathItem';
 import { ItemsContainer, HeaderContainer } from 'src/screens/homepage/style';
+import { InputPremade as Input } from 'src/components/antd/components';
 
 const IndexPage = () => {
 	return (
@@ -27,7 +28,9 @@ interface IHompage {
 const Homepage: React.FunctionComponent<IHompage> = props => {
 	const [errors, setErrors] = useState([]);
 	useEffect(() => {
-		{/** clean list of errors on unmount */}
+		{
+			/** clean list of errors on unmount */
+		}
 		return () => setErrors([]);
 	});
 	const parseErrors = aErrors => {
@@ -43,6 +46,7 @@ const Homepage: React.FunctionComponent<IHompage> = props => {
 			<HeaderContainer>
 				<H3>Access my wallet</H3>
 				<H6>Choose a method to access your account:</H6>
+				
 			</HeaderContainer>
 			<ItemsContainer>
 				<WalletPathItem name="Ledger" link="ledger" />

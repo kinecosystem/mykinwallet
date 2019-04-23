@@ -10,8 +10,6 @@ import { connect } from 'react-redux';
 import { setTemplateErrors } from 'src/store/actions/errors/actionsErrors';
 import { bindActionCreators } from 'redux';
 
-import Context from './context';
-
 interface ITemplate {
 	props: {
 		title: {

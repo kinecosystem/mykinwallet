@@ -8,6 +8,7 @@ export const H1 = styled.h1`
         ${({ theme }) => theme.h1.desktop}
     `}
     font-family:SailecBold;
+    color:white;
 	margin: 0 0 18px 0;
 	${media.md`
         margin: 145px 0 18px 0;
