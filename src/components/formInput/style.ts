@@ -1,18 +1,24 @@
 import styled, { css } from 'styled-components';
 import { transactionFormBottomMargins } from './../../style/theme/generalVariables';
+import media from 'common/breakpoints';
+import { grid } from 'common/mixin';
 
 export const group = styled.div`
 	position: relative;
+	${grid('6px', 'initial', 'flex-start', 'auto', 'auto')}
 `;
 
 export const formLabel = styled.label`
 	font-size: 14px;
 	letter-spacing: 0.3px;
 	color: ${props => props.inputColor};
-	position: absolute;
+	// was absolute
+	position: relative;
 	pointer-events: none;
-	top: 11px;
-	left: 15px;
+	// was 11px
+	top: unset;
+	// was 15px
+	left: 0;
 	transition: 0.2s ease all;
 `;
 
@@ -30,7 +36,8 @@ export const bottomLabel = styled.div`
 	font-style: italic;
 	line-height: 1.58;
 	letter-spacing: 0.3px;
-	margin-top: -25px;
+	// was -25px
+	margin-top: 0;
 `;
 
 export const input = styled.input`
@@ -39,10 +46,11 @@ export const input = styled.input`
 	border-radius: 2px;
   color: ${props => props.inputColor};
 	letter-spacing: 0.4px;
-	margin-bottom: ${({ name }) => (transactionFormBottomMargins[name] ? transactionFormBottomMargins[name] : '34px')};
+
+	/* margin-bottom: ${({ name }) => (transactionFormBottomMargins[name] ? transactionFormBottomMargins[name] : '34px')}; */
 	font-size: 16px;
 	height: 42px;
-	width: 100%;
+	width: calc(100% - 16px);
 	padding-left: 12px;
 	font-family: primaryFont;
 

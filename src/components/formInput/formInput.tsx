@@ -46,6 +46,10 @@ const formInput = ({
 	return (
 		<>
 			<Styled.group>
+				<Styled.formLabel inputColor={inputColor}>
+					{label}
+					{input.name === 'kinAmount' && <Styled.subLabel>{subLabel}</Styled.subLabel>}
+				</Styled.formLabel>
 				<Styled.input
 					{...input}
 					value={input.value}
@@ -59,10 +63,6 @@ const formInput = ({
 					inputDisabledBackgroundColor={inputDisabledBackgroundColor}
 					placeholderColor={placeholderColor}
 				/>
-				<Styled.formLabel inputColor={inputColor}>
-					{label}
-					{input.name === 'kinAmount' && <Styled.subLabel>{subLabel}</Styled.subLabel>}
-				</Styled.formLabel>
 				{input.name === 'memo' && (
 					<Styled.bottomLabel>
 						<b>{bottomLabelBold}</b>

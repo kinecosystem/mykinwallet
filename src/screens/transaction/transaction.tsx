@@ -2,17 +2,26 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import Template from 'src/components/pageTemplate/template';
-import { HeaderContainer } from 'src/screens/homepage/style';
+import { HeaderContainer } from './style';
 import { H3 } from 'common/selectors';
-import formInput from './../../components/formInput/formInput';
-import { authFormTheme } from './../../style/theme/generalVariables';
+import formInput from 'src/components/formInput/formInput';
+import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
+import WalletInfo from 'src/components/walletInfo/WalletInfo';
 
 interface IFormData {
 	destinationAccount?: string;
 	kinAmount?: string;
 	memo?: string;
 }
+
+const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
+	return (
+		<Template step={2} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Transaction />
+		</Template>
+	);
+};
 
 const Transaction: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 	// TODO: move to localization
@@ -45,7 +54,6 @@ const Transaction: React.FunctionComponent<InjectedFormProps<IFormData>> = props
 			placeholder: 'Up to 28 chracters'
 		}
 	];
-
 	const onSubmit = formValues => {};
 
 	const { handleSubmit } = props;
@@ -55,6 +63,11 @@ const Transaction: React.FunctionComponent<InjectedFormProps<IFormData>> = props
 			<HeaderContainer>
 				<H3>My Kin Wallet</H3>
 			</HeaderContainer>
+			<WalletInfo
+				networkType="Public"
+				walletAddress="GBUZFMZXZ6S2Y6HP5IIMTCESJJYJW32GFPN7XAVMRNE2OYQTM3Y7XYXL"
+				balance={1500000000}
+			/>
 
 			<Styled.formContainer>
 				<H3>Send Kin</H3>

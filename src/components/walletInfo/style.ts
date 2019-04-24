@@ -8,12 +8,14 @@ export const WalletInfoContainer = styled.div`
 	border-right: 0;
 	border-left: 0;
 	border-style: solid;
-
 	border-color: ${({ theme }) => theme.purple};
-
 	background: ${({ theme }) => theme.purpleTransed};
-	${media.md`
-
+	margin-bottom: 56px;
+	${media.sm`
+	    margin-bottom: 66px;
+    `}
+	${media.lg`
+	    margin-bottom: 48px;
     `}
 	.mobileOnly {
 		${media.lg`
