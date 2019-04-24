@@ -1,4 +1,14 @@
-import { greenLight, greenDark, ligthTextColor, purple, purpleLight, bodyColor, volcanoRed, blackish } from './generalVariables';
+import {
+	purpleTransed,
+	greenLight,
+	greenDark,
+	ligthTextColor,
+	purple,
+	purpleLight,
+	bodyColor,
+	volcanoRed,
+	blackish
+} from './generalVariables';
 
 export interface ITheme {
 	theme: {
@@ -27,6 +37,7 @@ const KinTheme = {
 	bodyColor,
 	volcanoRed,
 	blackish,
+	purpleTransed,
 	h1: {
 		desktop: `
 			font-size:47px;

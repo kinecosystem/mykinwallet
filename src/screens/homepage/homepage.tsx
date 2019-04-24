@@ -4,7 +4,7 @@ import Message from 'src/components/messages/info';
 import { H3, H6 } from 'common/selectors';
 import WalletPathItem from 'src/components/box/WalletPathItem';
 import { ItemsContainer, HeaderContainer } from 'src/screens/homepage/style';
-import { InputPremade as Input } from 'src/components/antd/components';
+import WalletInfo from 'src/components/walletInfo/WalletInfo';
 
 const IndexPage = () => {
 	return (
@@ -46,7 +46,6 @@ const Homepage: React.FunctionComponent<IHompage> = props => {
 			<HeaderContainer>
 				<H3>Access my wallet</H3>
 				<H6>Choose a method to access your account:</H6>
-				
 			</HeaderContainer>
 			<ItemsContainer>
 				<WalletPathItem name="Ledger" link="ledger" />

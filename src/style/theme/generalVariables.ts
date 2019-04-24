@@ -14,3 +14,4 @@ export const purpleLight = '#936bfb';
 export const blackish = '#1f1f1f';
 export const bodyColor = '#fff3f3';
 export const volcanoRed = '#b30606';
+export const purpleTransed = 'rgba(167, 147, 223, 0.11)';
