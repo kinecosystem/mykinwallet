@@ -20,3 +20,7 @@ export const HeaderContainer = styled.div`
 		margin-bottom: 24px;
 	`}
 `;
+
+export const ButtonContainer = styled.div`
+	margin-top: 48px;
+`;

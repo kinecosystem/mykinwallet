@@ -55,3 +55,14 @@ export const A = styled.span`
 	color: ${blackish};
 	text-decoration: underline;
 `;
+
+export const Button = styled.button`
+	outline: none;
+	border: none;
+	background: ${({ theme }) => theme.purple};
+	height: 66px;
+	width: 100%;
+	color: white;
+	font-size: 20px;
+	cursor: pointer;
+`;

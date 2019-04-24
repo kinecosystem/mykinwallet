@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import Template from 'src/components/pageTemplate/template';
 import { HeaderContainer } from './style';
-import { H3 } from 'common/selectors';
+import { H3, Button } from 'common/selectors';
 import formInput from 'src/components/formInput/formInput';
 import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
@@ -73,6 +73,9 @@ const Transaction: React.FunctionComponent<InjectedFormProps<IFormData>> = props
 				<H3>Send Kin</H3>
 				<Styled.form onSubmit={handleSubmit(onSubmit)}>{formFields}</Styled.form>
 			</Styled.formContainer>
+			<Styled.ButtonContainer>
+				<Button>Send Payment</Button>
+			</Styled.ButtonContainer>
 		</Template>
 	);
 };
