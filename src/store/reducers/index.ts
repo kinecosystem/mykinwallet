@@ -11,5 +11,6 @@ import { dialogReducer } from 'redux-dialog';
 import errors from '../reducers/errors/errorsReducer';
 
 export const rootReducer = combineReducers<IRootReducerState>({
-	errors
+	errors,
+	form: formReducer
 });

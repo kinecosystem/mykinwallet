@@ -29,6 +29,7 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
     "redux-dialog": "^0.2.4",
+    "redux-form": "^8.2.0",
     "redux-saga": "^0.16.2",
     "styled-components": "^4.1.3",
     "typescript": "^3.4.0"

@@ -15,3 +15,20 @@ export const blackish = '#1f1f1f';
 export const bodyColor = '#fff3f3';
 export const volcanoRed = '#b30606';
 export const purpleTransed = 'rgba(167, 147, 223, 0.11)';
+
+export const authFormTheme = {
+	borderColor: '#1f1f1f',
+	errorColor: '#b30606',
+	errorBorderColor: '#b30606',
+	errorFontStyle: 'normal',
+	errorFontWeight: '300',
+	inputColor: '#1f1f1f',
+	outLineFocusColor: '#6f41e8',
+	placeholderColor: '#a6a6a6',
+	passwordIconColor: 'black'
+};
+
+export const transactionFormBottomMargins = {
+	destinationAccount: '73px',
+	kinAmount: '52px'
+};
