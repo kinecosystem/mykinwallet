@@ -33,6 +33,8 @@ export const WalletInfoContainer = styled.div`
 
 export const WalletInfoItem = styled.div`
 	padding: 18px;
+	color: ${({ theme }) => theme.blackish};
+
 	.WalletInfoItem__container {
 		span:not(.wallet-address) {
 			font-family: SailecMedium;

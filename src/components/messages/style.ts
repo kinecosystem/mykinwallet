@@ -23,5 +23,15 @@ export const MessageBox = styled.div`
 	background: ${({ theme }) => theme.bodyColor};
 	padding: 20px;
 	color: ${({ type, theme }) => (type === 'error' ? theme.volcanoRed : theme.blackish)};
-	margin-bottom: 36px;
+	/* margin-bottom: 36px; */
+`;
+
+export const MessageBoxTextOnly = styled.div`
+	background: ${({ theme }) => theme.bodyColor};
+	padding: 20px;
+	color: ${({ type, theme }) => (type === 'error' ? theme.volcanoRed : theme.blackish)};
+	/* margin-bottom: 36px; */
+	p {
+		margin: 0;
+	}
 `;

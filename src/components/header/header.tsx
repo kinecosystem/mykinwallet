@@ -24,7 +24,8 @@ const headerLinks = [
 	{ name: 'Kin Ecosystem', url: '/', type: 'logo' },
 	// { name: 'Kin Migration', url: 'https://www.kin.org/migration', type: 'link' },
 	{ name: 'Kin Apps', url: 'https://www.kin.org/kin-apps/', type: 'link' },
-	{ name: 'Developers', url: 'https://www.kin.org/developers', type: 'link' }
+	{ name: 'Developers', url: 'https://www.kin.org/developers', type: 'link' },
+	// { name: 'Block explorer', url: 'https://www.kin.org/blockchainExplorer', type: 'link' }
 ];
 
 const Header = ({ background, isOnTop }: IProps) => {

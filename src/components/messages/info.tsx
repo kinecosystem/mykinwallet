@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import { ErrorContainer, ErrorText } from './style';
-import { MessageBox } from './style';
-import { SmallTitle } from 'common/selectors';
+import { MessageBox, MessageBoxTextOnly } from './style';
+import { SmallTitle, P } from 'common/selectors';
 
 interface IMessage {
-	props: {
-		head: string;
-		text: string;
-	};
+	head: string;
+	text: string;
 }
 
-const Message: React.SFC<IMessage> = ({ head, text }) => {
+export const MessageHeadAText: React.SFC<IMessage> = ({ head, text }) => {
 	return (
 		<MessageBox>
 			<SmallTitle bold>{head}</SmallTitle>
@@ -19,4 +17,10 @@ const Message: React.SFC<IMessage> = ({ head, text }) => {
 	);
 };
 
-export default Message;
+export const MessageText: React.SFC<IMessage> = ({ text }) => {
+	return (
+		<MessageBoxTextOnly>
+			<P>{text}</P>
+		</MessageBoxTextOnly>
+	);
+};

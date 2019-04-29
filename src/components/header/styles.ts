@@ -166,7 +166,7 @@ export const navContainer = styled.ul`
 	${({ isOpen }) =>
 		isOpen &&
 		css`
-			height: 200px;
+			height: 133px;
 			transition: all 0.3s ease-in;
 		`}
 `;

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import media from 'common/breakpoints';
+import { flexColumn } from 'common/mixin';
 
 export const CheckboxStyle = styled.div`
 	.ant-checkbox {
@@ -45,9 +46,15 @@ export const SelectStyle = styled.div`
 	.ant-select {
 		width: 100%;
 		&-selection {
+			height: 42px;
 			border-radius: 2px;
+			border-color: ${({ theme }) => theme.blackish};
 			&:hover {
 				border-color: ${({ theme }) => theme.purple};
+			}
+			${flexColumn('center')}
+			&-selected-value {
+				color: ${({ theme }) => theme.blackish};
 			}
 		}
 		.ant-select-arrow {

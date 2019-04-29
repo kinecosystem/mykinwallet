@@ -51,6 +51,15 @@ export const H3 = styled.header`
     color: ${({ theme }) => theme.blackish};
 `;
 
+export const P = styled.p`
+	${({ theme }) => theme.h6.mobile}
+	${media.md`
+    ${({ theme }) => theme.h6.desktop}
+	`}
+	font-family:primaryFont;
+	color: ${({ theme }) => theme.blackish};
+`;
+
 export const A = styled.span`
 	color: ${blackish};
 	text-decoration: underline;
@@ -65,4 +74,8 @@ export const Button = styled.button`
 	color: white;
 	font-size: 20px;
 	cursor: pointer;
+	&:active {
+        opacity: 0.4;
+		/* background: ${({ theme }) => theme.purpleLight}; */
+	}
 `;

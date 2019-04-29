@@ -15,7 +15,8 @@ export const blackish = '#1f1f1f';
 export const bodyColor = '#fff3f3';
 export const volcanoRed = '#b30606';
 export const purpleTransed = 'rgba(167, 147, 223, 0.11)';
-
+export const purpleTransedB = 'rgba(167, 147, 223, 0.2)';
+export const silverado = '#f7f7f7';
 export const authFormTheme = {
 	borderColor: '#1f1f1f',
 	errorColor: '#b30606',

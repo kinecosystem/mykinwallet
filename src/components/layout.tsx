@@ -46,16 +46,16 @@ class Layout extends Component<IProps, IS> {
 		const { background, children } = this.props;
 
 		return (
-				<ThemeProvider theme={KinTheme}>
-					<>
+			<ThemeProvider theme={KinTheme}>
+				<>
 						<SEO title="Kin Esystem" keywords={['kin', 'application', 'react']} />
 						<Header background={background} isOnTop={this.state.isOnTop} />
 						<Grid>
 							<div className="container">{children}</div>
 						</Grid>
 						<Footer />
-					</>
-				</ThemeProvider>
+				</>
+			</ThemeProvider>
 		);
 	}
 }

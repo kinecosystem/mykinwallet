@@ -22,5 +22,5 @@ export const HeaderContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-	margin-top: 48px;
+	margin-top: 0px;
 `;

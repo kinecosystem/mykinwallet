@@ -109,7 +109,8 @@ export const errorMsg = styled.div`
 	line-height: 1.83;
 	letter-spacing: 0.6px;
 	color: ${props => props.errorColor};
-	margin-top: -27px;
+	margin-top: 75px;
+	position: absolute;
 	margin-bottom: 21px;
 	overflow: hidden;
 `;

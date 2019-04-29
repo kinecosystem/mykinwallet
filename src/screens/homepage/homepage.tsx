@@ -5,12 +5,15 @@ import { H3, H6 } from 'common/selectors';
 import WalletPathItem from 'src/components/box/WalletPathItem';
 import { ItemsContainer, HeaderContainer } from 'src/screens/homepage/style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
+import { Location } from '@reach/router';
+import ledger from 'src/images/ledger.svg';
+import keypair from 'src/images/keypair.svg';
 
-const IndexPage = () => {
+const IndexPage = props => {
 	return (
 		<>
 			<Template github={true} step={1} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
-				<Homepage />
+				<Homepage {...props} />
 			</Template>
 		</>
 	);
@@ -48,8 +51,8 @@ const Homepage: React.FunctionComponent<IHompage> = props => {
 				<H6>Choose a method to access your account:</H6>
 			</HeaderContainer>
 			<ItemsContainer>
-				<WalletPathItem name="Ledger" link="ledger" />
-				<WalletPathItem alert name="Key pair wallet" link="wallet" />
+				<WalletPathItem img={ledger} name="Ledger" link="ledger" />
+				<WalletPathItem alert img={keypair} name="Key pair wallet" link="key-access" />
 			</ItemsContainer>
 		</div>
 	);

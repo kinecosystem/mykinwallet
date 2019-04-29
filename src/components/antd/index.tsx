@@ -26,7 +26,7 @@ export const SelectPremade = props => {
 	};
 	return (
 		<SelectStyle>
-			<Select suffixIcon={<img src={downArrow} alt="arrow" />} defaultValue={props.defaultValue} onChange={props.onChange}>
+			<Select placeholder={props.placeholder} suffixIcon={<img src={downArrow} alt="arrow" />} defaultValue={props.defaultValue} onChange={props.onChange}>
 				{parseOptions(props.list)}
 			</Select>
 		</SelectStyle>

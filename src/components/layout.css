@@ -23,7 +23,7 @@ body {
 	margin: 0;
 	overflow-x: hidden;
 	background: rgb(111, 65, 232);
-	background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 504px, rgba(111, 65, 232, 1) 537px);
+	background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 504px, rgba(111, 65, 232, 1) 504px);
 }
 @media screen and (min-width: 992px) {
 	body {
@@ -88,4 +88,25 @@ h3 {
 
 .boldFont {
 	font-family: SailecBold;
+}
+
+/** antd */
+/* SELECT*/
+.ant-select-dropdown-menu-item {
+	padding: 1em !important;
+	color: black !important;
+}
+
+/** modal */
+.ant-modal-wrap .ant-modal {
+	padding-bottom: 0;
+}
+.ant-modal-wrap .ant-modal .ant-modal-content {
+	padding-bottom: 0;
+}
+.ant-modal-wrap .ant-modal .ant-modal-content .ant-modal-body{
+	padding: 24px 0;
+}
+.ant-modal-wrap .ant-modal .ant-modal-content .ant-modal-header {
+	border-bottom: none;
 }

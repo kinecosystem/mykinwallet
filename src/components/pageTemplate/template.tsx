@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import Layout from 'src/components/layout';
 import { purpleLight } from 'style/theme/generalVariables';
 import Title from 'src/components/title/title';
@@ -9,6 +9,7 @@ import Error from 'src/components/messages/error';
 import { connect } from 'react-redux';
 import { setTemplateErrors } from 'src/store/actions/errors/actionsErrors';
 import { bindActionCreators } from 'redux';
+import { Location } from '@reach/router';
 
 interface ITemplate {
 	props: {
@@ -20,16 +21,19 @@ interface ITemplate {
 		children: ReactNode;
 		actions: object;
 		github: boolean;
+		hide: string;
+		location: Object;
 	};
 }
 
 const Template: React.FunctionComponent<ITemplate> = props => {
-	const { title, step, children, actions, store, github } = props;
-	const childrenWithProps = React.Children.map(children, child => React.cloneElement(child, { actions, store }));
+	const { title, step, children, actions, store, github, hide, location } = props;
+	const childrenWithProps = React.Children.map(children, child => React.cloneElement(child, { actions, store, location }));
+
 	useEffect(() => {
 		/** clean store errors every time component unmount */
-		if (store.errors.length) return () => actions.setTemplateErrors([]);
-	});
+		return () => actions.setTemplateErrors([]);
+	}, []);
 	return (
 		<Layout background={purpleLight}>
 			<Structure_container>
@@ -41,10 +45,10 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 						<Progressbar step={step} />
 						<Error errors={store.errors} />
 						{childrenWithProps}
-						<Conditions />
+						<Conditions hide={hide} />
 					</SideContainer_content>
 				</SideContainer>
-				<Github>Github -></Github>
+				{github && <Github>Github -></Github>}
 			</Structure_container>
 		</Layout>
 	);
@@ -65,4 +69,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Template);
+)(props => <Location>{locationProps => <Template {...locationProps} {...props} />}</Location>);

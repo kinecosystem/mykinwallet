@@ -7,7 +7,9 @@ import {
 	purpleLight,
 	bodyColor,
 	volcanoRed,
-	blackish
+	blackish,
+	purpleTransedB,
+	silverado
 } from './generalVariables';
 
 export interface ITheme {
@@ -38,6 +40,8 @@ const KinTheme = {
 	volcanoRed,
 	blackish,
 	purpleTransed,
+	purpleTransedB,
+	silverado,
 	h1: {
 		desktop: `
 			font-size:47px;

@@ -17,13 +17,13 @@ interface IFormData {
 
 const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 	return (
-		<Template step={2} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
-			<Transaction />
+		<Template hide="terms" step={2} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Transaction {...props} />
 		</Template>
 	);
 };
 
-const Transaction: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
+const Transaction: React.FunctionComponent = props => {
 	// TODO: move to localization
 	const inputFields: {
 		name: string;
@@ -54,15 +54,20 @@ const Transaction: React.FunctionComponent<InjectedFormProps<IFormData>> = props
 			placeholder: 'Up to 28 chracters'
 		}
 	];
-	const onSubmit = formValues => {};
+	const onSubmit = formValues => {
+		console.log(formValues);
+		// store comes from props
+		console.log(props.store)
+	};
 
 	const { handleSubmit } = props;
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 	return (
-		<Template step={2} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+		<div>
 			<HeaderContainer>
 				<H3>My Kin Wallet</H3>
 			</HeaderContainer>
+			{/**need to get properties from server  */}
 			<WalletInfo
 				networkType="Public"
 				walletAddress="GBUZFMZXZ6S2Y6HP5IIMTCESJJYJW32GFPN7XAVMRNE2OYQTM3Y7XYXL"
@@ -71,17 +76,19 @@ const Transaction: React.FunctionComponent<InjectedFormProps<IFormData>> = props
 
 			<Styled.formContainer>
 				<H3>Send Kin</H3>
-				<Styled.form onSubmit={handleSubmit(onSubmit)}>{formFields}</Styled.form>
+				<Styled.form onSubmit={handleSubmit(onSubmit)}>
+					{formFields}
+					<Styled.ButtonContainer>
+						<Button type="submit">Send Payment</Button>
+					</Styled.ButtonContainer>
+				</Styled.form>
 			</Styled.formContainer>
-			<Styled.ButtonContainer>
-				<Button>Send Payment</Button>
-			</Styled.ButtonContainer>
-		</Template>
+		</div>
 	);
 };
 
 const transactionFormComponent = reduxForm({
 	form: 'transactionForm'
-})(Transaction);
+})(Index);
 
-export default connect()(transactionFormComponent);
+export default transactionFormComponent

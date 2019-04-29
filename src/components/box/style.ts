@@ -6,13 +6,14 @@ export const Item = styled.div`
 	border: solid 2px ${({ theme }) => theme.blackish};
 	border-radius: 5px;
 	height: 186px;
+	width: 259px;
 	font-size: 17px;
 	line-height: 28px;
 	display: flex;
 	flex-direction: column;
-	height: 100%;
 	justify-content: center;
 	align-items: center;
+	margin: auto;
 	cursor: pointer;
 	&:hover {
 		border-color: ${({ theme }) => theme.purple};
@@ -31,8 +32,9 @@ export const Item = styled.div`
         width: 216px;
     `}
     img {
-		width: 120px;
-		height: 120px;
+		width: 90px;
+		height: 90px;
+		margin-bottom: 23px;
 	}
 `;
 
