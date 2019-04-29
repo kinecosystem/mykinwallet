@@ -42,6 +42,7 @@ const Homepage: React.FunctionComponent<IHompage> = props => {
 			return <Message head={head} text={text} />;
 		});
 	};
+	
 	return (
 		<div>
 			{/** parse list of errors */}
