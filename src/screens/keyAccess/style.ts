@@ -16,6 +16,8 @@ export const ButtonContainer = styled.div`
 	margin-top: 25px;
 `;
 export const CheckboxContainer = styled.div`
+	${flexRow()};
+
 	label {
 		${flexRow('flex-start', 'center')}
 	}
@@ -25,6 +27,13 @@ export const CheckboxContainer = styled.div`
 	margin-top: 8px;
 	div {
 		color: ${({ theme }) => theme.purple};
+	}
+	.terms {
+		position: relative;
+		left: -15px;
+		font-size: 12px;
+		line-height: 23px;
+		cursor: pointer;
 	}
 `;
 

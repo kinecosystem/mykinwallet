@@ -8,6 +8,7 @@ import formInput from 'src/components/formInput/formInput';
 import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
+import validate from './validation';
 
 interface IFormData {
 	destinationAccount?: string;
@@ -33,17 +34,25 @@ const Transaction: React.FunctionComponent = props => {
 		bottomLabelRegular?: string;
 		type?: string;
 		placeholder: string;
+		maxlength?: number;
+		max?: number;
+		min?: number;
+		pattern?: string;
 	}[] = [
 		{
 			name: 'destinationAccount',
 			label: 'Destination account*',
-			placeholder: 'Enter destination account address'
+			placeholder: 'Enter destination account address',
+			pattern: '^[A-Za-z][A-Za-z0-9]*$'
 		},
 		{
 			name: 'kinAmount',
+			type: 'number',
 			label: 'Kin Amount*',
 			subLabel: 'The network base fee is 100 Quarks (0.001 kin)',
-			placeholder: 'Max amount 100M Kin'
+			placeholder: 'Max amount 100M Kin',
+			max: 100000000,
+			min: 0.001
 		},
 		{
 			name: 'memo',
@@ -51,13 +60,14 @@ const Transaction: React.FunctionComponent = props => {
 			bottomLabelBold: 'Please Note: ',
 			bottomLabelRegular:
 				'Some exchanges or swap companies require using a memo. Please check the relevant destination site for specific instructions.',
-			placeholder: 'Up to 28 chracters'
+			placeholder: 'Up to 28 chracters',
+			maxlength: 28
 		}
 	];
 	const onSubmit = formValues => {
 		console.log(formValues);
 		// store comes from props
-		console.log(props.store)
+		console.log(props.store);
 	};
 
 	const { handleSubmit } = props;
@@ -88,7 +98,8 @@ const Transaction: React.FunctionComponent = props => {
 };
 
 const transactionFormComponent = reduxForm({
-	form: 'transactionForm'
+	form: 'transactionForm',
+	validate
 })(Index);
 
-export default transactionFormComponent
+export default transactionFormComponent;

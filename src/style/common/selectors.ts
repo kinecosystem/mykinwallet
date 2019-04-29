@@ -72,7 +72,10 @@ export const Button = styled.button`
 	height: 66px;
 	width: 100%;
 	color: white;
-	font-size: 20px;
+	font-size: 18px;
+	${media.xl`
+		font-size:20px;
+	`}
 	cursor: pointer;
 	&:active {
         opacity: 0.4;

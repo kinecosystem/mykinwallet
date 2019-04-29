@@ -6,6 +6,7 @@ import { grid } from 'common/mixin';
 export const group = styled.div`
 	position: relative;
 	${grid('6px', 'initial', 'flex-start', 'auto', 'auto')}
+	margin-top:34px;
 `;
 
 export const formLabel = styled.label`
@@ -38,9 +39,15 @@ export const bottomLabel = styled.div`
 	letter-spacing: 0.3px;
 	// was -25px
 	margin-top: 0;
+	color: ${({ theme }) => theme.blackish};
 `;
 
-export const input = styled.input`
+export const input = styled.input.attrs({
+	maxLength: ({ maxlength }) => maxlength,
+	max: ({ max }) => max,
+	min: ({ min }) => min,
+	pattern: ({ pattern }) => pattern
+})`
   background-color: ${({ inputBackgroundColor }) => inputBackgroundColor};
 	border: 1px solid ${props => props.borderColor};
 	border-radius: 2px;
@@ -61,7 +68,7 @@ export const input = styled.input`
 			color: ${inputDisabledColor};
 			-webkit-text-fill-color: ${inputDisabledColor};
 			-webkit-opacity: 1;
-		`}
+		`};
 
   & ~ ${formLabel} {
     ${({ name }) =>
@@ -82,24 +89,24 @@ export const input = styled.input`
     outline: none;
     border-color: ${props => props.outLineFocusColor};
 		background: ${({ inputValueBackgroundColor }) => inputValueBackgroundColor};
-  }
+  };
 
   &::placeholder {
 		color: ${props => props.placeholderColor};
 		font-size: 16px;
 		letter-spacing: 0.4px;
-  }
+  };
 
   &::-webkit-input-placeholder  {
     padding-top: 5px;
-	}
+	};
 
 	::-webkit-credentials-auto-fill-button {
     visibility: hidden;
     pointer-events: none;
     position: absolute;
     right: 0;
-	}
+	};
 `;
 
 export const errorMsg = styled.div`
@@ -109,8 +116,6 @@ export const errorMsg = styled.div`
 	line-height: 1.83;
 	letter-spacing: 0.6px;
 	color: ${props => props.errorColor};
-	margin-top: 75px;
-	position: absolute;
-	margin-bottom: 21px;
+	position: relative;
 	overflow: hidden;
 `;

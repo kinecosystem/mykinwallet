@@ -20,11 +20,17 @@ export interface ITxtProps extends WrappedFieldProps {
 	placeholderColor?: string;
 	bottomLabelBold?: string;
 	bottomLabelRegular?: string;
+	maxlength?: number;
+	max?: number;
+	min?: number;
+	type?: string;
+	pattern?: string;
 }
 
 const formInput = ({
 	input,
 	meta: { submitFailed, touched, error },
+	maxlength,
 	subLabel,
 	label,
 	placeholder,
@@ -40,7 +46,11 @@ const formInput = ({
 	errorFontWeight,
 	errorBorderColor,
 	bottomLabelBold,
-	bottomLabelRegular
+	bottomLabelRegular,
+	type,
+	max,
+	min,
+	pattern
 }: ITxtProps) => {
 	const outLineColor = touched && error ? errorBorderColor : borderColor;
 	return (
@@ -62,6 +72,11 @@ const formInput = ({
 					inputValueBackgroundColor={inputValueBackgroundColor}
 					inputDisabledBackgroundColor={inputDisabledBackgroundColor}
 					placeholderColor={placeholderColor}
+					maxlength={maxlength}
+					type={type}
+					max={max}
+					min={min}
+					pattern={pattern}
 				/>
 				{input.name === 'memo' && (
 					<Styled.bottomLabel>

@@ -16,8 +16,14 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address 
 	const handleCopy = () => {
 		copy(address);
 		setClasses('selected');
+		setTimeout(() => {
+			setClasses('initial');
+		}, 1500);
 	};
-	const handleChange = () => setSelect(true);
+	const handleChange = () => {
+		setSelect(true);
+	
+	};
 	return (
 		<DerivationStyle>
 			<header>
@@ -34,7 +40,7 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address 
 			{select && (
 				<>
 					<AddressContainer>
-						<span>Address</span>
+						<span>ADDRESS</span>
 						<div className={`base ${classes}`}>
 							{address} <div>Copied!</div>
 						</div>

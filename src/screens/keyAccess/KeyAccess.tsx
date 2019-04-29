@@ -72,9 +72,8 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 				{formFields}
 				<div>
 					<CheckboxContainer>
-						<Checkbox onChange={handleCheckbox}>
-							To access my wallet, I accept the <Modal button={ <span>terms.</span>} />
-						</Checkbox>
+						<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
+						<Modal button={<i className="terms">terms.</i>} />
 					</CheckboxContainer>
 					<ButtonContainer>
 						<Button type="submit">Access my wallet</Button>

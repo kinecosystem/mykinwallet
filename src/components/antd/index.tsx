@@ -15,6 +15,8 @@ export const CheckboxPremade = props => (
 const Option = Select.Option;
 
 export const SelectPremade = props => {
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 	const parseOptions = aOptions => {
 		return aOptions.map((option, i) => {
 			return (
@@ -24,9 +26,18 @@ export const SelectPremade = props => {
 			);
 		});
 	};
+	const onDropdownVisibleChange = bool => {
+		setIsDropdownOpen(bool);
+	};
 	return (
 		<SelectStyle>
-			<Select placeholder={props.placeholder} suffixIcon={<img src={downArrow} alt="arrow" />} defaultValue={props.defaultValue} onChange={props.onChange}>
+			<Select
+				onDropdownVisibleChange={onDropdownVisibleChange}
+				placeholder={props.placeholder}
+				suffixIcon={<img data-rotate={isDropdownOpen} src={downArrow} alt="arrow" />}
+				defaultValue={props.defaultValue}
+				onChange={props.onChange}
+			>
 				{parseOptions(props.list)}
 			</Select>
 		</SelectStyle>

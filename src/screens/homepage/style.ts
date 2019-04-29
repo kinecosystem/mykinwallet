@@ -11,9 +11,9 @@ export const ItemsContainer = styled.div`
 `;
 
 export const HeaderContainer = styled.div`
-	${grid('6px', 'initial', 'initial', 'auto', 'auto')}
+	${grid('6px', 'initial', 'initial', 'auto', 'auto')};
 	${media.lg`
-	${grid('12px', 'initial', 'initial', 'auto', 'auto')}
-    
+	${grid('12px', 'initial', 'initial', 'auto', 'auto')};
+	color: ${({ theme }) => theme.blackish};
 `}
 `;

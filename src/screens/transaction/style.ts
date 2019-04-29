@@ -4,13 +4,13 @@ import { grid } from 'common/mixin';
 
 export const formContainer = styled.div`
 	header {
-		margin-bottom: 29px;
+		/* margin-bottom: 29px; */
 	}
 `;
 
 export const form = styled.form`
-	margin-top: 20px;
-	${grid('34px', 'initial', 'flex-start', 'auto', 'auto')}
+	/* margin-top: 20px; */
+	${grid('0px', 'initial', 'flex-start', 'auto', 'auto')}
 `;
 
 export const HeaderContainer = styled.div`
@@ -22,5 +22,5 @@ export const HeaderContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-	margin-top: 0px;
+	margin-top: 34px;
 `;

@@ -5,7 +5,9 @@ import { grid } from 'common/mixin';
 export const Item = styled.div`
 	border: solid 2px ${({ theme }) => theme.blackish};
 	border-radius: 5px;
+	position: relative;
 	height: 186px;
+	color: ${({ theme }) => theme.blackish};
 	width: 259px;
 	font-size: 17px;
 	line-height: 28px;
@@ -40,6 +42,16 @@ export const Item = styled.div`
 
 export const Alert = styled.div`
 	color: ${({ theme }) => theme.volcanoRed};
+	font-family: SailecLight !important;
 	font-size: 10px;
 	line-height: 11px;
+	position: absolute;
+	bottom: 8px;
+
+	${media.lg`
+		bottom:15px;
+    `}
+	${media.xl`
+		bottom:20px;
+    `}
 `;

@@ -21,6 +21,7 @@ export const PurpleTitle = styled.div`
 
 export const CheckboxContainer = styled.div`
 	margin-top: 43px;
+	${flexRow()};
 	label {
 		${flexRow('flex-start', 'center')}
 	}
@@ -30,10 +31,19 @@ export const CheckboxContainer = styled.div`
 	div {
 		color: ${({ theme }) => theme.purple};
 	}
+	.terms {
+		position: relative;
+		left: -15px;
+		font-size: 12px;
+		line-height: 23px;
+		cursor: pointer;
+	}
 `;
 
 export const ButtonContainer = styled.div`
 	margin-top: 23px;
+
+}
 `;
 
 {
@@ -86,4 +96,5 @@ export const CopyAddress = styled.div`
 	color: ${({ theme }) => theme.purple};
 	font-size: 14px;
 	cursor: pointer;
+	text-decoration: underline;
 `;

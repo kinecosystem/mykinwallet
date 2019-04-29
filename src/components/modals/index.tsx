@@ -15,7 +15,7 @@ interface IModal {
 const ModalG: React.FunctionComponent<IModal> = ({ button, type, children, title }) => {
 	const [visible, setVisible] = useState(false);
 
-	const showModal = () => {
+	const showModal = (e) => {
 		setVisible(true);
 	};
 

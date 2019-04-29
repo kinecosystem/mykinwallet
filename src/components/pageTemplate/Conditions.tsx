@@ -6,13 +6,9 @@ import TermsModal from 'src/components/modals/terms/Terms';
 
 const ConditionsComponent = ({ hide }) => (
 	<Conditions hide={hide}>
-		<TermsModal
-			button={
-				<div className="terms">
-					<A>Terms and Conditions</A>
-				</div>
-			}
-		/>
+		<div className="terms">
+			<TermsModal button={<A>Terms and Conditions</A>} />
+		</div>
 
 		<div className="conditions">
 			<Link to="costumer-support">

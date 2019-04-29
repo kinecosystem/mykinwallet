@@ -56,12 +56,21 @@ export const SelectStyle = styled.div`
 			&-selected-value {
 				color: ${({ theme }) => theme.blackish};
 			}
+			&__placeholder {
+				color: ${({ theme }) => theme.blackish};
+			}
 		}
 		.ant-select-arrow {
 			img {
 				width: 16px;
 				height: 10px;
 			}
+		}
+	}
+	img {
+		transition: 0.2s ease;
+		&[data-rotate='true'] {
+			transform: rotate(180deg);
 		}
 	}
 `;

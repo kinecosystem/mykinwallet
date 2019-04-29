@@ -38,13 +38,12 @@ const Ledger: React.FunctionComponent<ILedger> = () => {
 				<H3>Network and address</H3>
 			</LedgerHeader>
 			<PurpleTitle>
-				<span>Network</span> Kin Public
+				<span>Network:</span> Kin Public
 			</PurpleTitle>
 			<DerivationPath onChange={handleSelect} address="a5vvoj9ijom98hnihuiuhiuhitdre45k7hehgg….6bn" />
 			<CheckboxContainer>
-				<Checkbox onChange={handleCheckbox}>
-					To access my wallet, I accept the <Modal button={ <span>terms.</span>}/>
-				</Checkbox>
+				<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
+				<Modal button={<i className="terms">terms.</i>} />
 			</CheckboxContainer>
 			<ButtonContainer>
 				<Button>Access my wallet</Button>
