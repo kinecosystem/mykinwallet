@@ -32,8 +32,7 @@ function* isLedgerConnected(action) {
 
 function* getPublicKey(action) {
 	try {
-		const data = yield Kin.Ledger.getPublicKey(action.payload);
-		console.log(data);
+		const data = yield Kin.Ledger.getPublicKey(action.payload.trim());
 		yield put({
 			type: types.SET_PUBLIC_KEY,
 			payload: { publicKey: data.publicKey() }
@@ -96,7 +95,7 @@ function* isKeyPairValid(action) {
 		});
 
 		// get keyPair
-		const data = yield Kin.KeyPair.fromSecret(action.payload);
+		const data = yield Kin.KeyPair.fromSecret(action.payload.trim());
 		// set valid
 		yield put({
 			type: types.SET_IS_KEYPAIR_VALID,

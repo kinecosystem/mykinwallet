@@ -3,11 +3,24 @@ import media from 'common/breakpoints';
 import { flexColumn } from 'common/mixin';
 
 export const CheckboxStyle = styled.div`
+	.ant-checkbox-wrapper:hover {
+		.ant-checkbox-inner {
+			border-color: ${({ theme }) => theme.purple};
+		}
+	}
 	.ant-checkbox {
 		&:hover {
 			.ant-checkbox-inner {
 				border-color: ${({ theme }) => theme.purple};
+				&:hover {
+					border-color: ${({ theme }) => theme.purple};
+				}
 			}
+			border-color: ${({ theme }) => theme.purple};
+		}
+
+		&::after {
+			visibility: hidden !important;
 		}
 		&-checked {
 			.ant-checkbox-inner {
@@ -16,6 +29,8 @@ export const CheckboxStyle = styled.div`
 			}
 			&::after {
 				border-color: ${({ theme }) => theme.purple};
+				transition: none !important;
+				animation: none !important;
 			}
 		}
 		.ant-checkbox-inner {
@@ -24,8 +39,9 @@ export const CheckboxStyle = styled.div`
 			&:after {
 				height: 16px;
 				width: 5.35px;
-				left: 10%;
+				left: 2px;
 				top: 7px;
+				transition: none !important;
 			}
 		}
 		.ant-checkbox-input:focus + .ant-checkbox-inner {

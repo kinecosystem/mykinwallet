@@ -68,6 +68,7 @@ export const A = styled.span`
 export const Button = styled.button`
 	outline: none;
 	border: none;
+	border-radius:2px;
 	background: ${({ theme }) => theme.purple};
 	height: 66px;
 	width: 100%;
@@ -77,7 +78,7 @@ export const Button = styled.button`
 		font-size:20px;
 	`}
 	cursor: pointer;
-	&:active {
+	&:hover {
         opacity: 0.4;
 		/* background: ${({ theme }) => theme.purpleLight}; */
 	}

@@ -5,7 +5,7 @@ import { H3, Button } from 'common/selectors';
 import DerivationPath from './DerivationPath';
 import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
 import Modal from 'src/components/modals/terms/Terms';
-import { navigate } from 'gatsby';
+import { navigate, Link } from 'gatsby';
 
 const IndexPage = props => {
 	return (
@@ -26,7 +26,7 @@ interface ILedger {
 	actions: {
 		getPublicKey: Function;
 		setTemplateErrors: Function;
-		setDerivationPath: Function
+		setDerivationPath: Function;
 	};
 }
 
@@ -62,7 +62,9 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 			<DerivationPath onChange={handleSelect} address={store.blockchain.publicKey} />
 			<CheckboxContainer>
 				<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
-				<Modal button={<i className="terms">terms.</i>} />
+				<Link to="/terms-and-conditions" state={{ lastPage: 'ledger' }}>
+					<span className="terms"> terms. </span>
+				</Link>
 			</CheckboxContainer>
 			<CheckboxAlert hide={hideCheckboxAlert}>Please accept terms</CheckboxAlert>
 			<ButtonContainer>

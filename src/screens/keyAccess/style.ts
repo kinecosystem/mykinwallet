@@ -35,6 +35,7 @@ export const CheckboxContainer = styled.div`
 		font-size: 12px;
 		line-height: 23px;
 		cursor: pointer;
+		color: ${({ theme }) => theme.purple};
 	}
 `;
 

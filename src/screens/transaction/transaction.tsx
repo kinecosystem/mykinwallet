@@ -102,7 +102,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, ha
 	}, [store.blockchain.account, store.blockchain.unsignedTransaction]);
 
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
-	console.log(store.blockchain.publicKey)
+	console.log(store.blockchain.publicKey);
 	return (
 		<div>
 			<HeaderContainer>

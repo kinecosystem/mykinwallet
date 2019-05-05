@@ -15,7 +15,7 @@ interface IModal {
 const ModalG: React.FunctionComponent<IModal> = ({ button, type, children, title }) => {
 	const [visible, setVisible] = useState(false);
 
-	const showModal = (e) => {
+	const showModal = e => {
 		setVisible(true);
 	};
 
@@ -35,7 +35,10 @@ const ModalG: React.FunctionComponent<IModal> = ({ button, type, children, title
 				closable={false}
 				width="100%"
 				height="100%"
-				style={{ height: '100%', top: 0 }}
+				style={{
+					height: '100%',
+					top: 0
+				}}
 				visible={visible}
 				onOk={handleOk}
 				onCancel={handleCancel}

@@ -8,7 +8,7 @@ import formInput from 'src/components/formInput/formInput';
 import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
 import validate from './validation';
 import Modal from 'src/components/modals/terms/Terms';
-import { navigate } from 'gatsby';
+import { navigate, Link } from 'gatsby';
 import { actionChannel } from 'redux-saga/effects';
 
 interface IFormData {
@@ -87,7 +87,9 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 				<div>
 					<CheckboxContainer>
 						<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
-						<Modal button={<i className="terms">terms.</i>} />
+						<Link to="/terms-and-conditions" state={{ lastPage: 'key-access' }}>
+							<span className="terms"> terms. </span>
+						</Link>
 					</CheckboxContainer>
 					<ButtonContainer>
 						<Button type="submit">Access my wallet</Button>
