@@ -8,6 +8,8 @@ import formInput from 'src/components/formInput/formInput';
 import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
 import validate from './validation';
 import Modal from 'src/components/modals/terms/Terms';
+import { navigate } from 'gatsby';
+import { actionChannel } from 'redux-saga/effects';
 
 interface IFormData {
 	PrivateKey?: string;
@@ -24,6 +26,10 @@ const IndexPage: React.FunctionComponent<InjectedFormProps<IFormData>> = props =
 interface IKeyAccess {
 	store: {
 		errors: string[];
+		blockchain: {
+			keyPairValid: boolean;
+			publicKey: 'GBT7A2GIYNZEQ3BP3FNPRHCUGZTRWVHFUKXHELIF2F4XW2WFB4QLKXML';
+		};
 	};
 	actions: object[];
 	handleSubmit: Function;
@@ -33,6 +39,7 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 	const [errors, setErrors] = useState([
 		'This is NOT a recommended way of accessing a wallet. This information is sensitive, and these options should only.'
 	]);
+	const [terms, setTerms] = useState(false);
 	// TODO: move to localization
 	const inputFields: {
 		name: string;
@@ -48,19 +55,26 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 
 	useEffect(() => {
 		const { actions, store } = props;
+		// reset ledger
+		console.log('initial');
+
 		actions.setTemplateErrors([/*...store.errors,*/ ...errors]);
-	}, [errors]);
+		if (store.blockchain.keyPairValid) {
+			navigate('/transaction');
+		}
+	}, [errors, props.store.blockchain.keyPairValid]);
 
 	const handleCheckbox = ({ target }) => {
-		console.log(target.checked);
+		setTerms(target.checked);
 	};
 
 	const { handleSubmit } = props;
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 
 	const onSubmit = formValues => {
-		console.log(formValues);
-		// setErrors([...errors, 'asd', 'asdasd']);
+		if (terms) {
+			props.actions.getIsKeyPairValid(formValues.privateKey);
+		}
 	};
 
 	return (

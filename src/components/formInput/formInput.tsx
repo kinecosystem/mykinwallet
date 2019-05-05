@@ -25,6 +25,7 @@ export interface ITxtProps extends WrappedFieldProps {
 	min?: number;
 	type?: string;
 	pattern?: string;
+	step?: string;
 }
 
 const formInput = ({
@@ -50,6 +51,7 @@ const formInput = ({
 	type,
 	max,
 	min,
+	step,
 	pattern
 }: ITxtProps) => {
 	const outLineColor = touched && error ? errorBorderColor : borderColor;
@@ -76,6 +78,7 @@ const formInput = ({
 					type={type}
 					max={max}
 					min={min}
+					step={step}
 					pattern={pattern}
 				/>
 				{input.name === 'memo' && (

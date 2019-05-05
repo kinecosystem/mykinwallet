@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import media from 'common/breakpoints';
-import { flexRow, grid } from 'common/mixin';
 
 export const RelatedModalStyle = styled.div`
 	header {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import Template from 'src/components/pageTemplate/template';
@@ -9,6 +9,7 @@ import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
 import validate from './validation';
+import { navigate } from 'gatsby';
 
 interface IFormData {
 	destinationAccount?: string;
@@ -23,8 +24,27 @@ const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 		</Template>
 	);
 };
+interface ITransaction {
+	store: {
+		errors: string[];
+		blockchain: {
+			publicKey: string;
+			account: object;
+			derviationPath: string;
+			unsignedTransaction: object;
+		};
+	};
+	actions: {
+		getAccount: Function;
+		getUnsignedTransaction: Function;
+		resetUnsignedTransaction: Function;
+		setTransactionDataInput: Function;
+	};
+	handleSubmit: Function;
+}
 
-const Transaction: React.FunctionComponent = props => {
+const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, handleSubmit, validate, initialValues }) => {
+	const [initial, setInitial] = useState(true);
 	// TODO: move to localization
 	const inputFields: {
 		name: string;
@@ -37,13 +57,12 @@ const Transaction: React.FunctionComponent = props => {
 		maxlength?: number;
 		max?: number;
 		min?: number;
-		pattern?: string;
+		step?: string;
 	}[] = [
 		{
 			name: 'destinationAccount',
 			label: 'Destination account*',
-			placeholder: 'Enter destination account address',
-			pattern: '^[A-Za-z][A-Za-z0-9]*$'
+			placeholder: 'Enter destination account address'
 		},
 		{
 			name: 'kinAmount',
@@ -52,7 +71,10 @@ const Transaction: React.FunctionComponent = props => {
 			subLabel: 'The network base fee is 100 Quarks (0.001 kin)',
 			placeholder: 'Max amount 100M Kin',
 			max: 100000000,
-			min: 0.001
+			min: 0.1,
+			step: 'any',
+			maxlength: 9,
+			value: 'asdasd'
 		},
 		{
 			name: 'memo',
@@ -65,28 +87,38 @@ const Transaction: React.FunctionComponent = props => {
 		}
 	];
 	const onSubmit = formValues => {
-		console.log(formValues);
-		// store comes from props
-		console.log(props.store);
+		validate(formValues);
+		const { destinationAccount, kinAmount, memo } = formValues;
+		const { account } = store.blockchain;
+		// from: account  to: Destination account   amount:Kin Amount   memo:memo
+		actions.getUnsignedTransaction([account, destinationAccount, kinAmount, memo || '']);
+		actions.setTransactionDataInput({ destinationAccount, kinAmount, memo });
+		setInitial(false);
 	};
+	useEffect(() => {
+		if (!store.blockchain.account)
+			actions.getAccount(store.blockchain.publicKey);
+		if (store.blockchain.unsignedTransaction && !initial) navigate('approve-payment');
+	}, [store.blockchain.account, store.blockchain.unsignedTransaction]);
 
-	const { handleSubmit } = props;
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
+	console.log(store.blockchain.publicKey)
 	return (
 		<div>
 			<HeaderContainer>
 				<H3>My Kin Wallet</H3>
 			</HeaderContainer>
-			{/**need to get properties from server  */}
-			<WalletInfo
-				networkType="Public"
-				walletAddress="GBUZFMZXZ6S2Y6HP5IIMTCESJJYJW32GFPN7XAVMRNE2OYQTM3Y7XYXL"
-				balance={1500000000}
-			/>
+			{store.blockchain.account && (
+				<WalletInfo
+					networkType="Public"
+					walletAddress={store.blockchain.publicKey}
+					balance={store.blockchain.account.balances[0].balance || 'No balance found'}
+				/>
+			)}
 
 			<Styled.formContainer>
 				<H3>Send Kin</H3>
-				<Styled.form onSubmit={handleSubmit(onSubmit)}>
+				<Styled.form initialValues={initialValues} onSubmit={handleSubmit(onSubmit)}>
 					{formFields}
 					<Styled.ButtonContainer>
 						<Button type="submit">Send Payment</Button>
@@ -96,10 +128,13 @@ const Transaction: React.FunctionComponent = props => {
 		</div>
 	);
 };
+const mapStateToProps = (state, props) => ({
+	initialValues: state.blockchain.transactionForm // retrieve name from redux store
+});
 
-const transactionFormComponent = reduxForm({
-	form: 'transactionForm',
-	validate
-})(Index);
-
-export default transactionFormComponent;
+export default connect(mapStateToProps)(
+	reduxForm({
+		form: 'transactionForm',
+		validate
+	})(Index)
+);

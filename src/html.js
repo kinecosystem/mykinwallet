@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function HTML(props) {
 	return (
-    <html {...props.htmlAttributes}>
+		<html {...props.htmlAttributes}>
 			<head>
 				<meta charSet="utf-8" />
 				<meta httpEquiv="x-ua-compatible" content="ie=edge" />
@@ -12,9 +12,7 @@ export default function HTML(props) {
 			</head>
 			<body {...props.bodyAttributes}>
 				{props.preBodyComponents}
-				<noscript key="noscript" id="gatsby-noscript">
-					This app works best with JavaScript enabled.
-				</noscript>
+
 				<div key={`body`} id="___gatsby" dangerouslySetInnerHTML={{ __html: props.body }} />
 				{props.postBodyComponents}
 			</body>

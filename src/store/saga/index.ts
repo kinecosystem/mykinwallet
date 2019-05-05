@@ -1,10 +1,10 @@
 import { all, fork } from 'redux-saga/effects';
 import categoriesSaga from './site/categories';
-import statsSaga from './site/stats';
+import Wallet from './wallet/api';
 
 // export default function*() {
 //   yield all([fork(authSaga), fork(categoriesSaga), fork(statsSaga), fork(blockchainSaga)]);
 // }
 export default function*() {
-	yield all([]);
+	yield all([fork(Wallet)]);
 }

@@ -9,13 +9,15 @@ export const TitleContainer = styled.div`
 
 export const Form = styled.form`
 	margin-top: 20px;
-	${grid('34px', 'initial', 'flex-start', 'auto', 'auto')}
+	${grid('0px', 'initial', 'flex-start', 'auto', 'auto')}
 `;
 
 export const ButtonContainer = styled.div`
 	margin-top: 25px;
 `;
 export const CheckboxContainer = styled.div`
+	margin-top: 34px;
+
 	${flexRow()};
 
 	label {
@@ -24,7 +26,6 @@ export const CheckboxContainer = styled.div`
 	label span {
 		${grid('5px', 'flex-start', 'initital', 'auto auto', 'auto')}
 	}
-	margin-top: 8px;
 	div {
 		color: ${({ theme }) => theme.purple};
 	}

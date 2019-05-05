@@ -1,13 +1,26 @@
-import React, { ReactNode, useEffect, useState, useRef } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import Layout from 'src/components/layout';
 import { purpleLight } from 'style/theme/generalVariables';
 import Title from 'src/components/title/title';
 import { Structure_container, SideContainer, SideContainer_content, Github } from './style';
 import Progressbar from 'src/components/progress/Line';
 import Conditions from './Conditions';
-import Error from 'src/components/messages/error';
+import Messages from './handleErrors';
 import { connect } from 'react-redux';
-import { setTemplateErrors } from 'src/store/actions/errors/actionsErrors';
+import { setTemplateErrors, resetTemplateErrors } from 'src/store/actions/errors/actionsErrors';
+import {
+	setTransactionDataInput,
+	setDerivationPath,
+	setSignTransaction,
+	getUnsignedTransaction,
+	resetUnsignedTransaction,
+	isLedgerConnected,
+	getPublicKey,
+	getAccount,
+	resetAll,
+	getIsKeyPairValid,
+	setSignTransactionKeyPair
+} from 'src/store/actions/site/actions';
 import { bindActionCreators } from 'redux';
 import { Location } from '@reach/router';
 
@@ -32,7 +45,7 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 
 	useEffect(() => {
 		/** clean store errors every time component unmount */
-		return () => actions.setTemplateErrors([]);
+		return () => actions.resetTemplateErrors([]);
 	}, []);
 	return (
 		<Layout background={purpleLight}>
@@ -43,7 +56,7 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 				<SideContainer>
 					<SideContainer_content>
 						<Progressbar step={step} />
-						<Error errors={store.errors} />
+						<Messages path={location.pathname} errors={store.errors} />
 						{childrenWithProps}
 						<Conditions hide={hide} />
 					</SideContainer_content>
@@ -57,13 +70,34 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 const mapStateToProps = state => {
 	return {
 		store: {
-			errors: state.errors.errors
+			errors: state.errors.errors,
+			blockchain: state.blockchain.blockchain,
+			transactionForm: state.blockchain.transactionForm
 		}
 	};
 };
 
 const mapDispatchToProps = dispatch => {
-	return { actions: bindActionCreators({ setTemplateErrors }, dispatch) };
+	return {
+		actions: bindActionCreators(
+			{
+				resetAll,
+				setTransactionDataInput,
+				resetUnsignedTransaction,
+				setDerivationPath,
+				getUnsignedTransaction,
+				setSignTransaction,
+				getAccount,
+				resetTemplateErrors,
+				setTemplateErrors,
+				isLedgerConnected,
+				getPublicKey,
+				getIsKeyPairValid,
+				setSignTransactionKeyPair
+			},
+			dispatch
+		)
+	};
 };
 
 export default connect(

@@ -39,6 +39,9 @@ export const CheckboxContainer = styled.div`
 		cursor: pointer;
 	}
 `;
+export const CheckboxAlert = styled.div`
+	display: ${({ hide }) => (hide ? 'none' : 'block')};
+`;
 
 export const ButtonContainer = styled.div`
 	margin-top: 23px;

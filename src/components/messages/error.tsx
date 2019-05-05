@@ -8,6 +8,7 @@ interface IError {
 const Error: React.SFC<IError> = ({ errors }) => {
 	const parseErrors = aErros =>
 		aErros.map((sError, i) => {
+			console.log(aErros);
 			return (
 				<MessageBox type="error" key={`${sError}_${i}`}>
 					<ErrorText>{sError}</ErrorText>
@@ -15,7 +16,7 @@ const Error: React.SFC<IError> = ({ errors }) => {
 			);
 		});
 	/** active means if errors is displayed make add margin */
-	return <ErrorContainer active={errors.length}>{parseErrors(errors)}</ErrorContainer>;
+	return <ErrorContainer active={!!errors.length}>{parseErrors(errors)}</ErrorContainer>;
 };
 
 export default Error;

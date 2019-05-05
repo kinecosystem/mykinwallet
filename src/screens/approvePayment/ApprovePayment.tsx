@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { H3, P, Button } from 'common/selectors';
 import { ApprovePaymentStyled } from './style';
+import { Link } from 'gatsby';
 
 const IndexPage = props => {
 	return (
 		<>
-			<Template hide='terms' step={1} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template hide="terms" step={1} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 				<ApprovePayment {...props} />
 			</Template>
 		</>
@@ -27,7 +28,9 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = props => {
 		<ApprovePaymentStyled>
 			<H3>Approve Payment</H3>
 			<P>Please verify the payment details on your Ledger device and approve the transaction.</P>
-			<Button>Approve</Button>
+			<Link to="/review-payment">
+				<Button>Approve</Button>
+			</Link>
 		</ApprovePaymentStyled>
 	);
 };

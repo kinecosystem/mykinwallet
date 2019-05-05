@@ -22,7 +22,6 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address 
 	};
 	const handleChange = () => {
 		setSelect(true);
-	
 	};
 	return (
 		<DerivationStyle>
@@ -35,8 +34,20 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address 
 					handleChange();
 					onChange(e);
 				}}
-				list={['22/564"/77']}
+				list={[
+					"44'/2017'/0'",
+					"44'/2017'/1'",
+					"44'/2017'/2'",
+					"44'/2017'/3'",
+					"44'/2017'/4'",
+					"44'/2017'/5'",
+					"44'/2017'/6'",
+					"44'/2017'/7'",
+					"44'/2017'/8'",
+					"44'/2017'/9'"
+				]}
 			/>
+
 			{select && (
 				<>
 					<AddressContainer>

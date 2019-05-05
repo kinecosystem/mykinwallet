@@ -11,6 +11,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 export interface IRootReducerState {
 	errors: [];
+	Blockchain: {};
 }
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
