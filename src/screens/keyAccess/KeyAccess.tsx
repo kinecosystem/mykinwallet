@@ -7,9 +7,8 @@ import { H3, Button } from 'common/selectors';
 import formInput from 'src/components/formInput/formInput';
 import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
 import validate from './validation';
-import Modal from 'src/components/modals/terms/Terms';
 import { navigate, Link } from 'gatsby';
-import { actionChannel } from 'redux-saga/effects';
+
 
 interface IFormData {
 	PrivateKey?: string;
@@ -17,7 +16,7 @@ interface IFormData {
 
 const IndexPage: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 	return (
-		<Template step={1} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+		<Template step={2} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 			<KeyAccess {...props} />
 		</Template>
 	);

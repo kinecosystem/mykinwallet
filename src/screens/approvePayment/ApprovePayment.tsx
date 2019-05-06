@@ -7,7 +7,7 @@ import { Link } from 'gatsby';
 const IndexPage = props => {
 	return (
 		<>
-			<Template hide="terms" step={1} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template hide="terms" step={4} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 				<ApprovePayment {...props} />
 			</Template>
 		</>

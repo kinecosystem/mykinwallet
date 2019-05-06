@@ -19,7 +19,7 @@ interface IFormData {
 
 const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 	return (
-		<Template hide="terms" step={2} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+		<Template hide="terms" step={3} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 			<Transaction {...props} />
 		</Template>
 	);

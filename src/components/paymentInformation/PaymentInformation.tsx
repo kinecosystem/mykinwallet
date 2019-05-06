@@ -8,11 +8,12 @@ interface IPaymentInfo {
 	transaction: string;
 	time: string;
 	balance: number;
+	purple: string;
 }
 
-const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({ ledger, amount, transaction, time, balance }) => {
+const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({ purple, ledger, amount, transaction, time, balance }) => {
 	return (
-		<PaymentInfoStyled>
+		<PaymentInfoStyled border={purple === 'purple'}>
 			<Item>
 				<span>Ledger number</span>
 				<div>{ledger}</div>

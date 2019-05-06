@@ -6,8 +6,10 @@ export const PaymentInfoStyled = styled.div`
 	padding: 18px 25px;
 	background: ${({ theme }) => theme.silverado};
 	margin-bottom: 30px;
-	border-top: 1px solid #d8d8d8;
-	border-bottom: 1px solid #d8d8d8;
+	border-top: ${({ border, theme }) => (border ? '2px' : '1px')} solid
+		${({ border, theme }) => (border ? theme.purple : '#d8d8d8')};
+	border-bottom: ${({ border, theme }) => (border ? '2px' : '1px')} solid
+		${({ border, theme }) => (border ? theme.purple : '#d8d8d8')};
 `;
 
 export const Item = styled.div`
