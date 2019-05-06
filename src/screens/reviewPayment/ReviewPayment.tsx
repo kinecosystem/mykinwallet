@@ -48,16 +48,13 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 		setGoBack(false);
 		const { derviationPath, unsignedTransaction } = store.blockchain;
 		// ledger sign
-		if (store.blockchain.isLedgerConnected) actions.setSignTransaction([derviationPath, unsignedTransaction]);
+		if (store.blockchain.ledgerConnected) actions.setSignTransaction([derviationPath, unsignedTransaction]);
 		// keyPair sign
 		else actions.setSignTransactionKeyPair([store.blockchain.secret, unsignedTransaction]);
 	};
 	useEffect(() => {
-		/**
-		 
-		 if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/');
-		 return () => !goBack && actions.resetAll();
-		 */
+		if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/');
+		return () => !goBack && actions.resetAll();
 	}, [store.blockchain.signedTransaction]);
 	return (
 		<ReviewPaymentStyled>

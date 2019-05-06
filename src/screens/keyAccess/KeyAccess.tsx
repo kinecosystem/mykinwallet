@@ -55,9 +55,7 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 
 	useEffect(() => {
 		const { actions, store } = props;
-		// reset ledger
-		console.log('initial');
-
+		
 		actions.setTemplateErrors([/*...store.errors,*/ ...errors]);
 		if (store.blockchain.keyPairValid) {
 			navigate('/transaction');

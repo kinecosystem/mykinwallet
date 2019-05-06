@@ -53,6 +53,12 @@ export const input = styled.input.attrs({
 	border-radius: 2px;
   color: ${props => props.inputColor};
 	letter-spacing: 0.4px;
+  &:focus {
+    outline: none !important;
+		
+    border-color: ${props => props.outLineFocusColor};
+		background: ${({ inputValueBackgroundColor }) => inputValueBackgroundColor};
+  };
 
 	/* margin-bottom: ${({ name }) => (transactionFormBottomMargins[name] ? transactionFormBottomMargins[name] : '34px')}; */
 	font-size: 16px;
@@ -85,11 +91,6 @@ export const input = styled.input.attrs({
 				}
 			`}
 
-  &:focus {
-    outline: none;
-    border-color: ${props => props.outLineFocusColor};
-		background: ${({ inputValueBackgroundColor }) => inputValueBackgroundColor};
-  };
 
   &::placeholder {
 		color: ${props => props.placeholderColor};

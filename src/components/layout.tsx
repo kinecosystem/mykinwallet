@@ -6,6 +6,7 @@ import Header from './header';
 import Footer from './footer';
 import './layout.css';
 import { Grid } from 'common/grid';
+import Loader from 'src/components/loader/Loader';
 
 interface IProps {
 	children: ReactNode;
@@ -43,17 +44,18 @@ class Layout extends Component<IProps, IS> {
 	};
 
 	render() {
-		const { background, children } = this.props;
+		const { background, children, loading } = this.props;
 
 		return (
 			<ThemeProvider theme={KinTheme}>
 				<>
-						<SEO title="Kin Esystem" keywords={['kin', 'application', 'react']} />
-						<Header background={background} isOnTop={this.state.isOnTop} />
-						<Grid>
-							<div className="container">{children}</div>
-						</Grid>
-						<Footer />
+					<Loader loading={loading} />
+					<SEO title="Kin Esystem" keywords={['kin', 'application', 'react']} />
+					<Header background={background} isOnTop={this.state.isOnTop} />
+					<Grid>
+						<div className="container">{children}</div>
+					</Grid>
+					<Footer />
 				</>
 			</ThemeProvider>
 		);

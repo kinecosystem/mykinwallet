@@ -108,3 +108,11 @@ export const setSignTransactionKeyPair = payload => {
 		payload
 	};
 };
+
+/// LOADER
+export const setLoader = payload => {
+	return {
+		type: types.SET_LOADER,
+		payload
+	};
+};

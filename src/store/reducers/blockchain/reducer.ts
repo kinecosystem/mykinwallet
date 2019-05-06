@@ -2,7 +2,8 @@ import type from '../../actions/site/types';
 
 const initialState = {
 	blockchain: {},
-	transactionForm: {}
+	transactionForm: {},
+	loading: false
 };
 
 export default function(state = initialState, action: any) {
@@ -39,6 +40,9 @@ export default function(state = initialState, action: any) {
 		}
 		case type.RESET_ALL: {
 			return { ...state, blockchain: {}, transactionForm: {} };
+		}
+		case type.SET_LOADER: {
+			return { ...state, loading: action.payload };
 		}
 		default:
 			return state;

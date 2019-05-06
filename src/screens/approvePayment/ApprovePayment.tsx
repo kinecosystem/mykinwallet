@@ -29,7 +29,7 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = props => {
 			<H3>Approve Payment</H3>
 			<P>Please verify the payment details on your Ledger device and approve the transaction.</P>
 			<Link to="/review-payment">
-				<Button>Approve</Button>
+				<Button>Continue</Button>
 			</Link>
 		</ApprovePaymentStyled>
 	);

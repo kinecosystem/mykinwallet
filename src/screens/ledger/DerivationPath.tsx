@@ -3,6 +3,7 @@ import { DerivationStyle, AddressContainer, CopyAddress } from './style';
 import { H3 } from 'common/selectors';
 import { SelectPremade as Select } from 'src/components/antd/index';
 import copy from 'copy-to-clipboard';
+import { addressGenerator } from 'src/components/helpers/addressGenerator';
 
 interface IDerivationPath {
 	address: string;
@@ -53,7 +54,11 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address 
 					<AddressContainer>
 						<span>ADDRESS</span>
 						<div className={`base ${classes}`}>
-							{address} <div>Copied!</div>
+							{address && (
+								<>
+									{addressGenerator(address)} <div>Copied!</div>
+								</>
+							)}
 						</div>
 					</AddressContainer>
 					<CopyAddress onClick={handleCopy}>Copy address</CopyAddress>

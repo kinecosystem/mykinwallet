@@ -23,17 +23,21 @@ export const SideContainer = styled.div`
 	min-height: 942px;
 	position: relative;
 
+	padding-bottom: 46px;
 	${media.sm`
-		width:433px;
-		justify-self:flex-end;
-	`};
+	width:433px;
+	justify-self:flex-end;
+		padding-bottom: 88px;
+		`};
 	${media.md`
 		min-height:774px;
 		justify-self:flex-start;
 		width:464px;
 		margin-top:50px;
-	`};
+		padding-bottom: 117px;
+		`};
 	${media.lg`
+		padding-bottom: 100px;
 		min-height:764px;
 		width:612px;
 	`};
@@ -66,31 +70,25 @@ export const SideContainer_content = styled.div`
 
 export const Conditions = styled.div`
 	width: 100%;
-	position:absolute;
-	bottom:66px;
+	position: absolute;
+	bottom: 66px;
 	font-size: 11px;
-	line-height:21px;
+	line-height: 21px;
 	${grid('2em', 'flex-start', 'initial', 'auto auto', 'auto')}
 
 	${media.md`
 		font-size: 12px;
 		line-height:23px;
 		${grid('2em', 'flex-start', 'initial', 'auto auto', 'auto')}
-		/* margin-top:184px; */
 	`}
-	${media.lg`
-		/* margin-top:71px; */
-	`}
-	${media.xl`
-		/* margin-top:75px; */
-	`}
+
+
 	.terms {
-		cursor:pointer;
+		cursor: pointer;
 		${({ hide }) => hide === 'terms' && 'display:none'}
 	}
 	.conditions {
 		${({ hide }) => hide === 'conditions' && 'display:none'}
-
 	}
 `;
 

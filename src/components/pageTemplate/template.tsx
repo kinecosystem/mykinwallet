@@ -19,7 +19,8 @@ import {
 	getAccount,
 	resetAll,
 	getIsKeyPairValid,
-	setSignTransactionKeyPair
+	setSignTransactionKeyPair,
+	setLoader
 } from 'src/store/actions/site/actions';
 import { bindActionCreators } from 'redux';
 import { Location } from '@reach/router';
@@ -47,8 +48,9 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 		/** clean store errors every time component unmount */
 		return () => actions.resetTemplateErrors([]);
 	}, []);
+	console.log(store);
 	return (
-		<Layout background={purpleLight}>
+		<Layout background={purpleLight} loading={store.loading}>
 			<Structure_container>
 				{/** Left white title */}
 				<Title main={title.main} sub={title.sub} />
@@ -58,7 +60,7 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 						<Progressbar step={step} />
 						<Messages path={location.pathname} errors={store.errors} />
 						{childrenWithProps}
-						<Conditions hide={hide} />
+						<Conditions path={location.pathname} hide={hide} />
 					</SideContainer_content>
 				</SideContainer>
 				{github && <Github>Github -></Github>}
@@ -72,7 +74,8 @@ const mapStateToProps = state => {
 		store: {
 			errors: state.errors.errors,
 			blockchain: state.blockchain.blockchain,
-			transactionForm: state.blockchain.transactionForm
+			transactionForm: state.blockchain.transactionForm,
+			loading: state.blockchain.loading
 		}
 	};
 };
@@ -81,6 +84,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		actions: bindActionCreators(
 			{
+				setLoader,
 				resetAll,
 				setTransactionDataInput,
 				resetUnsignedTransaction,

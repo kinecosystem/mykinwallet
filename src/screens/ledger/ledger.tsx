@@ -4,7 +4,6 @@ import { CheckboxAlert, CheckboxContainer, LedgerStyle, LedgerHeader, PurpleTitl
 import { H3, Button } from 'common/selectors';
 import DerivationPath from './DerivationPath';
 import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
-import Modal from 'src/components/modals/terms/Terms';
 import { navigate, Link } from 'gatsby';
 
 const IndexPage = props => {

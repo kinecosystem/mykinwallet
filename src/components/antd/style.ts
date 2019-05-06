@@ -65,6 +65,11 @@ export const SelectStyle = styled.div`
 			height: 42px;
 			border-radius: 2px;
 			border-color: ${({ theme }) => theme.blackish};
+			&:focus {
+				border-color: ${({ theme }) => theme.purple};
+				outline: none;
+				box-shadow: none;
+			}
 			&:hover {
 				border-color: ${({ theme }) => theme.purple};
 			}

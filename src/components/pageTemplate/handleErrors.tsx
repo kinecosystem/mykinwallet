@@ -18,6 +18,10 @@ const ErrorsTemplateRed = error => {
 	switch (error) {
 		case 'Error: invalid encoded string':
 			return 'Private key is not valid';
+		case 'Error: invalid version byte. expected 144, got 48':
+			return 'Private key is not valid';
+		case 'Error: invalid checksum':
+			return 'Private key is not valid';
 		default:
 			return error;
 	}

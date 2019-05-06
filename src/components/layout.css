@@ -92,11 +92,19 @@ h3 {
 
 /** antd */
 /* SELECT*/
+.ant-select-dropdown {
+	top:485px !important;
+}
 .ant-select-dropdown-menu-item {
 	padding: 1em !important;
 	color: black !important;
 }
-
+.ant-select-dropdown-menu-item-active {
+	background-color: white !important;
+}
+.ant-select-dropdown-menu-item:hover {
+	background-color: white !important;
+}
 /** modal */
 .ant-modal-wrap .ant-modal {
 	padding-bottom: 0;
@@ -104,7 +112,7 @@ h3 {
 .ant-modal-wrap .ant-modal .ant-modal-content {
 	padding-bottom: 0;
 }
-.ant-modal-wrap .ant-modal .ant-modal-content .ant-modal-body{
+.ant-modal-wrap .ant-modal .ant-modal-content .ant-modal-body {
 	padding: 24px 0;
 }
 .ant-modal-wrap .ant-modal .ant-modal-content .ant-modal-header {

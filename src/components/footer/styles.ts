@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import media from 'common/breakpoints';
 
 interface IProps {
 	title?: boolean;
@@ -38,29 +39,17 @@ export const mainContainer = styled.div`
 	}
 	background: white;
 	position: relative;
-	padding: 1em 0;
+	padding: 45px 0;
 	@media (min-width: 1367px) {
-		// max-width: 1330px;
 		margin: auto;
-		padding: 39px 0;
 	}
+	${media.lg`
+		padding: 36px 0;
+		`}
 
-	// min-height: 410px;
-	// padding: 39px 78px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	// @media (max-width: 992px) {
-	// 	padding: 23px 34px 36px;
-	// }
-
-	// @media (max-width: 596px) {
-	// 	padding: 23px 27px 36px;
-	// }
-
-	// @media (max-width: 420px) {
-	// 	padding: 23px 12px 36px;
-	// }
 `;
 
 export const footerTop = styled.div`

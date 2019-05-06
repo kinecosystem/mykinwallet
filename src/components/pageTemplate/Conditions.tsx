@@ -2,18 +2,19 @@ import React from 'react';
 import { Conditions } from './style';
 import { Link } from 'gatsby';
 import { A } from 'common/selectors';
-import TermsModal from 'src/components/modals/terms/Terms';
 
-const ConditionsComponent = ({ hide }) => (
+const ConditionsComponent = ({ hide, path }) => (
 	<Conditions hide={hide}>
-		<div className="terms">
-			<TermsModal button={<A>Terms and Conditions</A>} />
+		<div>
+			<Link to="/terms-and-conditions" state={{ lastPage: path }}>
+				<A>Terms and Conditions</A>
+			</Link>
 		</div>
 
 		<div className="conditions">
-			<Link to="costumer-support">
+			<a href="mailto:migration-support@kin.org" target="_top">
 				<A>Customer Support</A>
-			</Link>
+			</a>
 		</div>
 	</Conditions>
 );

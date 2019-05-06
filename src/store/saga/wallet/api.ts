@@ -5,6 +5,13 @@ import { setTemplateErrors } from '../../actions/errors/actionsErrors';
 
 const bc = new Kin.Blockchain(true);
 
+function* loading(bool) {
+	yield put({
+		type: types.SET_LOADER,
+		payload: bool
+	});
+}
+
 /////////////
 // Ledger
 ////////////
@@ -32,25 +39,35 @@ function* isLedgerConnected(action) {
 
 function* getPublicKey(action) {
 	try {
+		// trigger load
+		yield loading(true);
 		const data = yield Kin.Ledger.getPublicKey(action.payload.trim());
 		yield put({
 			type: types.SET_PUBLIC_KEY,
 			payload: { publicKey: data.publicKey() }
 		});
+		// trigger end load
+		yield loading(false);
 	} catch ({ error }) {
+		yield loading(false);
 		yield put(setTemplateErrors([error]));
 	}
 }
 
 function* getAccount(action) {
 	try {
+		// trigger load
+		yield loading(true);
 		// payload is public key
 		const data = yield bc.getAccount(action.payload);
 		yield put({
 			type: types.SET_PUBLIC_KEY,
 			payload: { account: data }
 		});
+		// trigger load
+		yield loading(false);
 	} catch (error) {
+		yield loading(false);
 		console.log(error);
 		yield put(setTemplateErrors(['No account have been found with this public key']));
 	}
@@ -71,13 +88,19 @@ function* getUnsignedTransaction(action) {
 
 function* signTransaction(action) {
 	try {
+		// trigger load
+		yield loading(true);
 		const data = yield Kin.Ledger.signTransaction(...action.payload);
 		const confirm = yield bc.submitTransaction(data);
 		yield put({
 			type: types.SIGN_TRANSACTION,
 			payload: confirm
 		});
+		// trigger load
+		yield loading(false);
 	} catch (error) {
+		yield loading(false);
+		console.log(error);
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }
@@ -93,6 +116,7 @@ function* isKeyPairValid(action) {
 			type: types.SET_IS_KEYPAIR_VALID,
 			payload: { keyPairValid: false }
 		});
+		yield loading(true);
 
 		// get keyPair
 		const data = yield Kin.KeyPair.fromSecret(action.payload.trim());
@@ -106,20 +130,27 @@ function* isKeyPairValid(action) {
 			type: types.SET_PUBLIC_KEY,
 			payload: { publicKey: data.publicKey() }
 		});
+		yield loading(false);
 	} catch (error) {
 		// set error
+		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }
 function* signTransactionKeyPair(action) {
 	try {
+		yield loading(true);
+
 		const data = yield Kin.KeyPair.signTransaction(...action.payload);
 		const confirm = yield bc.submitTransaction(data);
 		yield put({
 			type: types.SIGN_TRANSACTION_KEYPAIR,
 			payload: confirm
 		});
+		yield loading(false);
 	} catch (error) {
+		yield loading(false);
+
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }
