@@ -8,22 +8,22 @@ import Logo from '../../images/logo/LOGO_FOOTER.svg';
 
 const strings = {
 	footerTitle: 'Kin',
-	topLinks: [{ name: 'About us', url: '/about' }, { name: 'Contact us', url: 'mailto:info@kinecosystem.com', isHref: true }],
+	topLinks: [{ name: 'About us', url: 'https://www.kin.org/about' }, { name: 'Contact us', url: 'mailto:info@kinecosystem.com', isHref: true }],
 	bottomLinks: [
-		{ name: 'Kin apps', url: '/kin-apps/' },
+		{ name: 'Kin apps', url: 'https://www.kin.org/kin-apps/' },
 		{
 			name: 'Developers',
-			url: '/developers'
+			url: 'https://www.kin.org/developers'
 		},
-		{ name: 'Stats', url: '/stats', hideInBreakpoint: true },
+		{ name: 'Stats', url: 'https://www.kin.org/stats', hideInBreakpoint: true },
 		{
 			name: 'Block explorer',
-			url: '/blockchainExplorer',
+			url: 'https://www.kin.org/blockchainExplorer',
 			hideInBreakpoint: true
 		},
 		{
 			name: 'Kin Migration',
-			url: '/migration',
+			url: 'https://www.kin.org/migration',
 			hideInBreakpoint: true
 		}
 	],
@@ -32,13 +32,13 @@ const strings = {
 	footerLeftBottom: [
 		{
 			name: 'Privacy policy',
-			url: '/privacy-policy.pdf',
+			url: 'https://www.kin.org/privacy-policy.pdf',
 			isHref: true,
 			isNewTab: true
 		},
 		{
 			name: 'Terms and conditions',
-			url: '/terms-and-conditions.pdf',
+			url: 'https://www.kin.org/terms-and-conditions.pdf',
 			isHref: true,
 			isNewTab: true
 		}
@@ -75,9 +75,9 @@ const Footer: React.SFC = () => {
 							<LinkElement>{link.name}</LinkElement>
 						</Styled.link>
 					) : (
-						<Link to={link.url}>
+						<Styled.link href={link.url}>
 							<LinkElement>{link.name}</LinkElement>
-						</Link>
+						</Styled.link>
 					)}
 				</div>
 			);

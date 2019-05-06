@@ -48,7 +48,6 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 		/** clean store errors every time component unmount */
 		return () => actions.resetTemplateErrors([]);
 	}, []);
-	console.log(store);
 	return (
 		<Layout background={purpleLight} loading={store.loading}>
 			<Structure_container>

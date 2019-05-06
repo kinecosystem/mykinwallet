@@ -22,8 +22,6 @@ export const arrow = styled.div`
 	right: 20px;
 	top: 66px;
 
-	@media (min-width: 992px) {
-	}
 	@media (max-width: 768px) {
 		right: 63px;
 	}
