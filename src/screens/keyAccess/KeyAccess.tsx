@@ -39,6 +39,7 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 	const [errors, setErrors] = useState([
 		'This is NOT a recommended way of accessing a wallet. This information is sensitive, and these options should only.'
 	]);
+	const [initial, setInitial] = useState(false);
 	const [terms, setTerms] = useState(false);
 	// TODO: move to localization
 	const inputFields: {
@@ -55,12 +56,11 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 
 	useEffect(() => {
 		const { actions, store } = props;
-		
 		actions.setTemplateErrors([/*...store.errors,*/ ...errors]);
-		if (store.blockchain.keyPairValid) {
+		if (store.blockchain.keyPairValid && initial) {
 			navigate('/transaction');
 		}
-	}, [errors, props.store.blockchain.keyPairValid]);
+	}, [errors, props.store.blockchain.keyPairValid, initial]);
 
 	const handleCheckbox = ({ target }) => {
 		setTerms(target.checked);
@@ -71,6 +71,7 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 
 	const onSubmit = formValues => {
 		if (terms) {
+			setInitial(true);
 			props.actions.getIsKeyPairValid(formValues.privateKey);
 		}
 	};
