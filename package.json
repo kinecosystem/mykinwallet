@@ -19,7 +19,7 @@
     "gatsby-plugin-typescript": "^2.0.12",
     "gatsby-source-filesystem": "^2.0.29",
     "gatsby-transformer-sharp": "^2.1.17",
-    "kin-wallet": "^1.0.0",
+    "kin-wallet": "^1.0.2",
     "prop-types": "^15.7.2",
     "rc-progress": "^2.3.0",
     "react": "^16.8.6",

@@ -37,11 +37,11 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 		<ApprovedPaymentStyled>
 			<H3>Transaction approved</H3>
 			<P>Here are the details of your payment:</P>
-			{store.transactionForm.kinAmount && store.blockchain.unsignedTransaction && (
+			{store.transactionForm.kinAmount && store.blockchain.signedTransaction && (
 				<PaymentInformation
-					ledger={store.blockchain.unsignedTransaction.sequence}
+					ledger={store.blockchain.signedTransaction.ledger}
 					amount={store.transactionForm.kinAmount}
-					transaction={'02972d0124ea91a8949ac476862b8b23ea63160a86c35f133a021ce91d2b5cfe'}
+					transaction={store.blockchain.signedTransaction.hash}
 					time={'123'}
 					balance={IntlNumber(Number(balance) - Number(kinAmount))}
 					purple="purple"

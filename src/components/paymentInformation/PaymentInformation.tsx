@@ -29,10 +29,10 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({ purple, ledger, am
 				<div>{transaction}</div>
 			</Item>
 
-			<Item>
+			{/* <Item>
 				<span>Created at</span>
 				<div>{time}</div>
-			</Item>
+			</Item> */}
 
 			<Item>
 				<div>
