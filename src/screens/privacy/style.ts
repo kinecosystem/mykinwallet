@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import media from 'common/breakpoints';
 import { flexRow } from 'common/mixin';
 
-export const TermsStyle = styled.div`
+export const PrivacyStyle = styled.div`
 
 header {
     margin: 62px 0 30px 0;
@@ -44,11 +44,35 @@ section {
             list-style-type: lower-roman
         }
     }
-    ul.decimal {
-        list-style-type: decimal;
-    }
-    ul.alphabetic {
-        list-style-type: lower-alpha;
+    ul {
+
+        &.decimal {
+            list-style-type: decimal;
+        }
+        &.alphabetic {
+            list-style-type: lower-alpha;
+        }
+        &.no-list-style {
+            list-style-type: none;
+            li {
+                ${flexRow()}
+                div:first-child {
+                    padding: 0 1em 0 0;
+                }
+            }
+        }
+        &.no-list-style-2 {
+            list-style-type: none;
+            li {
+               > div {
+                ${flexRow()};
+                    > div:first-child {
+                        padding: 0 1em 0 0;
+                    }
+                }
+            }
+        }
+
     }
 
 
