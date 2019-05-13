@@ -74,12 +74,12 @@ export const Conditions = styled.div`
 	bottom: 66px;
 	font-size: 11px;
 	line-height: 21px;
-	${grid('2em', 'flex-start', 'initial', 'auto auto', 'auto')}
+	${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
 
 	${media.md`
 		font-size: 12px;
 		line-height:23px;
-		${grid('2em', 'flex-start', 'initial', 'auto auto', 'auto')}
+		${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
 	`}
 
 

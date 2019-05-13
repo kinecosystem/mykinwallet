@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
-import { KeyAccessContainer, TitleContainer, Form, ButtonContainer, CheckboxContainer } from './style';
+import { CheckboxAlert, KeyAccessContainer, TitleContainer, Form, ButtonContainer, CheckboxContainer } from './style';
 import { authFormTheme } from 'style/theme/generalVariables';
 import { H3, Button } from 'common/selectors';
 import formInput from 'src/components/formInput/formInput';
 import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
 import validate from './validation';
 import { navigate, Link } from 'gatsby';
-
 
 interface IFormData {
 	PrivateKey?: string;
@@ -36,8 +35,9 @@ interface IKeyAccess {
 
 const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 	const [errors, setErrors] = useState([
-		'This is NOT a recommended way of accessing a wallet. This information is sensitive, and these options should only.'
+		'This method is NOT recommended as it is not secure. It should only be used in offline settings by experienced crypto users.'
 	]);
+	const [hideCheckboxAlert, setHideCheckboxAlert] = useState(true);
 	const [initial, setInitial] = useState(false);
 	const [terms, setTerms] = useState(false);
 	// TODO: move to localization
@@ -69,6 +69,7 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 
 	const onSubmit = formValues => {
+		if (!terms) setHideCheckboxAlert(false);
 		if (terms) {
 			setInitial(true);
 			props.actions.getIsKeyPairValid(formValues.privateKey);
@@ -89,6 +90,8 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 							<span className="terms"> terms. </span>
 						</Link>
 					</CheckboxContainer>
+					<CheckboxAlert hide={hideCheckboxAlert}>Please accept terms</CheckboxAlert>
+
 					<ButtonContainer>
 						<Button type="submit">Access my wallet</Button>
 					</ButtonContainer>

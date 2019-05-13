@@ -61,3 +61,7 @@ export const RelatedModalStyle = styled.div`
 		}
 	}
 `;
+
+export const CheckboxAlert = styled.div`
+	display: ${({ hide }) => (hide ? 'none' : 'block')};
+`;

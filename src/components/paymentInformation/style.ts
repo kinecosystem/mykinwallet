@@ -15,10 +15,13 @@ export const PaymentInfoStyled = styled.div`
 export const Item = styled.div`
 	${grid('32px', 'flex-start', 'center', '130px auto', 'auto')}
 	margin-bottom: 20px;
-	word-break: break-all;
+
 	color: ${({ theme }) => theme.blackish};
 	font-size: 14px;
 	line-height: 22px;
+	div {
+		word-break: break-all;
+	}
 	span {
 		font-size: 16px;
 		line-height: 27px;

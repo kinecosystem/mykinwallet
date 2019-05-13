@@ -31,7 +31,7 @@ function* isLedgerConnected(action) {
 			type: types.SET_IS_LEDGER_CONNECTED,
 			payload: { ledgerConnected: true }
 		});
-	} catch ({ error }) {
+	} catch (error) {
 		// set error
 		yield put(setTemplateErrors([error]));
 	}
@@ -69,7 +69,7 @@ function* getAccount(action) {
 	} catch (error) {
 		yield loading(false);
 		console.log(error);
-		yield put(setTemplateErrors(['No account have been found with this public key']));
+		yield put(setTemplateErrors(["Your account information couldn't be retrieved due to network issues"]));
 	}
 }
 

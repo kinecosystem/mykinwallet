@@ -4,7 +4,7 @@ import { MessageHeadAText } from 'src/components/messages/info';
 
 const ErrorsTemplate = error => {
 	switch (error) {
-		case 'could not connect to ledger device':
+		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
 			return {
 				head: 'Please make sure youre device is connected.',
 				text: 'Connect your Ledger device, unlock it and open the Kin application.'
@@ -17,11 +17,15 @@ const ErrorsTemplate = error => {
 const ErrorsTemplateRed = error => {
 	switch (error) {
 		case 'Error: invalid encoded string':
-			return 'Private key is not valid';
+			return 'Validation failed. Please check that you entered the right address.';
 		case 'Error: invalid version byte. expected 144, got 48':
-			return 'Private key is not valid';
+			return 'Validation failed. Please check that you entered the right address.';
 		case 'Error: invalid checksum':
-			return 'Private key is not valid';
+			return 'Validation failed. Please check that you entered the right address.';
+		case 'Error: Request failed with status code 400':
+			return 'Destination account not valid';
+		case 'Error: Request failed with status code 404':
+			return 'Destination account does not exist';
 		default:
 			return error;
 	}
