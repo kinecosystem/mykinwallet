@@ -31,8 +31,8 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 		!store.blockchain.unsignedTransaction && navigate('/');
 		return () => actions.resetAll();
 	}, [store.blockchain.signedTransaction]);
-	const { balance } = store.blockchain.account.balances[0];
-	const { kinAmount } = store.transactionForm;
+	// const { balance } = store.blockchain.account.balances[0];
+	// const { kinAmount } = store.transactionForm;
 	return (
 		<ApprovedPaymentStyled>
 			<H3>Transaction approved</H3>
@@ -43,7 +43,7 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 					amount={store.transactionForm.kinAmount}
 					transaction={store.blockchain.signedTransaction.hash}
 					time={'123'}
-					balance={IntlNumber(Number(balance) - Number(kinAmount))}
+					balance={IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))}
 					purple="purple"
 				/>
 			)}
