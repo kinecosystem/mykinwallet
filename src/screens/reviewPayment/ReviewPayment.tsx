@@ -55,9 +55,9 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 	useEffect(() => {
 		if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/transaction-approved');
 	}, [store.blockchain.signedTransaction]);
-	const { balance } = store.blockchain.account.balances[0];
-	const { kinAmount } = store.transactionForm;
-	console.log(Number(kinAmount) - 1);
+
+	// const { balance } = store.blockchain.account.balances[0];
+	// const { kinAmount } = store.transactionForm;
 	return (
 		<ReviewPaymentStyled>
 			<Link to="/transaction">
@@ -70,7 +70,7 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 					network={'public'}
 					amount={store.transactionForm.kinAmount}
 					publicAddress={store.transactionForm.destinationAccount}
-					balance={IntlNumber(Number(balance) - Number(kinAmount))}
+					balance={IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))}
 				/>
 			)}
 			<MessageText text="Once you send payment it is not possible to cancel the transaction." />
