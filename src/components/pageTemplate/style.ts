@@ -105,3 +105,11 @@ export const Github = styled.div`
 		margin-top:-17px;
 	`}
 `;
+
+export const ErrorStyle = styled.div`
+	br {
+		${media.md`
+			display:none
+		`}
+	}
+`;

@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import Alerts from 'src/components/messages/error';
 import { MessageHeadAText } from 'src/components/messages/info';
+import { ErrorStyle } from './style';
 
 const ErrorsTemplate = error => {
 	switch (error) {
 		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
 			return {
 				head: 'Please make sure youre device is connected.',
-				text: <span> Connect your Ledger device, unlock it <br/> and open the Kin application.</span>
+				text: (
+					<ErrorStyle>
+						{' '}
+						Connect your Ledger device, unlock it <br /> and open the Kin application.
+					</ErrorStyle>
+				)
 			};
 		case 'Failed to sign with Ledger device: U2F TIMEOUT':
 			return {
 				head: 'Failed to sign with Ledger device.',
-				text: <span> Connect your Ledger device, unlock it <br/> and open the Kin application.</span>
+				text: (
+					<ErrorStyle>
+						{' '}
+						Connect your Ledger device, unlock it <br /> and open the Kin application.
+					</ErrorStyle>
+				)
 			};
 		default:
 			return { head: error, text: '' };
