@@ -93,7 +93,7 @@ h3 {
 /** antd */
 /* SELECT*/
 .ant-select-dropdown {
-	top:485px !important;
+	top:485px;
 }
 .ant-select-dropdown-menu-item {
 	padding: 1em !important;

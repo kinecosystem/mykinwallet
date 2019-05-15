@@ -8,9 +8,10 @@ import { addressGenerator } from 'src/components/helpers/addressGenerator';
 interface IDerivationPath {
 	address: string;
 	onChange: Function;
+	initial: string;
 }
 
-const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address }) => {
+const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address, initial }) => {
 	let [classes, setClasses] = useState('initial');
 	let [select, setSelect] = useState(false);
 
@@ -30,6 +31,7 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address 
 				<H3>Choose Derivation Path: </H3>
 			</header>
 			<Select
+				defaultValue={initial && initial}
 				placeholder="Choose BIP path"
 				onChange={e => {
 					handleChange();

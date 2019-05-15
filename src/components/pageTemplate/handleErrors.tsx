@@ -7,7 +7,12 @@ const ErrorsTemplate = error => {
 		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
 			return {
 				head: 'Please make sure youre device is connected.',
-				text: 'Connect your Ledger device, unlock it and open the Kin application.'
+				text: <span> Connect your Ledger device, unlock it <br/> and open the Kin application.</span>
+			};
+		case 'Failed to sign with Ledger device: U2F TIMEOUT':
+			return {
+				head: 'Failed to sign with Ledger device.',
+				text: <span> Connect your Ledger device, unlock it <br/> and open the Kin application.</span>
 			};
 		default:
 			return { head: error, text: '' };

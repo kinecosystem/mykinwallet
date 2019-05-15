@@ -27,7 +27,9 @@ interface IHompage {
 }
 
 const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
-	useEffect(() => {}, []);
+	useEffect(() => {
+		actions.resetAll()
+	}, []);
 
 	return (
 		<div>

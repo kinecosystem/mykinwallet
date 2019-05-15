@@ -42,6 +42,7 @@ export const CheckboxContainer = styled.div`
 `;
 export const CheckboxAlert = styled.div`
 	display: ${({ hide }) => (hide ? 'none' : 'block')};
+	color: ${({ theme }) => theme.volcanoRed};
 `;
 
 export const ButtonContainer = styled.div`

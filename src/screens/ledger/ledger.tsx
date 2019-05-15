@@ -20,12 +20,14 @@ interface ILedger {
 		blockchain: {
 			ledgerConnected: boolean;
 			publicKey: string;
+			derviationPath: string;
 		};
 	};
 	actions: {
 		getPublicKey: Function;
 		setTemplateErrors: Function;
 		setDerivationPath: Function;
+		resetTemplateErrors: Function;
 	};
 }
 
@@ -37,6 +39,7 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 	}, []);
 
 	const handleSelect = value => {
+		actions.resetTemplateErrors();
 		actions.getPublicKey(value);
 		actions.setDerivationPath(value);
 	};
@@ -45,9 +48,9 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 		setCheckbox(target.checked);
 	};
 	const handleButton = () => {
-		if (checkbox && store.blockchain.publicKey) navigate('/transaction');
+		if (checkbox && store.blockchain.publicKey && store.blockchain.derviationPath) navigate('/transaction');
 		if (!checkbox) setHideCheckboxAlert(false);
-		if (!store.blockchain.publicKey) actions.setTemplateErrors(['choose derivation path']);
+		if (!store.blockchain.publicKey) actions.setTemplateErrors(['Choose derivation path']);
 	};
 
 	return (
@@ -58,7 +61,7 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 			<PurpleTitle>
 				<span>Network:</span> Kin Public
 			</PurpleTitle>
-			<DerivationPath onChange={handleSelect} address={store.blockchain.publicKey} />
+			<DerivationPath initial={store.blockchain.derviationPath} onChange={handleSelect} address={store.blockchain.publicKey} />
 			<CheckboxContainer>
 				<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
 				<Link to="/terms-and-conditions" state={{ lastPage: 'ledger' }}>
