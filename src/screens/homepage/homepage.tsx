@@ -1,10 +1,8 @@
 import React, { ReactNode, FunctionComponent, useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { H3, H6 } from 'common/selectors';
-import WalletPathItem from 'src/components/box/WalletPathItem';
+import WalletPathItem from 'src/components/walletPathItem/WalletPathItem';
 import { ItemsContainer, HeaderContainer } from 'src/screens/homepage/style';
-import WalletInfo from 'src/components/walletInfo/WalletInfo';
-import { Location } from '@reach/router';
 import ledger from 'src/images/ledger.svg';
 import keypair from 'src/images/keypair.svg';
 
@@ -28,7 +26,7 @@ interface IHompage {
 
 const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 	useEffect(() => {
-		actions.resetAll()
+		actions.resetAll();
 	}, []);
 
 	return (
@@ -40,8 +38,31 @@ const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 				<H6>Choose a method to access your account:</H6>
 			</HeaderContainer>
 			<ItemsContainer>
-				<WalletPathItem actions={actions} store={store} img={ledger} name="Ledger" link="ledger" />
-				<WalletPathItem actions={actions} store={store} alert img={keypair} name="Key pair wallet" link="key-access" />
+				<WalletPathItem
+					actions={actions}
+					store={store}
+					img={ledger}
+					type="ledger"
+					link="ledger"
+					title={
+						<div>
+							Ledger <br /> device
+						</div>
+					}
+				/>
+				<WalletPathItem
+					actions={actions}
+					store={store}
+					alert
+					img={keypair}
+					type="key pair"
+					title={
+						<div>
+							Key pair / <br /> paper wallet{' '}
+						</div>
+					}
+					link="key-access"
+				/>
 			</ItemsContainer>
 		</div>
 	);

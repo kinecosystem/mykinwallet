@@ -10,17 +10,15 @@ const ErrorsTemplate = error => {
 				head: 'Please make sure youre device is connected.',
 				text: (
 					<ErrorStyle>
-						{' '}
 						Connect your Ledger device, unlock it <br /> and open the Kin application.
 					</ErrorStyle>
 				)
 			};
 		case 'Failed to sign with Ledger device: U2F TIMEOUT':
 			return {
-				head: 'Failed to sign with Ledger device.',
+				head: `Failed to sign with Ledger device.`,
 				text: (
 					<ErrorStyle>
-						{' '}
 						Connect your Ledger device, unlock it <br /> and open the Kin application.
 					</ErrorStyle>
 				)
@@ -42,6 +40,8 @@ const ErrorsTemplateRed = error => {
 			return 'Destination account not valid';
 		case 'Error: Request failed with status code 404':
 			return 'Destination account does not exist';
+		case "TypeError: Cannot read property 'toString' of undefined":
+			return 'Destination account not valid or empty';
 		default:
 			return error;
 	}

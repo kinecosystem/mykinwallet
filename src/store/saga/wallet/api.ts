@@ -18,6 +18,7 @@ function* loading(bool) {
 
 function* isLedgerConnected(action) {
 	try {
+		yield loading(true);
 		// prevent previouse connected ledger
 		yield put({
 			type: types.SET_IS_LEDGER_CONNECTED,
@@ -34,6 +35,7 @@ function* isLedgerConnected(action) {
 	} catch (error) {
 		// set error
 		yield put(setTemplateErrors([error]));
+		yield loading(false);
 	}
 }
 

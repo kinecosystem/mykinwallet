@@ -87,7 +87,9 @@ const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, ha
 		}
 	];
 	const onSubmit = formValues => {
-		validate(formValues);
+		const { balance } = store.blockchain.account.balances[0];
+		validate(formValues, balance);
+		if (balance < formValues.kinAmount) return actions.setTemplateErrors(['Cant transfer more Kin coins then you posses']);
 		const { destinationAccount, kinAmount, memo } = formValues;
 		const { account } = store.blockchain;
 		// from: account  to: Destination account   amount:Kin Amount   memo:memo
@@ -96,13 +98,11 @@ const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, ha
 		setInitial(false);
 	};
 	useEffect(() => {
-		if (!store.blockchain.account)
-			actions.getAccount(store.blockchain.publicKey);
+		if (!store.blockchain.account) actions.getAccount(store.blockchain.publicKey);
 		if (store.blockchain.unsignedTransaction && !initial) navigate('approve-payment');
 	}, [store.blockchain.account, store.blockchain.unsignedTransaction]);
 
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
-	console.log(store.blockchain.publicKey);
 	return (
 		<div>
 			<HeaderContainer>

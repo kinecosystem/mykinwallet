@@ -18,8 +18,8 @@ const validator = ({ memo, destinationAccount, kinAmount }) => {
 	}
 
 	// required validation
-	if (!kinAmount) errors.kinAmount = 'required';
-	if (!destinationAccount) errors.destinationAccount = 'required';
+	if (!kinAmount) errors.kinAmount = 'Required';
+	if (!destinationAccount) errors.destinationAccount = 'Required';
 	return errors;
 };
 

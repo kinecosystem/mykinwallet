@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import Layout from 'src/components/layout';
 import { purpleLight } from 'style/theme/generalVariables';
 import Title from 'src/components/title/title';
@@ -25,22 +25,21 @@ import {
 import { bindActionCreators } from 'redux';
 import { Location } from '@reach/router';
 
-interface ITemplate {
-	props: {
-		title: {
-			main: string;
-			sub: string;
-		};
-		step: number;
-		children: ReactNode;
-		actions: object;
-		github: boolean;
-		hide: string;
-		location: Object;
+interface ITemplateProps {
+	title: {
+		main: string;
+		sub: string;
 	};
+	step: number;
+	children: ReactNode;
+	actions: object;
+	github: boolean;
+	hide: string;
+	location: Object;
+	store: Object;
 }
 
-const Template: React.FunctionComponent<ITemplate> = props => {
+const Template: FunctionComponent<ITemplateProps> = props => {
 	const { title, step, children, actions, store, github, hide, location } = props;
 	const childrenWithProps = React.Children.map(children, child => React.cloneElement(child, { actions, store, location }));
 
@@ -48,6 +47,9 @@ const Template: React.FunctionComponent<ITemplate> = props => {
 		/** clean store errors every time component unmount */
 		return () => actions.resetTemplateErrors([]);
 	}, []);
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [store.errors]);
 	return (
 		<Layout background={purpleLight} loading={store.loading}>
 			<Structure_container>

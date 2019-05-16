@@ -21,16 +21,31 @@ export const Item = styled.div`
 		border-color: ${({ theme }) => theme.purple};
 		background: rgba(167, 147, 223, 0.15);
 	}
-	div {
-		font-family: SailecMedium;
+	> div {
+		> div {
+			font-family: SailecMedium;
+			font-size: 17px;
+			line-height: 1;
+			${media.lg`
+				font-size:19px;
+				line-height:24px;
+				`}
+
+			br {
+				display: none;
+				${media.sm`
+						display:block;
+				`}
+			}
+		}
 	}
 	${media.sm`
-        height: 180px;
+        height: 211px;
         width: 180px;
     `}
 	${media.lg`
         font-size:19px;
-        height: 216px;
+        height: 226px;
         width: 216px;
     `}
     img {
@@ -49,9 +64,9 @@ export const Alert = styled.div`
 	bottom: 8px;
 
 	${media.lg`
-		bottom:15px;
+			bottom:10px;
     `}
 	${media.xl`
-		bottom:20px;
+			bottom:15px;
     `}
 `;

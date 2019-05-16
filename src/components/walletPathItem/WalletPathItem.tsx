@@ -2,19 +2,19 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Item, Alert } from './style';
 import { navigate } from 'gatsby';
 
-const WalletPathItem = ({ name, img, alert, link, actions, store }) => {
+const WalletPathItem = ({ type, img, alert, link, actions, store , title}) => {
 	const [ableNavigate, setAbleNavigate] = useState(false);
 
 	useEffect(() => {
 		const { ledgerConnected } = store.blockchain;
 		
-		if (ledgerConnected && ableNavigate && name === 'Ledger') {
+		if (ledgerConnected && ableNavigate && type === 'ledger') {
 			navigate(`/ledger`);
 		}
 	}, [store.blockchain.ledgerConnected, ableNavigate]);
 
 	const handleClick = () => {
-		if (name === 'Ledger') {
+		if (type === 'ledger') {
 			// check if ledger connected
 			actions.isLedgerConnected();
 			// prevent auto navigate in cdu
@@ -28,7 +28,7 @@ const WalletPathItem = ({ name, img, alert, link, actions, store }) => {
 	return (
 		<Item onClick={handleClick}>
 			<img src={img} alt="icon" />
-			<div>{name}</div>
+			<div>{title}</div>
 			{alert && <Alert>Not recommended</Alert>}
 		</Item>
 	);
