@@ -32,8 +32,8 @@ interface ILedger {
 }
 
 const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
-	const [checkbox, setCheckbox] = useState(false);
-	const [hideCheckboxAlert, setHideCheckboxAlert] = useState(true);
+	const [initial, setInitial] = useState(false);
+
 	useEffect(() => {
 		!store.blockchain.ledgerConnected && navigate('/');
 	}, []);
@@ -44,12 +44,9 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 		actions.setDerivationPath(value);
 	};
 
-	const handleCheckbox = ({ target }) => {
-		setCheckbox(target.checked);
-	};
 	const handleButton = () => {
-		if (checkbox && store.blockchain.publicKey && store.blockchain.derviationPath) navigate('/transaction');
-		if (!checkbox) setHideCheckboxAlert(false);
+		if (store.blockchain.publicKey && store.blockchain.derviationPath)
+			navigate('/terms-and-conditions', { state: { lastPage: 'ledger' } });
 		if (!store.blockchain.publicKey) actions.setTemplateErrors(['Choose derivation path']);
 	};
 
@@ -62,13 +59,7 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 				<span>Network:</span> Kin Public
 			</PurpleTitle>
 			<DerivationPath initial={store.blockchain.derviationPath} onChange={handleSelect} address={store.blockchain.publicKey} />
-			<CheckboxContainer>
-				<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
-				<Link to="/terms-and-conditions" state={{ lastPage: 'ledger' }}>
-					<span className="terms"> terms. </span>
-				</Link>
-			</CheckboxContainer>
-			<CheckboxAlert hide={hideCheckboxAlert}>Please accept terms</CheckboxAlert>
+
 			<ButtonContainer>
 				<Button onClick={handleButton}>Access my wallet</Button>
 			</ButtonContainer>
@@ -76,3 +67,14 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 	);
 };
 export default IndexPage;
+
+//terms
+/*
+<CheckboxContainer>
+<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
+<Link to="/terms-and-conditions" state={{ lastPage: 'ledger' }}>
+	<span className="terms"> terms. </span>
+</Link>
+</CheckboxContainer>
+<CheckboxAlert hide={hideCheckboxAlert}>Please accept terms</CheckboxAlert>
+*/

@@ -9,7 +9,7 @@ export const LoaderStyle = styled.div`
 	background: rgba(245, 245, 255, 0.7);
 	left: 0;
 	top: 0;
-	z-index: 110;
+	z-index: 1125;
 	display: ${({ visible }) => (!visible ? 'none' : 'flex')};
 	justify-content: center;
 	flex-direction: row;

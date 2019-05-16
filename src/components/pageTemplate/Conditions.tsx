@@ -11,11 +11,11 @@ const ConditionsComponent = ({ hide, path }) => (
 			</a>
 		</div>
 
-		<div>
+		{/* <div>
 			<Link to="/terms-and-conditions" state={{ lastPage: path }}>
 				<A>Terms and Conditions</A>
 			</Link>
-		</div>
+		</div> */}
 
 		<div>
 			<Link to="/privacy-policy" state={{ lastPage: path }}>

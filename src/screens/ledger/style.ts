@@ -1,7 +1,6 @@
 import media from 'common/breakpoints';
 import { grid, flexRow } from 'common/mixin';
-import styled, { keyframes } from 'styled-components';
-import { start } from 'repl';
+import styled from 'styled-components';
 
 export const LedgerStyle = styled.section``;
 export const LedgerHeader = styled.div`
@@ -29,14 +28,6 @@ export const CheckboxContainer = styled.div`
 		${grid('5px', 'flex-start', 'initital', 'auto auto', 'auto')}
 	}
 	div {
-		color: ${({ theme }) => theme.purple};
-	}
-	.terms {
-		position: relative;
-		left: -15px;
-		font-size: 12px;
-		line-height: 23px;
-		cursor: pointer;
 		color: ${({ theme }) => theme.purple};
 	}
 `;

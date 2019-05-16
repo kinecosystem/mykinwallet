@@ -51,7 +51,7 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address,
 				]}
 			/>
 
-			{select && (
+			{(select || initial) && (
 				<>
 					<AddressContainer>
 						<span>ADDRESS</span>

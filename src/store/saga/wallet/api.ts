@@ -32,6 +32,7 @@ function* isLedgerConnected(action) {
 			type: types.SET_IS_LEDGER_CONNECTED,
 			payload: { ledgerConnected: true }
 		});
+		yield loading(false);
 	} catch (error) {
 		// set error
 		yield put(setTemplateErrors([error]));

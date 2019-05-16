@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Grid } from 'common/grid';
 import { TermsStyle, TermsContainerStyle } from './style';
 import { H3 } from 'common/selectors';
@@ -6,27 +6,54 @@ import { ThemeProvider } from 'styled-components';
 import KinTheme from 'src/style/theme';
 import LogoGreen from 'src/images/logo/LOGO_GREEN.svg';
 import blackClose from 'src/images/x_button.svg';
-import { ModalStyledX, ModalHeader } from './style';
+import { ModalStyledX, ModalHeader, FloatingApprove, ModalHeaderContainer } from './style';
 import { navigate } from 'gatsby';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setTerms } from 'src/store/actions/site/actions.ts';
 
-const Terms = ({ location }) => {
+const Terms = ({ actions, location }) => {
+	const headerRef = useRef(null);
+	useEffect(() => {
+		document.addEventListener('scroll', () => {
+			if (headerRef.current !== null && headerRef.current) {
+				const { y } = headerRef.current.getBoundingClientRect();
+				if (y === 0) headerRef.current.setAttribute('style', 'box-shadow:0 2px 2px -2px rgba(146, 146, 146, 0.5)');
+				else headerRef.current.setAttribute('style', 'box-shadow:none');
+			}
+		});
+		return () => document.removeEventListener('scroll', () => '');
+	}, []);
 	return (
 		<ThemeProvider theme={KinTheme}>
 			<TermsContainerStyle>
+				<FloatingApprove
+					onClick={() => {
+						actions.setTerms();
+						navigate('/transaction', { state: { type: location.state.lastPage } });
+					}}
+				>
+					{' '}
+					Accept and continue
+				</FloatingApprove>
+				<ModalHeaderContainer ref={headerRef}>
+					<Grid>
+						<ModalHeader>
+							<div>
+								<img src={LogoGreen} alt="modal_icon" /> Kin Ecosystem
+							</div>
+							<ModalStyledX
+								onClick={() => {
+									if (location.state && location.state !== null) navigate(`/${location.state.lastPage}`);
+									else navigate(`/`);
+								}}
+							>
+								<img src={blackClose} alt="X" />
+							</ModalStyledX>
+						</ModalHeader>
+					</Grid>
+				</ModalHeaderContainer>
 				<Grid>
-					<ModalHeader>
-						<div>
-							<img src={LogoGreen} alt="modal_icon" /> Kin Ecosystem
-						</div>
-						<ModalStyledX
-							onClick={() => {
-								if (location.state && location.state !== null) navigate(`/${location.state.lastPage}`);
-								else navigate(`/`);
-							}}
-						>
-							<img src={blackClose} alt="X" />
-						</ModalStyledX>
-					</ModalHeader>
 					<TermsStyle>
 						<H3>MY KIN WALLET TERMS OF USE</H3>
 						<section>
@@ -362,4 +389,18 @@ const Terms = ({ location }) => {
 	);
 };
 
-export default Terms;
+const mapDispatchToProps = dispatch => {
+	return {
+		actions: bindActionCreators(
+			{
+				setTerms
+			},
+			dispatch
+		)
+	};
+};
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(Terms);

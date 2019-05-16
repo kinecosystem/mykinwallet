@@ -31,7 +31,6 @@ export const CheckboxContainer = styled.div`
 	}
 	.terms {
 		position: relative;
-		left: -15px;
 		font-size: 12px;
 		line-height: 23px;
 		cursor: pointer;

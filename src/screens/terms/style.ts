@@ -5,12 +5,14 @@ import { flexRow } from 'common/mixin';
 export const TermsStyle = styled.div`
 
 header {
+
     margin: 62px 0 30px 0;
     ${media.lg`
         margin: 81px 0 33px 0;
     `}
 }
 section {
+    padding-bottom: 150px ;
     ${media.sm`
             max-width:523px;
         `}
@@ -91,4 +93,32 @@ export const ModalStyledX = styled.div`
 `;
 export const ModalHeader = styled.header`
 	${flexRow('space-between', 'center')}
+`;
+export const ModalHeaderContainer = styled.div`
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background: white;
+`;
+
+export const FloatingApprove = styled.div`
+	position: sticky;
+	z-index: 5;
+	width: 100%;
+    top:calc(100% - 66px) ;
+	background: ${({ theme }) => theme.purple};
+    ${flexRow('center', 'center')}
+    color:white;
+    cursor: pointer;
+	height: 66px;
+    ${({ theme }) => theme.h3.mobile}
+
+    ${media.md`
+        top:calc(100% - 84px) ;
+	    height: 84px;
+    `}
+   
+    ${media.xl`
+    ${({ theme }) => theme.h3.desktop}
+    `}
 `;

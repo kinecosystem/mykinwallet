@@ -4,11 +4,10 @@ import { Select, Checkbox, Input } from 'antd';
 
 import downArrow from 'images/arrow_down.svg';
 
-export const CheckboxPremade = props => (
+export const CheckboxPremade = ({ onChange, children }) => (
 	<CheckboxStyle>
-		<Checkbox {...props}>
-			<span className="text-styleing">{props.children}</span>
-		</Checkbox>
+		<Checkbox onChange={onChange} />
+		<div className="text-styleing">{children}</div>
 	</CheckboxStyle>
 );
 

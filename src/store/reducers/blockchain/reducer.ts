@@ -1,7 +1,10 @@
 import type from '../../actions/site/types';
 
 const initialState = {
-	blockchain: {},
+	blockchain: {
+		terms: false,
+		ledgerConnected: false
+	},
 	transactionForm: {},
 	loading: false
 };
@@ -29,6 +32,9 @@ export default function(state = initialState, action: any) {
 		case type.SIGN_TRANSACTION:
 		case type.SIGN_TRANSACTION_KEYPAIR: {
 			return { ...state, blockchain: { ...state.blockchain, signedTransaction: action.payload } };
+		}
+		case type.SET_TERMS: {
+			return { ...state, blockchain: { ...state.blockchain, terms: true } };
 		}
 		case type.RESET_ALL: {
 			return { ...state, blockchain: {}, transactionForm: {} };

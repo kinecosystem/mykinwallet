@@ -26,7 +26,8 @@ interface IKeyAccess {
 		errors: string[];
 		blockchain: {
 			keyPairValid: boolean;
-			publicKey: 'GBT7A2GIYNZEQ3BP3FNPRHCUGZTRWVHFUKXHELIF2F4XW2WFB4QLKXML';
+			publicKey: string;
+			terms: boolean;
 		};
 	};
 	actions: object[];
@@ -34,14 +35,13 @@ interface IKeyAccess {
 }
 
 const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
-	const [errors, setErrors] = useState([
+	const [errors] = useState([
 		<span>
-			<b>This method is NOT recommended as it is not secure.</b> It should only be used in offline settings by experienced crypto users.
+			<b>This method is NOT recommended as it is not secure.</b> It should only be used in offline settings by experienced crypto
+			users.
 		</span>
 	]);
-	const [hideCheckboxAlert, setHideCheckboxAlert] = useState(true);
 	const [initial, setInitial] = useState(false);
-	const [terms, setTerms] = useState(false);
 	// TODO: move to localization
 	const inputFields: {
 		name: string;
@@ -59,23 +59,16 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 		const { actions, store } = props;
 		actions.setTemplateErrors([/*...store.errors,*/ ...errors]);
 		if (store.blockchain.keyPairValid && initial) {
-			navigate('/transaction');
+			navigate('/terms-and-conditions', { state: { lastPage: 'key-access' } });
 		}
 	}, [errors, props.store.blockchain.keyPairValid, initial]);
-
-	const handleCheckbox = ({ target }) => {
-		setTerms(target.checked);
-	};
 
 	const { handleSubmit } = props;
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 
 	const onSubmit = formValues => {
-		if (!terms) setHideCheckboxAlert(false);
-		if (terms) {
-			setInitial(true);
-			props.actions.getIsKeyPairValid(formValues.privateKey);
-		}
+		props.actions.getIsKeyPairValid(formValues.privateKey);
+		setInitial(true);
 	};
 
 	return (
@@ -85,19 +78,9 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 			</TitleContainer>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				{formFields}
-				<div>
-					<CheckboxContainer>
-						<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
-						<Link to="/terms-and-conditions" state={{ lastPage: 'key-access' }}>
-							<span className="terms"> terms. </span>
-						</Link>
-					</CheckboxContainer>
-					<CheckboxAlert hide={hideCheckboxAlert}>Please accept terms</CheckboxAlert>
-
-					<ButtonContainer>
-						<Button type="submit">Access my wallet</Button>
-					</ButtonContainer>
-				</div>
+				<ButtonContainer>
+					<Button type="submit">Access my wallet</Button>
+				</ButtonContainer>
 			</Form>
 		</KeyAccessContainer>
 	);
@@ -108,3 +91,24 @@ const KeyAccessFormComponent = reduxForm({
 	validate
 })(IndexPage);
 export default KeyAccessFormComponent;
+
+// Terms cheackbox
+/*
+
+	const [terms, setTerms] = useState(false);
+	const handleCheckbox = ({ target }) => {
+		setTerms(target.checked);
+	};
+	const [hideCheckboxAlert, setHideCheckboxAlert] = useState(true);
+
+
+<CheckboxContainer>
+<Checkbox onChange={handleCheckbox}>
+	To access my wallet, I accept the{' '}
+	<Link to="/terms-and-conditions" state={{ lastPage: 'key-access' }}>
+		<span className="terms"> terms. </span>
+	</Link>
+</Checkbox>
+</CheckboxContainer>
+<CheckboxAlert hide={hideCheckboxAlert}>Please accept terms</CheckboxAlert>
+*/

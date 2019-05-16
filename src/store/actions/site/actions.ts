@@ -116,3 +116,10 @@ export const setLoader = payload => {
 		payload
 	};
 };
+
+// Terms
+export const setTerms = () => {
+	return {
+		type: types.SET_TERMS
+	};
+};

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactNode, useEffect } from 'react';
 import Layout from 'src/components/layout';
 import { purpleLight } from 'style/theme/generalVariables';
 import Title from 'src/components/title/title';

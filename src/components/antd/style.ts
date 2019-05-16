@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import media from 'common/breakpoints';
-import { flexColumn } from 'common/mixin';
+import { flexColumn, flexRow, grid } from 'common/mixin';
 
 export const CheckboxStyle = styled.div`
-	.ant-checkbox-wrapper:hover {
-		.ant-checkbox-inner {
-			border-color: ${({ theme }) => theme.purple};
+	${grid('.5em', 'flex-start', 'center', 'auto auto auto', 'auto')}
+	.ant-checkbox-wrapper {
+		width: 15px;
+		:hover {
+			.ant-checkbox-inner {
+				border-color: ${({ theme }) => theme.purple};
+			}
 		}
 	}
 	.ant-checkbox {

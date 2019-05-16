@@ -21,7 +21,7 @@ export const header = styled.div`
 			  `};
 
 	top: 0;
-	z-index: 6;
+	z-index: 1111;
 	height: 118px;
 	position: sticky;
 	width: 100%;

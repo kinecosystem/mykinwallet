@@ -43,7 +43,7 @@ interface ITransaction {
 	handleSubmit: Function;
 }
 
-const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, handleSubmit, validate, initialValues }) => {
+const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, handleSubmit, validate, initialValues, location }) => {
 	const [initial, setInitial] = useState(true);
 	// TODO: move to localization
 	const inputFields: {
@@ -99,7 +99,10 @@ const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, ha
 	};
 	useEffect(() => {
 		if (!store.blockchain.account) actions.getAccount(store.blockchain.publicKey);
-		if (store.blockchain.unsignedTransaction && !initial) navigate('approve-payment');
+		if (store.blockchain.unsignedTransaction && !initial){
+			location.state.type === 'ledger' ? navigate('/approve-payment') :navigate('/review-payment')
+			
+			};
 	}, [store.blockchain.account, store.blockchain.unsignedTransaction]);
 
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
