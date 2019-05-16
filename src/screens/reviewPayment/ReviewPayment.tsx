@@ -67,7 +67,7 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 			<P>Verify the payment details to continue</P>
 			{store.transactionForm.kinAmount && store.blockchain.unsignedTransaction && (
 				<PaymentInformation
-					network={'public'}
+					network={'Public'}
 					amount={store.transactionForm.kinAmount}
 					publicAddress={store.transactionForm.destinationAccount}
 					balance={IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))}
