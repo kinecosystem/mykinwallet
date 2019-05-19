@@ -51,7 +51,8 @@ function* getPublicKey(action) {
 		});
 		// trigger end load
 		yield loading(false);
-	} catch ({ error }) {
+	} catch (error) {
+		console.log(error);
 		yield loading(false);
 		yield put(setTemplateErrors([error]));
 	}

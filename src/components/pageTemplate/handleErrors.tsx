@@ -6,17 +6,10 @@ import { ErrorStyle } from './style';
 const ErrorsTemplate = error => {
 	switch (error) {
 		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
-			return {
-				head: 'Please make sure youre device is connected.',
-				text: (
-					<ErrorStyle>
-						Connect your Ledger device, unlock it <br /> and open the Kin application.
-					</ErrorStyle>
-				)
-			};
+
 		case 'Failed to sign with Ledger device: U2F TIMEOUT':
 			return {
-				head: `Failed to sign with Ledger device.`,
+				head: `Failed to sign with your Ledger device. Session timeout.`,
 				text: (
 					<ErrorStyle>
 						Connect your Ledger device, unlock it <br /> and open the Kin application.
@@ -42,6 +35,10 @@ const ErrorsTemplateRed = error => {
 			return 'Destination account does not exist';
 		case "TypeError: Cannot read property 'toString' of undefined":
 			return 'Destination account not valid or empty';
+		case 'Failed to sign with Ledger device: U2F TIMEOUT':
+			return 'Failed to sign with your Ledger device. Session timeout.';
+		case 'Error: Network Error':
+			return "Your payment wasn't sent due to a network error. Please try again at a later time.";
 		default:
 			return error;
 	}

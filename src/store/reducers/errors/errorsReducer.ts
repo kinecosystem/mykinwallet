@@ -9,7 +9,7 @@ let filterDuplicate = errors => errors.filter((v, i) => errors.indexOf(v) === i)
 export default function(state = initialState, action: any) {
 	switch (action.type) {
 		case type.SET_TEMPLATE_ERROR: {
-			return { ...state, errors: [...filterDuplicate([...state.errors, ...action.payload])] };
+			return { ...state, errors: [...filterDuplicate([...action.payload])] };
 		}
 		case type.RESET_TEMPLATE_ERROR: {
 			return { ...state, errors: [] };
