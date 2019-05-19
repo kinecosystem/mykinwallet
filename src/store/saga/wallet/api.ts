@@ -18,7 +18,8 @@ function* loading(bool) {
 
 function* isLedgerConnected(action) {
 	try {
-		yield loading(true);
+		// yield loading(true);
+		console.log('isLedgerConnected');
 		// prevent previouse connected ledger
 		yield put({
 			type: types.SET_IS_LEDGER_CONNECTED,
@@ -32,7 +33,8 @@ function* isLedgerConnected(action) {
 			type: types.SET_IS_LEDGER_CONNECTED,
 			payload: { ledgerConnected: true }
 		});
-		yield loading(false);
+
+		// yield loading(false);
 	} catch (error) {
 		// set error
 		yield put(setTemplateErrors([error]));
@@ -72,8 +74,8 @@ function* getAccount(action) {
 		yield loading(false);
 	} catch (error) {
 		yield loading(false);
-		console.log(error);
-		yield put(setTemplateErrors(["Your account information couldn't be retrieved due to network issues"]));
+		console.log('getAccount: ', error);
+		yield put(setTemplateErrors(['Network error or Private key does not exist']));
 	}
 }
 

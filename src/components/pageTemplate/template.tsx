@@ -54,7 +54,9 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 		<Layout background={purpleLight} loading={store.loading}>
 			<Structure_container>
 				{/** Left white title */}
-				<Title main={title.main} sub={title.sub} />
+				
+					<Title main={title.main} sub={title.sub} />
+			
 				{/** right white container */}
 				<SideContainer>
 					<SideContainer_content>

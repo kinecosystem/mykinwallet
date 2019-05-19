@@ -2,14 +2,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Item, Alert } from './style';
 import { navigate } from 'gatsby';
 
-const WalletPathItem = ({ type, img, alert, link, actions, store , title}) => {
+const WalletPathItem = ({ type, img, alert, link, actions, store, title }) => {
 	const [ableNavigate, setAbleNavigate] = useState(false);
-
+	let reCheck = useRef(null);
 	useEffect(() => {
 		const { ledgerConnected } = store.blockchain;
-		
+
 		if (ledgerConnected && ableNavigate && type === 'ledger') {
+			actions.setLoader(false);
 			navigate(`/ledger`);
+			return () => clearTimeout(reCheck.current);
 		}
 	}, [store.blockchain.ledgerConnected, ableNavigate]);
 
@@ -17,6 +19,14 @@ const WalletPathItem = ({ type, img, alert, link, actions, store , title}) => {
 		if (type === 'ledger') {
 			// check if ledger connected
 			actions.isLedgerConnected();
+			actions.setLoader(true);
+			reCheck.current = setTimeout(() => {
+				actions.isLedgerConnected();
+				reCheck.current = setTimeout(() => {
+					actions.isLedgerConnected();
+					
+				}, 15000);
+			}, 15000);
 			// prevent auto navigate in cdu
 			setAbleNavigate(true);
 		} else {

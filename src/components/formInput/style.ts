@@ -63,7 +63,7 @@ export const input = styled.input.attrs({
 	/* margin-bottom: ${({ name }) => (transactionFormBottomMargins[name] ? transactionFormBottomMargins[name] : '34px')}; */
 	font-size: 16px;
 	height: 42px;
-	width: calc(100% - 16px);
+	width: 100%;
 	padding-left: 12px;
 	font-family: primaryFont;
 

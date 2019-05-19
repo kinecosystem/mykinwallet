@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import Template from 'src/components/pageTemplate/template';
-import { HeaderContainer } from './style';
+import { GrayedArea, TransactionStyled, HeaderContainer } from './style';
 import { H3, Button } from 'common/selectors';
 import formInput from 'src/components/formInput/formInput';
 import { authFormTheme } from 'style/theme/generalVariables';
@@ -43,7 +43,14 @@ interface ITransaction {
 	handleSubmit: Function;
 }
 
-const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, handleSubmit, validate, initialValues, location }) => {
+const Transaction: React.FunctionComponent<ITransaction> = ({
+	actions,
+	store,
+	handleSubmit,
+	validate,
+	initialValues,
+	location
+}) => {
 	const [initial, setInitial] = useState(true);
 	// TODO: move to localization
 	const inputFields: {
@@ -73,8 +80,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, ha
 			max: 100000000,
 			min: 0.1,
 			step: 'any',
-			maxlength: 9,
-			value: 'asdasd'
+			maxlength: 9
 		},
 		{
 			name: 'memo',
@@ -87,7 +93,8 @@ const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, ha
 		}
 	];
 	const onSubmit = formValues => {
-		const { balance } = store.blockchain.account.balances[0];
+		let { balance } = store.blockchain.account.balances[0];
+		balance = Number(balance);
 		validate(formValues, balance);
 		if (balance < formValues.kinAmount) return actions.setTemplateErrors(['Cant transfer more Kin coins then you posses']);
 		const { destinationAccount, kinAmount, memo } = formValues;
@@ -99,15 +106,13 @@ const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, ha
 	};
 	useEffect(() => {
 		if (!store.blockchain.account) actions.getAccount(store.blockchain.publicKey);
-		if (store.blockchain.unsignedTransaction && !initial){
-			location.state.type === 'ledger' ? navigate('/approve-payment') :navigate('/review-payment')
-			
-			};
+		if (store.blockchain.unsignedTransaction && !initial) navigate('/review-payment');
 	}, [store.blockchain.account, store.blockchain.unsignedTransaction]);
 
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 	return (
-		<div>
+		<TransactionStyled>
+			<GrayedArea visible={!store.blockchain.account} className="grayedArea" />
 			<HeaderContainer>
 				<H3>My Kin Wallet</H3>
 			</HeaderContainer>
@@ -128,7 +133,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({ actions, store, ha
 					</Styled.ButtonContainer>
 				</Styled.form>
 			</Styled.formContainer>
-		</div>
+		</TransactionStyled>
 	);
 };
 const mapStateToProps = (state, props) => ({

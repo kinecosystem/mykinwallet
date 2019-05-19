@@ -28,7 +28,7 @@ const Privacy = ({ location }) => {
 						</ModalStyledX>
 					</ModalHeader>
 					<PrivacyStyle>
-						<H3>MY KIN WALLET TERMS OF USE</H3>
+						<H3>MY KIN WALLET PRIVACY POLICY</H3>
 						<section>
 							<p>
 								<span>Last Updated: May 5, 2019</span>

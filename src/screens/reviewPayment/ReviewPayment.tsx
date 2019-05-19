@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { MessageText } from 'src/components/messages/info';
 import { H3, P, Button } from 'common/selectors';
 import { ReviewPaymentStyled, GoBack } from './style';
 import PaymentInformation from 'src/components/paymentInformation/PaymentInformation';
 import { Link, navigate } from 'gatsby';
+import { Redirect } from '@reach/router';
 
 const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
@@ -43,12 +44,10 @@ interface IReviewPaymentStyled {
 }
 
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
-	const [goBack, setGoBack] = useState(true);
 	const handleApprove = () => {
-		setGoBack(false);
 		const { derviationPath, unsignedTransaction } = store.blockchain;
 		// ledger sign
-		if (store.blockchain.ledgerConnected) actions.setSignTransaction([derviationPath, unsignedTransaction]);
+		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
 		// keyPair sign
 		else actions.setSignTransactionKeyPair([store.blockchain.secret, unsignedTransaction]);
 	};

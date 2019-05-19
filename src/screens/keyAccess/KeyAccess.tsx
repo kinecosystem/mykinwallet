@@ -37,7 +37,7 @@ interface IKeyAccess {
 const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 	const [errors] = useState([
 		<span>
-			<b>This method is NOT recommended as it is not secure.</b> It should only be used in offline settings by experienced crypto
+			<b>This method is NOT recommended as it is not secure.</b> It should only be used in <a href="#">offline</a> settings by experienced crypto
 			users.
 		</span>
 	]);
