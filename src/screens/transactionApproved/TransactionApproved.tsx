@@ -57,11 +57,11 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 export default IndexPage;
 
 const Transaction = ({ transaction }) => (
-	<a href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Transaction&id=${transaction}`}>{transaction}</a>
+	<a target='__blank' href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Transaction&id=${transaction}`}>{transaction}</a>
 );
 const Ledger = ({ ledger }) => (
-	<a href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Ledgers&id=${ledger}`}>{ledger}</a>
+	<a target='__blank' href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Ledgers&id=${ledger}`}>{ledger}</a>
 );
 const Account = ({ account }) => (
-	<a href={`https://www.kin.org/blockchainAccount/?&dataType=public&header=accountID&id=${account}`}>account</a>
+	<a target='__blank' href={`https://www.kin.org/blockchainAccount/?&dataType=public&header=accountID&id=${account}`}>account</a>
 );
