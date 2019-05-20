@@ -22,11 +22,7 @@ const WalletPathItem = ({ type, img, alert, link, actions, store, title }) => {
 			actions.setLoader(true);
 			reCheck.current = setTimeout(() => {
 				actions.isLedgerConnected();
-				reCheck.current = setTimeout(() => {
-					actions.isLedgerConnected();
-					
-				}, 15000);
-			}, 15000);
+			}, 25000);
 			// prevent auto navigate in cdu
 			setAbleNavigate(true);
 		} else {

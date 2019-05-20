@@ -47,9 +47,8 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 				/>
 			)}
 			<section>
-				<P>Go to Kin Block Explorer to see your account: </P>
-				<P className="bold">
-					<Account account={store.blockchain.publicKey} />
+				<P>
+					Go to Kin Block Explorer to see your <Account account={store.blockchain.publicKey} />{' '}
 				</P>
 			</section>
 		</ApprovedPaymentStyled>
@@ -64,5 +63,5 @@ const Ledger = ({ ledger }) => (
 	<a href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Ledgers&id=${ledger}`}>{ledger}</a>
 );
 const Account = ({ account }) => (
-	<a href={`https://www.kin.org/blockchainAccount/?&dataType=public&header=accountID&id=${account}`}>Your account</a>
+	<a href={`https://www.kin.org/blockchainAccount/?&dataType=public&header=accountID&id=${account}`}>account</a>
 );
