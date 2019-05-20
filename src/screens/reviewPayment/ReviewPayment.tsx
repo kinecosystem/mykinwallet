@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { MessageText } from 'src/components/messages/info';
 import { H3, P, Button } from 'common/selectors';
-import { ReviewPaymentStyled, GoBack } from './style';
+import { ReviewPaymentStyled, GoBack, ButtonContainer, MessageTextContainer } from './style';
 import PaymentInformation from 'src/components/paymentInformation/PaymentInformation';
 import { Link, navigate } from 'gatsby';
 import { Redirect } from '@reach/router';
@@ -44,6 +44,8 @@ interface IReviewPaymentStyled {
 }
 
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
+	// hide the button if error disable progress
+	const [transactionRegular, setTransactionRegular] = useState(true);
 	const handleApprove = () => {
 		const { derviationPath, unsignedTransaction } = store.blockchain;
 		// ledger sign
@@ -53,7 +55,9 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 	};
 	useEffect(() => {
 		if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/transaction-approved');
-	}, [store.blockchain.signedTransaction]);
+		if (store.errors[0] === 'Destination account does not exist' || store.errors[0] === 'Destination account not valid')
+			setTransactionRegular(false);
+	}, [store.blockchain.signedTransaction, store.errors]);
 
 	// const { balance } = store.blockchain.account.balances[0];
 	// const { kinAmount } = store.transactionForm;
@@ -72,8 +76,12 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 					balance={IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))}
 				/>
 			)}
-			<MessageText text="Once you send payment it is not possible to cancel the transaction." />
-			<Button onClick={handleApprove}>Approve</Button>
+			<MessageTextContainer visible={transactionRegular}>
+				<MessageText text="Once you send payment it is not possible to cancel the transaction." />
+			</MessageTextContainer>
+			<ButtonContainer visible={transactionRegular}>
+				<Button onClick={handleApprove}>Approve</Button>
+			</ButtonContainer>
 		</ReviewPaymentStyled>
 	);
 };

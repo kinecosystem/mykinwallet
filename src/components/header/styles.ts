@@ -45,7 +45,6 @@ export const headerContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-
 	a:link {
 		color: transparent;
 		text-decoration: none;
@@ -69,6 +68,7 @@ export const headerIcon = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	cursor: pointer;
 `;
 
 export const icon = styled.img`

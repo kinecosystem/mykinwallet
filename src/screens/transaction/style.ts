@@ -23,6 +23,7 @@ export const HeaderContainer = styled.div`
 
 export const ButtonContainer = styled.div`
 	margin-top: 34px;
+	display: ${({ visible }) => (visible ? 'block' : 'none')};
 `;
 
 export const TransactionStyled = styled.div`

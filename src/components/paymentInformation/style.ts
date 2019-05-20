@@ -19,6 +19,9 @@ export const Item = styled.div`
 	color: ${({ theme }) => theme.blackish};
 	font-size: 14px;
 	line-height: 22px;
+	&:last-child {
+		margin-bottom: 0;
+	}
 	div {
 		word-break: break-all;
 	}

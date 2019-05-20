@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import * as Styled from './styles';
 import { MenuButton } from './hamburgerMenuButton';
 import { MobileMenu } from './mobileMenu';
@@ -21,10 +21,10 @@ interface IMouseEvent extends MouseEvent {
 }
 
 const headerLinks = [
-	{ name: 'Kin Ecosystem', url: '/', type: 'logo' },
+	{ name: 'Kin', url: '/', type: 'logo' },
 	// { name: 'Kin Migration', url: 'https://www.kin.org/migration', type: 'link' },
-	{ name: 'Kin Apps', url: 'https://www.kin.org/kin-apps/', type: 'link' },
-	{ name: 'Developers', url: 'https://www.kin.org/developers', type: 'link' },
+	// { name: 'Kin Apps', url: 'https://www.kin.org/kin-apps/', type: 'link' },
+	// { name: 'Developers', url: 'https://www.kin.org/developers', type: 'link' }
 	// { name: 'Block explorer', url: 'https://www.kin.org/blockchainExplorer', type: 'link' }
 ];
 
@@ -65,12 +65,10 @@ const Header = ({ background, isOnTop }: IProps) => {
 		<Styled.header background={background ? background : false} isOnTop={isOnTop}>
 			<Grid>
 				<Styled.headerContainer>
-					<Link to={'/'}>
-						<Styled.headerIcon>
-							<Styled.icon src={isOnTop ? LogoTop : LogoScroll} alt={'Icon'} />
-							<Styled.logoText isOnTop={isOnTop}>{headerLinks.find(link => link.type === 'logo').name}</Styled.logoText>
-						</Styled.headerIcon>
-					</Link>
+					<Styled.headerIcon onClick={() => (window.location = 'https://www.kin.org/')}>
+						<Styled.icon src={isOnTop ? LogoTop : LogoScroll} alt={'Icon'} />
+						<Styled.logoText isOnTop={isOnTop}>{headerLinks.find(link => link.type === 'logo').name}</Styled.logoText>
+					</Styled.headerIcon>
 
 					<Styled.headerNev>
 						{headerLinks

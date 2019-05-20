@@ -55,7 +55,7 @@ class Layout extends Component<IProps, IS> {
 					<Grid>
 						<div className="container">{children}</div>
 					</Grid>
-					<Footer />
+					{/* <Footer /> */}
 				</>
 			</ThemeProvider>
 		);

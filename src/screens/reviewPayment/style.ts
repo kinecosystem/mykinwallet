@@ -20,3 +20,11 @@ export const GoBack = styled.div`
 	    ${({ theme }) => theme.h6.desktop};
     `}
 `;
+
+export const ButtonContainer = styled.div`
+	${({ visible }) => !visible && 'display:none'}
+`;
+
+export const MessageTextContainer = styled.div`
+	${({ visible }) => !visible && 'display:none'}
+`;

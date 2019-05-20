@@ -128,7 +128,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 				<H3>Send Kin</H3>
 				<Styled.form initialValues={initialValues} onSubmit={handleSubmit(onSubmit)}>
 					{formFields}
-					<Styled.ButtonContainer>
+					<Styled.ButtonContainer visible={store.blockchain.account}>
 						<Button type="submit">Send Payment</Button>
 					</Styled.ButtonContainer>
 				</Styled.form>
