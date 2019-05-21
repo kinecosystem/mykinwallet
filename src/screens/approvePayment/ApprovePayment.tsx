@@ -29,13 +29,18 @@ interface IApprovePayment {
 }
 
 const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, store }) => {
+	// state to prevent auto navigation on error at mounting
+	const [initial, setInitial] = useState(true);
 	const handleApprove = () => {
 		const { derviationPath, unsignedTransaction } = store.blockchain;
 		actions.setSignTransaction([derviationPath, unsignedTransaction]);
+		setInitial(false);
 	};
 	useEffect(() => {
-		if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/transaction-approved');
-	}, [store.blockchain.signedTransaction]);
+		if (store.errors.length && !initial) navigate('/review-payment');
+		// if transaction was signed
+		if (store.blockchain.signedTransaction) navigate('/transaction-approved');
+	}, [store.blockchain.signedTransaction, store.errors]);
 
 	return (
 		<ApprovePaymentStyled>

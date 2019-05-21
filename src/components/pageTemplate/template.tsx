@@ -35,7 +35,9 @@ interface ITemplateProps {
 	actions: object;
 	github: boolean;
 	hide: string;
-	location: Object;
+	location: {
+		pathname: string;
+	};
 	store: Object;
 }
 
@@ -45,7 +47,9 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 
 	useEffect(() => {
 		/** clean store errors every time component unmount */
-		return () => actions.resetTemplateErrors([]);
+		return () =>
+			//approve-payment page will not clean errors
+			location.pathname !== '/approve-payment' && actions.resetTemplateErrors([]);
 	}, []);
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -54,9 +58,9 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 		<Layout background={purpleLight} loading={store.loading}>
 			<Structure_container>
 				{/** Left white title */}
-				
-					<Title main={title.main} sub={title.sub} />
-			
+
+				<Title main={title.main} sub={title.sub} />
+
 				{/** right white container */}
 				<SideContainer>
 					<SideContainer_content>

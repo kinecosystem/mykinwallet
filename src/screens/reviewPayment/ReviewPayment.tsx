@@ -55,7 +55,8 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 	};
 	useEffect(() => {
 		if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/transaction-approved');
-		if (store.errors[0] === 'Destination account does not exist' || store.errors[0] === 'Destination account not valid')
+		if (store.errors[0] === 'Error: Request failed with status code 404' || store.errors[0] === 'Error: Request failed with status code 400')
+		// hide the approve button if false (transaction not valid)	
 			setTransactionRegular(false);
 	}, [store.blockchain.signedTransaction, store.errors]);
 

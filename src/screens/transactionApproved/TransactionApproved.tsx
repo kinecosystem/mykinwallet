@@ -63,5 +63,5 @@ const Ledger = ({ ledger }) => (
 	<a target='__blank' href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Ledgers&id=${ledger}`}>{ledger}</a>
 );
 const Account = ({ account }) => (
-	<a target='__blank' href={`https://www.kin.org/blockchainAccount/?&dataType=public&header=accountID&id=${account}`}>account</a>
+	<a target='__blank' href={`https://www.kin.org/blockchainAccount/?&dataType=test&header=accountID&id=${account}`}>account</a>
 );
