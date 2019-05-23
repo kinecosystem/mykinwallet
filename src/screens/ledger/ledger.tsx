@@ -19,6 +19,7 @@ interface ILedger {
 		errors: string[];
 		blockchain: {
 			ledgerConnected: boolean;
+			terms: boolean;
 			publicKey: string;
 			derviationPath: string;
 		};
@@ -46,7 +47,11 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 
 	const handleButton = () => {
 		if (store.blockchain.publicKey && store.blockchain.derviationPath)
-			navigate('/terms-and-conditions', { state: { lastPage: 'ledger' } });
+			if (!store.blockchain.terms) {
+				navigate('/terms-and-conditions', { state: { lastPage: 'ledger' } });
+			} else {
+				navigate('/transaction', { state: { type: 'ledger' } });
+			}
 		if (!store.blockchain.publicKey) actions.setTemplateErrors(['Choose derivation path']);
 	};
 

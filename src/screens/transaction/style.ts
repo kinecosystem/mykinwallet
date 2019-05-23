@@ -37,3 +37,7 @@ export const GrayedArea = styled.div`
 	background: rgba(255, 255, 255, 0.8);
 	display: ${({ visible }) => (visible ? 'block' : 'none')};
 `;
+
+export const TransactionContent = styled.div`
+	position: relative;
+`;

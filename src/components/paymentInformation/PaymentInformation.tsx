@@ -11,6 +11,7 @@ interface IPaymentInfo {
 	purple: string;
 	publicAddress: string;
 	network: string;
+	memo: string;
 }
 
 const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
@@ -20,7 +21,8 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 	transaction,
 	publicAddress,
 	balance,
-	network
+	network,
+	memo
 }) => {
 	return (
 		<PaymentInfoStyled border={purple === 'purple'}>
@@ -61,14 +63,23 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 				</Item>
 			)}
 
+			{/** memo */}
+			{memo && (
+				<Item>
+					<span>Memo</span>
+					<div>{memo}</div>
+				</Item>
+			)}
 			{/** BALANCE */}
-			<Item>
-				<div>
-					<span>Balance</span>
-					<summary>Source account balance after the transaction</summary>
-				</div>
-				<div data-item="balance">{balance} KIN</div>
-			</Item>
+			{balance && (
+				<Item>
+					<div>
+						<span>Balance</span>
+						<summary>Source account balance after the transaction</summary>
+					</div>
+					<div data-item="balance">{balance} KIN</div>
+				</Item>
+			)}
 		</PaymentInfoStyled>
 	);
 };

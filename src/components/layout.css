@@ -14,23 +14,22 @@
 	font-family: SailecBold;
 	src: url('../../static/fonts/SailecBold.otf');
 }
-html,
-body {
-	height: unset !important;
-}
 
+html {
+}
 body {
 	margin: 0;
-	height: 100vh;
 	overflow-x: hidden;
 	background: rgb(111, 65, 232);
 	background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 504px, rgba(111, 65, 232, 1) 504px);
-
-	
+}
+#___gatsby, body {
+	background: rgb(111, 65, 232);
+	background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 504px, rgba(111, 65, 232, 1) 504px);
 }
 
 @media screen and (min-width: 992px) {
-	body {
+	#___gatsby {
 		background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 537px, rgba(111, 65, 232, 1) 537px);
 	}
 }
@@ -97,7 +96,6 @@ h3 {
 /** antd */
 /* SELECT*/
 .ant-select-dropdown {
-	top:485px;
 }
 .ant-select-dropdown-menu-item {
 	padding: 1em !important;

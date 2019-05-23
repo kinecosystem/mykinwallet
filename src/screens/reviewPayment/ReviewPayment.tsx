@@ -79,7 +79,11 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 					network={'Public'}
 					amount={store.transactionForm.kinAmount}
 					publicAddress={store.transactionForm.destinationAccount}
-					balance={IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))}
+					memo={store.transactionForm.memo}
+					balance={
+						transactionRegular &&
+						IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))
+					}
 				/>
 			)}
 			<MessageTextContainer visible={transactionRegular}>

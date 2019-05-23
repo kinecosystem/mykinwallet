@@ -15,7 +15,6 @@ const Option = Select.Option;
 
 export const SelectPremade = props => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
 	const parseOptions = aOptions => {
 		return aOptions.map((option, i) => {
 			return (

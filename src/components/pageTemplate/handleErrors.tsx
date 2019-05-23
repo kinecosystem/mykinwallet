@@ -16,6 +16,15 @@ const ErrorsTemplate = error => {
 					</ErrorStyle>
 				)
 			};
+		case 'Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE':
+			return {
+				head: `Failed to sign with Ledger device:`,
+				text: (
+					<ErrorStyle>
+						The attached device is not a valid Ledger device.
+					</ErrorStyle>
+				)
+			};
 		default:
 			return { head: error, text: '' };
 	}
@@ -30,15 +39,17 @@ const ErrorsTemplateRed = error => {
 		case 'Error: invalid checksum':
 			return 'Validation failed. Please check that you entered the right address.';
 		case 'Error: Request failed with status code 400':
-			return 'Destination account not valid';
+			return 'Destination account not valid.';
 		case 'Error: Request failed with status code 404':
-			return 'Destination account does not exist';
+			return 'Destination account does not exist.';
 		case "TypeError: Cannot read property 'toString' of undefined":
-			return 'Destination account not valid or empty';
+			return 'Destination account not valid or empty.';
 		case 'Failed to sign with Ledger device: U2F TIMEOUT':
 			return 'Failed to sign with your Ledger device. Session timeout.';
 		case 'Error: Network Error':
 			return "Your payment wasn't sent due to a network error. Please try again at a later time.";
+		case 'Resource Missing':
+			return "Account does not exist.";
 		default:
 			return error;
 	}

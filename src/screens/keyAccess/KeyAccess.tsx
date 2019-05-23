@@ -37,8 +37,11 @@ interface IKeyAccess {
 const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 	const [errors] = useState([
 		<span>
-			<b>This method is NOT recommended as it is not secure.</b> It should only be used in <a href="#">offline</a> settings by experienced crypto
-			users.
+			<b>This method is NOT recommended as it is not secure.</b> It should only be used in{' '}
+			<a target="__blank" href="https://github.com/kinecosystem/mykinwallet">
+				offline
+			</a>{' '}
+			settings by experienced crypto users.
 		</span>
 	]);
 	const [initial, setInitial] = useState(false);
@@ -59,9 +62,18 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 		const { actions, store } = props;
 		actions.setTemplateErrors([/*...store.errors,*/ ...errors]);
 		if (store.blockchain.keyPairValid && initial) {
-			navigate('/terms-and-conditions', { state: { lastPage: 'key-access' } });
+			if (!store.blockchain.terms) {
+				navigate('/terms-and-conditions', { state: { lastPage: 'key-access' } });
+			} else {
+				navigate('/transaction', { state: { type: 'key-access' } });
+			}
 		}
 	}, [errors, props.store.blockchain.keyPairValid, initial]);
+
+	useEffect(() => {
+		const { actions, store } = props;
+		if (initial) actions.setTemplateErrors([...store.errors]);
+	}, [errors, initial]);
 
 	const { handleSubmit } = props;
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
@@ -91,24 +103,3 @@ const KeyAccessFormComponent = reduxForm({
 	validate
 })(IndexPage);
 export default KeyAccessFormComponent;
-
-// Terms cheackbox
-/*
-
-	const [terms, setTerms] = useState(false);
-	const handleCheckbox = ({ target }) => {
-		setTerms(target.checked);
-	};
-	const [hideCheckboxAlert, setHideCheckboxAlert] = useState(true);
-
-
-<CheckboxContainer>
-<Checkbox onChange={handleCheckbox}>
-	To access my wallet, I accept the{' '}
-	<Link to="/terms-and-conditions" state={{ lastPage: 'key-access' }}>
-		<span className="terms"> terms. </span>
-	</Link>
-</Checkbox>
-</CheckboxContainer>
-<CheckboxAlert hide={hideCheckboxAlert}>Please accept terms</CheckboxAlert>
-*/

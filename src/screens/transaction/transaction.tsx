@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import Template from 'src/components/pageTemplate/template';
-import { GrayedArea, TransactionStyled, HeaderContainer } from './style';
+import { TransactionContent, GrayedArea, TransactionStyled, HeaderContainer } from './style';
 import { H3, Button } from 'common/selectors';
 import formInput from 'src/components/formInput/formInput';
 import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
 import validate from './validation';
-import { navigate } from 'gatsby';
+import { navigate, Link } from 'gatsby';
+import inputFields from './inputFileds';
 
 interface IFormData {
 	destinationAccount?: string;
@@ -33,6 +34,7 @@ interface ITransaction {
 			account: object;
 			derviationPath: string;
 			unsignedTransaction: object;
+			ledgerConnected: boolean;
 		};
 	};
 	actions: {
@@ -42,6 +44,9 @@ interface ITransaction {
 		setTransactionDataInput: Function;
 	};
 	handleSubmit: Function;
+	validate: Function;
+	initialValues: Object;
+	location: object;
 }
 
 const Transaction: React.FunctionComponent<ITransaction> = ({
@@ -54,45 +59,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 }) => {
 	const [initial, setInitial] = useState(true);
 	// TODO: move to localization
-	const inputFields: {
-		name: string;
-		label: string;
-		subLabel?: string;
-		bottomLabelBold?: string;
-		bottomLabelRegular?: string;
-		type?: string;
-		placeholder: string;
-		maxlength?: number;
-		max?: number;
-		min?: number;
-		step?: string;
-	}[] = [
-		{
-			name: 'destinationAccount',
-			label: 'Destination account*',
-			placeholder: 'Enter destination account address'
-		},
-		{
-			name: 'kinAmount',
-			type: 'number',
-			label: 'Kin Amount*',
-			subLabel: 'The network base fee is 100 Quarks (0.001 kin)',
-			placeholder: 'Max amount 100M Kin',
-			max: 100000000,
-			min: 0.1,
-			step: 'any',
-			maxlength: 9
-		},
-		{
-			name: 'memo',
-			label: 'Memo',
-			bottomLabelBold: 'Please Note: ',
-			bottomLabelRegular:
-				'Some exchanges or swap companies require using a memo. Please check the relevant destination site for specific instructions.',
-			placeholder: 'Up to 28 chracters',
-			maxlength: 28
-		}
-	];
+
 	const onSubmit = formValues => {
 		let { balance } = store.blockchain.account.balances[0];
 		balance = Number(balance);
@@ -120,27 +87,35 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 	return (
 		<TransactionStyled>
-			<GrayedArea visible={!store.blockchain.account} className="grayedArea" />
-			<HeaderContainer>
-				<H3>My Kin Wallet</H3>
-			</HeaderContainer>
-			{store.blockchain.account && (
-				<WalletInfo
-					networkType="Public"
-					walletAddress={store.blockchain.publicKey}
-					balance={store.blockchain.account.balances[0].balance || 'No balance found'}
-				/>
-			)}
+			<TransactionContent>
+				<GrayedArea visible={!store.blockchain.account} className="grayedArea" />
+				<HeaderContainer>
+					<H3>My Kin Wallet</H3>
+				</HeaderContainer>
+				{store.blockchain.account && (
+					<WalletInfo
+						networkType="Public"
+						walletAddress={store.blockchain.publicKey}
+						balance={store.blockchain.account.balances[0].balance || 'No balance found'}
+					/>
+				)}
 
-			<Styled.formContainer>
-				<H3>Send Kin</H3>
-				<Styled.form initialValues={initialValues} onSubmit={handleSubmit(onSubmit)}>
-					{formFields}
-					<Styled.ButtonContainer visible={store.blockchain.account}>
-						<Button type="submit">Send Payment</Button>
-					</Styled.ButtonContainer>
-				</Styled.form>
-			</Styled.formContainer>
+				<Styled.formContainer>
+					<H3>Send Kin</H3>
+					<Styled.form initialValues={initialValues} onSubmit={handleSubmit(onSubmit)}>
+						{formFields}
+						<Styled.ButtonContainer visible={store.blockchain.account}>
+							<Button type="submit">Send Payment</Button>
+						</Styled.ButtonContainer>
+					</Styled.form>
+				</Styled.formContainer>
+			</TransactionContent>
+			{/** if No account detailes present a back button */}
+			<Styled.ButtonContainer visible={!store.blockchain.account}>
+				<Link to={store.blockchain.ledgerConnected ? '/ledger' : '/key-access'}>
+					<Button>Back</Button>
+				</Link>
+			</Styled.ButtonContainer>
 		</TransactionStyled>
 	);
 };

@@ -72,6 +72,7 @@ export const H3 = styled.header`
 export const TermsContainerStyle = styled.div`
 	position: absolute;
 	width: 100%;
+	background: white;
 `;
 
 export const ModalStyled = styled.div``;

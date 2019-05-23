@@ -85,6 +85,7 @@ export const SelectStyle = styled.div`
 				color: ${({ theme }) => theme.blackish};
 			}
 		}
+
 		.ant-select-arrow {
 			img {
 				width: 16px;
