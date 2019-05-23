@@ -24,6 +24,8 @@ body {
 	overflow-x: hidden;
 	background: rgb(111, 65, 232);
 	background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 504px, rgba(111, 65, 232, 1) 504px);
+	background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 @media screen and (min-width: 992px) {
 	body {
