@@ -70,7 +70,11 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 						<Conditions path={location.pathname} hide={hide} />
 					</SideContainer_content>
 				</SideContainer>
-				{github && <Github>Github -></Github>}
+				{github && (
+					<a href="https://github.com/kinecosystem/mykinwallet" target="__blank">
+						<Github>Github -></Github>
+					</a>
+				)}
 			</Structure_container>
 		</Layout>
 	);

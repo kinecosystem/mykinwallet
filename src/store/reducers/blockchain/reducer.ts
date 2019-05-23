@@ -12,7 +12,7 @@ const initialState = {
 export default function(state = initialState, action: any) {
 	switch (action.type) {
 		case type.SET_IS_LEDGER_CONNECTED: {
-			return { ...state, blockchain: action.payload };
+			return { ...state, blockchain: { ...state.blockchain, ...action.payload } };
 		}
 		case type.SET_PUBLIC_KEY:
 		case type.SET_IS_KEYPAIR_VALID:

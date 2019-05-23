@@ -18,8 +18,10 @@ interface IFormData {
 }
 
 const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
+	const stepByPath = () => (props.isLedgerConnected ? 3 : 4);
+	console.log(props)
 	return (
-		<Template hide="terms" step={3} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+		<Template hide="terms" step={stepByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 			<Transaction {...props} />
 		</Template>
 	);
@@ -137,7 +139,8 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 	);
 };
 const mapStateToProps = (state, props) => ({
-	initialValues: state.blockchain.transactionForm // retrieve name from redux store
+	initialValues: state.blockchain.transactionForm, // retrieve name from redux store
+	isLedgerConnected: state.blockchain.blockchain.ledgerConnected
 });
 
 export default connect(mapStateToProps)(

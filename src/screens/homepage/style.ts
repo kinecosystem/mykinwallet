@@ -3,6 +3,7 @@ import media from 'common/breakpoints';
 import { grid } from 'common/mixin';
 
 export const ItemsContainer = styled.div`
+	text-align: center;
 	${grid('24px', 'initial', 'initial', 'auto', 'auto')}
 	${media.sm`
 	    ${grid('18px', 'initial', 'initial', 'repeat(2, 1fr)', 'auto')}

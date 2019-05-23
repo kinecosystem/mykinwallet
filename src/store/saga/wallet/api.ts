@@ -74,8 +74,8 @@ function* getAccount(action) {
 		yield loading(false);
 	} catch (error) {
 		yield loading(false);
-		console.log('getAccount: ', error);
-		yield put(setTemplateErrors(['Network error or Private key does not exist']));
+		console.log(error.response.title);
+		yield put(setTemplateErrors([error.response.title]));
 	}
 }
 

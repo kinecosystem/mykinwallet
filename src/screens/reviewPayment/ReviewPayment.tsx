@@ -5,14 +5,16 @@ import { H3, P, Button } from 'common/selectors';
 import { ReviewPaymentStyled, GoBack, ButtonContainer, MessageTextContainer } from './style';
 import PaymentInformation from 'src/components/paymentInformation/PaymentInformation';
 import { Link, navigate } from 'gatsby';
-import { Redirect } from '@reach/router';
+import { connect } from 'react-redux';
 
 const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
 const IndexPage = props => {
+	const stepByPath = () => (props.isLedgerConnected ? 4 : 5);
+
 	return (
 		<>
-			<Template hide="terms" step={5} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template hide="terms" step={stepByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 				<ApprovePayment {...props} />
 			</Template>
 		</>
@@ -55,8 +57,11 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 	};
 	useEffect(() => {
 		if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/transaction-approved');
-		if (store.errors[0] === 'Error: Request failed with status code 404' || store.errors[0] === 'Error: Request failed with status code 400')
-		// hide the approve button if false (transaction not valid)	
+		if (
+			store.errors[0] === 'Error: Request failed with status code 404' ||
+			store.errors[0] === 'Error: Request failed with status code 400'
+		)
+			// hide the approve button if false (transaction not valid)
 			setTransactionRegular(false);
 	}, [store.blockchain.signedTransaction, store.errors]);
 
@@ -86,4 +91,9 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 		</ReviewPaymentStyled>
 	);
 };
-export default IndexPage;
+
+const mapStateToProps = (state, props) => ({
+	isLedgerConnected: state.blockchain.blockchain.ledgerConnected
+});
+
+export default connect(mapStateToProps)(IndexPage);
