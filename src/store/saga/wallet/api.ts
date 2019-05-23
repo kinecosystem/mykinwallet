@@ -71,7 +71,11 @@ function* getAccount(action) {
 		yield loading(false);
 	} catch (error) {
 		yield loading(false);
-		yield put(setTemplateErrors([error.response.title]));
+		if (error.response) {
+			yield put(setTemplateErrors([error.response.title]));
+		} else {
+			yield put(setTemplateErrors([error.message]));
+		}
 	}
 }
 
@@ -120,19 +124,13 @@ function* isKeyPairValid(action) {
 		yield loading(true);
 		// get keyPair
 		const data = yield Kin.KeyPair.fromSecret(action.payload.trim());
-		// set valid
+		// set valid and set public key
 		yield put({
 			type: types.SET_IS_KEYPAIR_VALID,
 			payload: { keyPairValid: true, secret: action.payload, publicKey: data.publicKey() }
 		});
-		// set public key
-		// yield put({
-		// 	type: types.SET_PUBLIC_KEY,
-		// 	payload: { publicKey: data.publicKey() }
-		// });
 		yield loading(false);
 	} catch (error) {
-		console.log(error);
 		// set error
 		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));

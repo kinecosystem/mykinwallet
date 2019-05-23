@@ -45,7 +45,7 @@ const ErrorsTemplateRed = error => {
 		case 'Error: Network Error':
 			return "Your payment wasn't sent due to a network error. Please try again at a later time.";
 		case 'Resource Missing':
-			return 'Account does not exist.';
+			return 'Account is missing or does not exist.';
 		default:
 			return error;
 	}

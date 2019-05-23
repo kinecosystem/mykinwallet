@@ -30,7 +30,7 @@ interface IReviewPaymentStyled {
 			derviationPath: string;
 			unsignedTransaction: object;
 			signedTransaction: object;
-			isLedgerConnected: boolean;
+			ledgerConnected: boolean;
 			secret: string;
 		};
 		transactionForm: {
@@ -42,27 +42,32 @@ interface IReviewPaymentStyled {
 	actions: {
 		resetAll: Function;
 		setSignTransaction: Function;
+		setSignTransactionKeyPair: Function;
 	};
 }
 
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
 	// hide the button if error disable progress
 	const [transactionRegular, setTransactionRegular] = useState(true);
+	console.log(store)
 	const handleApprove = () => {
-		const { derviationPath, unsignedTransaction } = store.blockchain;
+		setTransactionRegular(true);
+		const { derviationPath, unsignedTransaction, secret } = store.blockchain;
 		// ledger sign
 		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
 		// keyPair sign
-		else actions.setSignTransactionKeyPair([store.blockchain.secret, unsignedTransaction]);
+		else actions.setSignTransactionKeyPair([secret, unsignedTransaction]);
 	};
 	useEffect(() => {
 		if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/transaction-approved');
 		if (
 			store.errors[0] === 'Error: Request failed with status code 404' ||
 			store.errors[0] === 'Error: Request failed with status code 400'
-		)
+		) {
+			console.log(store.errors[0]);
 			// hide the approve button if false (transaction not valid)
 			setTransactionRegular(false);
+		}
 	}, [store.blockchain.signedTransaction, store.errors]);
 
 	// const { balance } = store.blockchain.account.balances[0];

@@ -53,8 +53,7 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 	}, []);
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		store.errors[0] && setAtleastTwoErrorsInHomepage(atleastTwoErrorsInHomepage + 1);
-		store.errors[0] && console.log('error: ', atleastTwoErrorsInHomepage)
+		if (location.pathname === '/') store.errors[0] && setAtleastTwoErrorsInHomepage(atleastTwoErrorsInHomepage + 1);
 	}, [store.errors]);
 	return (
 		<Layout background={purpleLight} loading={store.loading}>
