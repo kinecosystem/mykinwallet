@@ -37,7 +37,6 @@ function* isLedgerConnected(action) {
 	} catch (error) {
 		// set error
 		yield put(setTemplateErrors([error]));
-		yield loading(false);
 	}
 }
 

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useEffect } from 'react';
+import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import Layout from 'src/components/layout';
 import { purpleLight } from 'style/theme/generalVariables';
 import Title from 'src/components/title/title';
@@ -44,7 +44,7 @@ interface ITemplateProps {
 const Template: FunctionComponent<ITemplateProps> = props => {
 	const { title, step, children, actions, store, github, hide, location } = props;
 	const childrenWithProps = React.Children.map(children, child => React.cloneElement(child, { actions, store, location }));
-
+	const [atleastTwoErrorsInHomepage, setAtleastTwoErrorsInHomepage] = useState(0);
 	useEffect(() => {
 		/** clean store errors every time component unmount */
 		return () =>
@@ -53,6 +53,8 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 	}, []);
 	useEffect(() => {
 		window.scrollTo(0, 0);
+		store.errors[0] && setAtleastTwoErrorsInHomepage(atleastTwoErrorsInHomepage + 1);
+		store.errors[0] && console.log('error: ', atleastTwoErrorsInHomepage)
 	}, [store.errors]);
 	return (
 		<Layout background={purpleLight} loading={store.loading}>
@@ -65,7 +67,7 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 				<SideContainer>
 					<SideContainer_content>
 						<Progressbar step={step} />
-						<Messages path={location.pathname} errors={store.errors} />
+						<Messages show={atleastTwoErrorsInHomepage > 1} path={location.pathname} errors={store.errors} />
 						{childrenWithProps}
 						<Conditions path={location.pathname} hide={hide} />
 					</SideContainer_content>

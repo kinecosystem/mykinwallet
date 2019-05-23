@@ -31,8 +31,6 @@ const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 
 	return (
 		<div>
-			{/** parse list of errors */}
-			{/* {parseErrors(errors)} */}
 			<HeaderContainer>
 				<H3>Access my wallet</H3>
 				<H6>Choose a method to access your account:</H6>

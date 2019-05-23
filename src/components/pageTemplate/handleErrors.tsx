@@ -19,11 +19,7 @@ const ErrorsTemplate = error => {
 		case 'Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE':
 			return {
 				head: `Failed to sign with Ledger device:`,
-				text: (
-					<ErrorStyle>
-						The attached device is not a valid Ledger device.
-					</ErrorStyle>
-				)
+				text: <ErrorStyle>The attached device is not a valid Ledger device.</ErrorStyle>
 			};
 		default:
 			return { head: error, text: '' };
@@ -49,13 +45,13 @@ const ErrorsTemplateRed = error => {
 		case 'Error: Network Error':
 			return "Your payment wasn't sent due to a network error. Please try again at a later time.";
 		case 'Resource Missing':
-			return "Account does not exist.";
+			return 'Account does not exist.';
 		default:
 			return error;
 	}
 };
 
-const Messages = ({ path, errors }) => {
+const Messages = ({ path, errors, show }) => {
 	const [errorsInfo, setErrorsInfo] = useState([]);
 	const [errorsAlerts, setErrorsAlerts] = useState([]);
 	useEffect(() => {
@@ -79,7 +75,7 @@ const Messages = ({ path, errors }) => {
 		);
 	};
 
-	return <>{path === '/' ? <MessageHeadAText errors={errorsInfo} /> : <Alerts errors={errorsAlerts} />}</>;
+	return <>{path === '/' ? show && <MessageHeadAText errors={errorsInfo} /> : <Alerts errors={errorsAlerts} />}</>;
 };
 
 export default Messages;
