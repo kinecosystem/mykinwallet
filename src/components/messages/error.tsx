@@ -8,7 +8,6 @@ interface IError {
 const Error: React.SFC<IError> = ({ errors }) => {
 	const parseErrors = aErros =>
 		aErros.map((sError, i) => {
-			console.log(aErros);
 			return (
 				<MessageBox type="error" key={`${sError}_${i}`}>
 					<ErrorText>{sError}</ErrorText>

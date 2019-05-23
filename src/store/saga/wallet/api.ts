@@ -19,7 +19,6 @@ function* loading(bool) {
 function* isLedgerConnected(action) {
 	try {
 		// yield loading(true);
-		console.log('isLedgerConnected');
 		// prevent previouse connected ledger
 		yield put({
 			type: types.SET_IS_LEDGER_CONNECTED,
@@ -54,7 +53,6 @@ function* getPublicKey(action) {
 		// trigger end load
 		yield loading(false);
 	} catch (error) {
-		console.log(error);
 		yield loading(false);
 		yield put(setTemplateErrors([error]));
 	}
@@ -74,7 +72,6 @@ function* getAccount(action) {
 		yield loading(false);
 	} catch (error) {
 		yield loading(false);
-		console.log(error.response.title);
 		yield put(setTemplateErrors([error.response.title]));
 	}
 }
@@ -106,7 +103,6 @@ function* signTransaction(action) {
 		yield loading(false);
 	} catch (error) {
 		yield loading(false);
-		console.log(error);
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }

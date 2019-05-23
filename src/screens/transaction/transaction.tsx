@@ -19,7 +19,6 @@ interface IFormData {
 
 const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 3 : 4);
-	console.log(props)
 	return (
 		<Template hide="terms" step={stepByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 			<Transaction {...props} />
@@ -107,9 +106,16 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		setInitial(false);
 	};
 	useEffect(() => {
+		// if publicKey couldnt be retrived
+		if (!store.blockchain.publicKey) {
+			navigate('/');
+			return;
+		}
+		// retrived user account
 		if (!store.blockchain.account) actions.getAccount(store.blockchain.publicKey);
+		// if unsigned transaction have been made & its not on page mount
 		if (store.blockchain.unsignedTransaction && !initial) navigate('/review-payment');
-	}, [store.blockchain.account, store.blockchain.unsignedTransaction]);
+	}, [store.blockchain.account, store.blockchain.unsignedTransaction, store.blockchain.publicKey]);
 
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 	return (
@@ -138,7 +144,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		</TransactionStyled>
 	);
 };
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
 	initialValues: state.blockchain.transactionForm, // retrieve name from redux store
 	isLedgerConnected: state.blockchain.blockchain.ledgerConnected
 });

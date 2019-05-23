@@ -9,8 +9,6 @@ interface IMessage {
 }
 
 export const MessageHeadAText: React.SFC<IMessage> = ({ errors }) => {
-	console.log(errors, 'messages');
-
 	const parseErrors = aMessages =>
 		aMessages.map(({ head, text }, i) => {
 			return (
