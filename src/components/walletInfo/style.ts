@@ -38,9 +38,9 @@ export const WalletInfoItem = styled.div`
 	.WalletInfoItem__container {
 		span:not(.wallet-address) {
 			font-family: SailecMedium;
-			font-size: 19px;
+			font-size: 17px;
 			${media.sm`
-                font-size: 17px;
+			font-size: 19px;
                 `}
 		}
 		span.wallet-value {

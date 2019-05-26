@@ -14,11 +14,7 @@ export const form = styled.form`
 `;
 
 export const HeaderContainer = styled.div`
-	display: none;
-	${media.sm`
-		display:flex;
-		margin-bottom: 24px;
-	`}
+	margin-bottom: 24px;
 `;
 
 export const ButtonContainer = styled.div`

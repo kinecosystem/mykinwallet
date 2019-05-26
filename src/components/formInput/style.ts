@@ -10,15 +10,12 @@ export const group = styled.div`
 `;
 
 export const formLabel = styled.label`
-	font-size: 14px;
+	font-size: 12px;
 	letter-spacing: 0.3px;
 	color: ${props => props.inputColor};
-	// was absolute
 	position: relative;
 	pointer-events: none;
-	// was 11px
 	top: unset;
-	// was 15px
 	left: 0;
 	transition: 0.2s ease all;
 	${({ special }) =>
@@ -46,7 +43,6 @@ export const bottomLabel = styled.div`
 	font-style: italic;
 	line-height: 1.58;
 	letter-spacing: 0.3px;
-	// was -25px
 	margin-top: 0;
 	color: ${({ theme }) => theme.blackish};
 `;
