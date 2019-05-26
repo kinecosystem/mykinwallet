@@ -5,12 +5,14 @@ import { flexRow } from 'common/mixin';
 export const PrivacyStyle = styled.div`
 
 header {
+
     margin: 62px 0 30px 0;
     ${media.lg`
         margin: 81px 0 33px 0;
     `}
 }
 section {
+    padding-bottom: 150px ;
     ${media.sm`
             max-width:523px;
         `}
@@ -44,35 +46,11 @@ section {
             list-style-type: lower-roman
         }
     }
-    ul {
-
-        &.decimal {
-            list-style-type: decimal;
-        }
-        &.alphabetic {
-            list-style-type: lower-alpha;
-        }
-        &.no-list-style {
-            list-style-type: none;
-            li {
-                ${flexRow()}
-                div:first-child {
-                    padding: 0 1em 0 0;
-                }
-            }
-        }
-        &.no-list-style-2 {
-            list-style-type: none;
-            li {
-               > div {
-                ${flexRow()};
-                    > div:first-child {
-                        padding: 0 1em 0 0;
-                    }
-                }
-            }
-        }
-
+    ul.decimal {
+        list-style-type: decimal;
+    }
+    ul.alphabetic {
+        list-style-type: lower-alpha;
     }
 
 
@@ -94,6 +72,7 @@ export const H3 = styled.header`
 export const TermsContainerStyle = styled.div`
 	position: absolute;
 	width: 100%;
+	background: white;
 `;
 
 export const ModalStyled = styled.div``;
@@ -108,11 +87,31 @@ export const ModalStyledX = styled.div`
 		    height: 23px;
         `}
 		${media.md`
-            width: 30px;
-		    height: 30px;
+            width: 29px;
+		    height: 29px;
         `}
 	}
 `;
 export const ModalHeader = styled.header`
 	${flexRow('space-between', 'center')}
+	margin-top: calc(24px - 66px);
+	${media.xl`
+        margin-top:calc(36px - 84px);
+
+    `}
+`;
+export const ModalHeaderContainer = styled.div`
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background: white;
+`;
+
+export const FloatingApprove = styled.div`
+	visibility: hidden;
+	height: 66px;
+
+	${media.md`
+	    height: 84px;
+    `}
 `;

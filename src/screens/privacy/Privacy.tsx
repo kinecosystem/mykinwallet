@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Grid } from 'common/grid';
-import { PrivacyStyle, TermsContainerStyle } from './style';
+import { PrivacyStyle, TermsContainerStyle, ModalHeaderContainer, FloatingApprove } from './style';
 import { H3 } from 'common/selectors';
 import { ThemeProvider } from 'styled-components';
 import KinTheme from 'src/style/theme';
@@ -10,23 +10,39 @@ import { ModalStyledX, ModalHeader } from './style';
 import { navigate } from 'gatsby';
 
 const Privacy = ({ location }) => {
+	const headerRef = useRef(null);
+	useEffect(() => {
+		document.addEventListener('scroll', () => {
+			if (headerRef.current !== null && headerRef.current) {
+				const { y } = headerRef.current.getBoundingClientRect();
+				if (y === 0) headerRef.current.setAttribute('style', 'box-shadow:0 2px 2px -2px rgba(146, 146, 146, 0.5)');
+				else headerRef.current.setAttribute('style', 'box-shadow:none');
+			}
+		});
+		return () => document.removeEventListener('scroll', () => '');
+	}, []);
 	return (
 		<ThemeProvider theme={KinTheme}>
 			<TermsContainerStyle>
+				<FloatingApprove />
+				<ModalHeaderContainer ref={headerRef}>
+					<Grid>
+						<ModalHeader>
+							<div>
+								<img src={LogoGreen} alt="modal_icon" /> Kin Ecosystem
+							</div>
+							<ModalStyledX
+								onClick={() => {
+									if (location.state && location.state !== null) navigate(`/${location.state.lastPage}`);
+									else navigate(`/`);
+								}}
+							>
+								<img src={blackClose} alt="X" />
+							</ModalStyledX>
+						</ModalHeader>
+					</Grid>
+				</ModalHeaderContainer>
 				<Grid>
-					<ModalHeader>
-						<div>
-							<img src={LogoGreen} alt="modal_icon" /> Kin Ecosystem
-						</div>
-						<ModalStyledX
-							onClick={() => {
-								if (location.state && location.state !== null) navigate(`/${location.state.lastPage}`);
-								else navigate(`/`);
-							}}
-						>
-							<img src={blackClose} alt="X" />
-						</ModalStyledX>
-					</ModalHeader>
 					<PrivacyStyle>
 						<H3>MY KIN WALLET PRIVACY POLICY</H3>
 						<section>
@@ -237,8 +253,8 @@ const Privacy = ({ location }) => {
 								<li>
 									<b>ACCESS/ACCURACY.</b> To the extent that you do provide us with Personal Data, we wish to maintain accurate
 									Personal Data. If you would like to delete or correct any of your Personal Data that we may be storing, you may
-									submit an access request by sending an email to: <a href="mailto:privacy@kin.org">privacy@kin.org</a> Your
-									email should include adequate details of your request (for example: the name of the team or organization).
+									submit an access request by sending an email to: <a href="mailto:privacy@kin.org">privacy@kin.org</a> Your email
+									should include adequate details of your request (for example: the name of the team or organization).
 								</li>
 								<li>
 									<b>CHILDREN’S PRIVACY.</b> The Service is not structured to attract children under the age of 16 years.

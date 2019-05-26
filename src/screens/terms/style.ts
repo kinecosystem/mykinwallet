@@ -5,7 +5,7 @@ import { flexRow } from 'common/mixin';
 export const TermsStyle = styled.div`
 
 header {
-
+    
     margin: 62px 0 30px 0;
     ${media.lg`
         margin: 81px 0 33px 0;
@@ -75,8 +75,6 @@ export const TermsContainerStyle = styled.div`
 	background: white;
 `;
 
-export const ModalStyled = styled.div``;
-
 export const ModalStyledX = styled.div`
 	cursor: pointer;
 	img {
@@ -93,6 +91,11 @@ export const ModalStyledX = styled.div`
 	}
 `;
 export const ModalHeader = styled.header`
+	margin-top: calc(24px - 66px);
+	${media.xl`
+        margin-top:calc(36px - 84px);
+
+    `}
 	${flexRow('space-between', 'center')}
 `;
 export const ModalHeaderContainer = styled.div`
@@ -107,6 +110,8 @@ export const FloatingApprove = styled.div`
 	z-index: 5;
 	width: 100%;
     top:calc(100% - 66px) ;
+    font-family:SailecBold;
+    letter-spacing:0.63px;
 	background: ${({ theme }) => theme.purple};
     ${flexRow('center', 'center')}
     color:white;

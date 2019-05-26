@@ -14,7 +14,7 @@ export const ErrorContainer = styled.div`
 
 export const ErrorText = styled.div`
 	${({ theme }) => theme.h6.mobile}
-	${media.md`
+	${media.lg`
     ${({ theme }) => theme.h6.desktop}
     `}
     font-family:primaryFont;

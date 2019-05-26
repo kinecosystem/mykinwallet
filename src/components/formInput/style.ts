@@ -21,6 +21,15 @@ export const formLabel = styled.label`
 	// was 15px
 	left: 0;
 	transition: 0.2s ease all;
+	${({ special }) =>
+		special &&
+		`
+		font-size:10px;
+		@media screen and (min-width:768px){
+			font-size:12px;
+		}
+	
+	`}
 `;
 
 export const subLabel = styled.div`

@@ -38,7 +38,7 @@ export const SmallTitle = styled.header`
     `}
     font-family:primaryFont;
 	font-family: ${({ bold }) => bold && 'sailecBold'};
-	margin: ${({ bold }) => bold && '0 0 36px 0'};
+	margin: ${({ bselectorsold }) => bold && '0 0 36px 0'};
 `;
 
 export const H3 = styled.header`
@@ -66,8 +66,8 @@ export const A = styled.span`
 `;
 
 export const Button = styled.button`
-	outline: none;
-	border: none;
+	outline: none;;
+	border: none;;
 	border-radius:2px;
 	background: ${({ theme }) => theme.purple};
 	height: 66px;
@@ -82,4 +82,43 @@ export const Button = styled.button`
         opacity: 0.4;
 		/* background: ${({ theme }) => theme.purpleLight}; */
 	}
+`;
+
+export const Br = styled.br`
+	${media.sm`
+			display:none;
+		`}
+`;
+export const Br_sm = styled.br`
+	display: none;
+	${media.sm`
+			display:block;
+	`}
+	${media.md`
+		display:none;
+	`}
+`;
+export const Br_md = styled.br`
+	display: none;
+	${media.md`
+			display:block;
+	`}
+	${media.lg`
+		display:none;
+	`}
+`;
+export const Br_lg = styled.br`
+	display: none;
+	${media.lg`
+			display:block;
+	`}
+	${media.xl`
+		display:none;
+	`}
+`;
+export const Br_xl = styled.br`
+	display: none;
+	${media.xl`
+			display:block;
+	`}
 `;

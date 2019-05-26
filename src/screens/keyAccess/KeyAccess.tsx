@@ -8,7 +8,7 @@ import formInput from 'src/components/formInput/formInput';
 import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
 import validate from './validation';
 import { navigate, Link } from 'gatsby';
-
+import { Br } from 'common/selectors';
 interface IFormData {
 	PrivateKey?: string;
 }
@@ -50,10 +50,12 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 		name: string;
 		label: string;
 		placeholder: string;
+		special: boolean;
 	}[] = [
 		{
 			name: 'privateKey',
 			label: 'Private Key',
+			special: true,
 			placeholder: 'Enter your private key'
 		}
 	];
