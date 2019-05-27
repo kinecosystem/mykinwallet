@@ -23,23 +23,20 @@ export const SideContainer = styled.div`
 	min-height: 942px;
 	position: relative;
 
-	padding-bottom: 46px;
 	${media.sm`
-	width:433px;
-	justify-self:flex-end;
-		padding-bottom: 88px;
+		width:433px;
+		justify-self:flex-end;
+		min-height:660px;
 		`};
 	${media.md`
-		min-height:774px;
 		justify-self:flex-start;
 		width:464px;
 		margin-top:50px;
-		padding-bottom: 117px;
+		min-height:774px;
 		`};
 	${media.lg`
-		padding-bottom: 100px;
-		min-height:764px;
 		width:612px;
+		min-height:828px;
 	`};
 	${media.xl`
 		margin-top:0;
@@ -51,7 +48,7 @@ export const SideContainer = styled.div`
 export const SideContainer_content = styled.div`
 	margin:30px 17px;
 	height:100%;
-	padding-bottom: 66px;
+	/* padding-bottom: 66px; */
 	${media.sm`
 		margin:30px 27px;
 	`}

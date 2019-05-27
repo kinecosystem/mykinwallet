@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Alerts from 'src/components/messages/error';
 import { MessageHeadAText } from 'src/components/messages/info';
 import { ErrorStyle } from './style';
+import { Br_md } from 'common/selectors';
 
 const ErrorsTemplate = error => {
 	switch (error) {
@@ -12,7 +13,7 @@ const ErrorsTemplate = error => {
 				head: `Failed to sign with your Ledger device. Session timeout.`,
 				text: (
 					<ErrorStyle>
-						Connect your Ledger device, unlock it <br /> and open the Kin application.
+						Connect your Ledger device, unlock it <Br_md /> and open the Kin application.
 					</ErrorStyle>
 				)
 			};

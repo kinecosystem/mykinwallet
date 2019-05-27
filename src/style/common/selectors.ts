@@ -38,7 +38,11 @@ export const SmallTitle = styled.header`
     `}
     font-family:primaryFont;
 	font-family: ${({ bold }) => bold && 'sailecBold'};
-	margin: ${({ bold }) => bold && '0 0 36px 0'};
+
+	margin: ${({ bold }) => bold && '0 0 16px 0'};
+	${media.md`  
+		margin: ${({ bold }) => bold && '0 0 20px 0'};
+    `}
 `;
 
 export const H3 = styled.header`

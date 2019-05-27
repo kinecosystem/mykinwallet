@@ -33,9 +33,9 @@ export const MessageBox = styled.div`
 	${({ infoBox }) =>
 		infoBox &&
 		`
-		margin-bottom: 36px;
+		margin-bottom: 16px;
 		${media.lg`
-			margin-bottom: 42px;	
+			margin-bottom: 20px;	
 		`};
 	`};
 `;
@@ -44,7 +44,6 @@ export const MessageBoxTextOnly = styled.div`
 	background: ${({ theme }) => theme.bodyColor};
 	padding: 20px;
 	color: ${({ type, theme }) => (type === 'error' ? theme.volcanoRed : theme.blackish)};
-	/* margin-bottom: 36px; */
 	p {
 		margin: 0;
 	}
