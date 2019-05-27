@@ -47,6 +47,8 @@ const ErrorsTemplateRed = error => {
 			return "Your payment wasn't sent due to a network error. Please try again at a later time.";
 		case 'Resource Missing':
 			return 'Account is missing or does not exist.';
+		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
+			return 'Failed to sign with your Ledger device. Session timeout.';
 		default:
 			return error;
 	}

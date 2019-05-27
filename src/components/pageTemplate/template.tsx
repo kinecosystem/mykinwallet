@@ -60,7 +60,14 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 			<Structure_container>
 				{/** Left white title */}
 
-				<Title main={title.main} sub={title.sub} />
+				<Title
+					handleClick={() => {
+						actions.resetAll();
+						actions.resetTemplateErrors([]);
+					}}
+					main={title.main}
+					sub={title.sub}
+				/>
 
 				{/** right white container */}
 				<SideContainer>

@@ -3,9 +3,9 @@ import { TitleContainer } from './style';
 import { H1, H6 } from 'common/selectors';
 import { Link } from 'gatsby';
 
-const Title = ({ main, sub }) => (
+const Title = ({ main, sub, handleClick }) => (
 	<TitleContainer>
-		<Link to="/">
+		<Link to="/" onClick={handleClick}>
 			<div>
 				<H1>{main}</H1>
 				<H6>{sub}</H6>

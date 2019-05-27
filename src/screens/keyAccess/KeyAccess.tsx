@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
-import { CheckboxAlert, KeyAccessContainer, TitleContainer, Form, ButtonContainer, CheckboxContainer } from './style';
+import {  KeyAccessContainer, TitleContainer, Form, ButtonContainer } from './style';
 import { authFormTheme } from 'style/theme/generalVariables';
 import { H3, Button } from 'common/selectors';
 import formInput from 'src/components/formInput/formInput';
-import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
 import validate from './validation';
-import { navigate, Link } from 'gatsby';
-import { Br } from 'common/selectors';
+import { navigate } from 'gatsby';
 interface IFormData {
 	PrivateKey?: string;
 }
