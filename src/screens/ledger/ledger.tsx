@@ -29,6 +29,7 @@ interface ILedger {
 		setTemplateErrors: Function;
 		setDerivationPath: Function;
 		resetTemplateErrors: Function;
+		setAccount: Function;
 	};
 }
 
@@ -37,12 +38,14 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 
 	useEffect(() => {
 		!store.blockchain.ledgerConnected && navigate('/');
+		!initial && actions.setAccount({})
 	}, []);
 
 	const handleSelect = value => {
 		actions.resetTemplateErrors();
 		actions.getPublicKey(value);
 		actions.setDerivationPath(value);
+		setInitial(true)
 	};
 
 	const handleButton = () => {

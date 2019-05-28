@@ -48,7 +48,7 @@ export const SideContainer = styled.div`
 export const SideContainer_content = styled.div`
 	margin:30px 17px;
 	height:100%;
-	/* padding-bottom: 66px; */
+	padding-bottom: 66px;
 	${media.sm`
 		margin:30px 27px;
 	`}

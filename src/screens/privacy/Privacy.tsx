@@ -29,7 +29,7 @@ const Privacy = ({ location }) => {
 					<Grid>
 						<ModalHeader>
 							<div>
-								<img src={LogoGreen} alt="modal_icon" /> Kin Ecosystem
+								<img src={LogoGreen} alt="modal_icon" /> Kin
 							</div>
 							<ModalStyledX
 								onClick={() => {
@@ -308,7 +308,7 @@ const Privacy = ({ location }) => {
 												You have the right to object to or restrict our use of your Personal Data for direct marketing purposes or
 												under certain circumstances when the legal bases for using your information is based upon our legitimate
 												interest. If you wish to object to our use of your information, you can send a request to delete this
-												information by <a href="">clicking here.</a>
+												information by <a href="mailto:privacy@kin.org">clicking here.</a>
 											</div>
 										</li>
 										<li>
@@ -318,7 +318,7 @@ const Privacy = ({ location }) => {
 													<b>Right to Erasure.</b>
 												</u>{' '}
 												You have the right to have your personal data erased and no longer processed. You can send us a request to
-												delete your application by clicking here. Upon receiving the request, we will make a reasonable effort to
+												delete your application by<a href='mailto:privacy@kin.org'> clicking here.</a> Upon receiving the request, we will make a reasonable effort to
 												delete your Personal Data from our internal network within a reasonable period of time as long as we are
 												not obligated to preserve your information due to things like law enforcement preservation requests,
 												subpoenas, investigations, litigation, or otherwise meet any of our other legal obligations. We may also
@@ -331,7 +331,7 @@ const Privacy = ({ location }) => {
 												<u>
 													<b>Data Portability.</b>
 												</u>{' '}
-												You can exercise your right to export your personal data by <a href="">clicking here.</a>
+												You can exercise your right to export your personal data by <a href="mailto:privacy@kin.org">clicking here.</a>
 											</div>
 										</li>
 										<li>
@@ -341,7 +341,7 @@ const Privacy = ({ location }) => {
 													<b>File a Complaint.</b>
 												</u>{' '}
 												You have the right to complain to the data protection authority located in your Member State. To find
-												contact details, <a href="">clicking here.</a>
+												contact details, <a target='__blank' href="https://ec.europa.eu/newsroom/article29/news-overview.cfm">clicking here.</a>
 											</div>
 										</li>
 										<li>

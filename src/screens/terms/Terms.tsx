@@ -40,7 +40,7 @@ const Terms = ({ actions, location }) => {
 					<Grid>
 						<ModalHeader>
 							<div>
-								<img src={LogoGreen} alt="modal_icon" /> Kin Ecosystem
+								<img src={LogoGreen} alt="modal_icon" /> Kin
 							</div>
 							<ModalStyledX
 								onClick={() => {

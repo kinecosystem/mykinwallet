@@ -91,9 +91,9 @@ export const ModalStyledX = styled.div`
 	}
 `;
 export const ModalHeader = styled.header`
-	margin-top: calc(24px - 66px);
+	margin-top: calc(24px - 70px);
 	${media.xl`
-        margin-top:calc(36px - 84px);
+        margin-top:calc(36px - 93px);
 
     `}
 	${flexRow('space-between', 'center')}

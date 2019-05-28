@@ -80,7 +80,7 @@ const Header = ({ background, isOnTop }: IProps) => {
 							))}
 					</Styled.headerNev>
 
-					<MenuButton ref={hamburgerBtn} isOnTop={isOnTop} isOpen={isOpen} toggleMenu={toggleMenu} />
+					{/* <MenuButton ref={hamburgerBtn} isOnTop={isOnTop} isOpen={isOpen} toggleMenu={toggleMenu} /> */}
 				</Styled.headerContainer>
 				<MobileMenu links={headerLinks} isOpen={isOpen} ref={menu} />
 			</Grid>
