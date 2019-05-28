@@ -38,11 +38,10 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 
 	useEffect(() => {
 		!store.blockchain.ledgerConnected && navigate('/');
-		!initial && actions.setAccount({account:{}})
 	}, []);
 
 	const handleSelect = value => {
-		setInitial(true)
+		actions.setAccount({ account: false });
 		actions.resetTemplateErrors();
 		actions.getPublicKey(value);
 		actions.setDerivationPath(value);
