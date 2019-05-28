@@ -1,12 +1,5 @@
-import React from 'react';
 import Privacy from 'src/screens/privacy/Privacy';
-import { ThemeProvider } from 'styled-components';
-import KinTheme from '../style/theme';
 
-const Provided = () => (
-	<ThemeProvider theme={KinTheme}>
-		<Privacy />
-	</ThemeProvider>
-);
+import 'src/components/layout.css';
 
-export default Provided;
+export default Privacy;

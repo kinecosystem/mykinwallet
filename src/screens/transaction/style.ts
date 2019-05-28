@@ -24,6 +24,7 @@ export const ButtonContainer = styled.div`
 
 export const TransactionStyled = styled.div`
 	position: relative;
+	padding-bottom: 90px;
 `;
 export const GrayedArea = styled.div`
 	position: absolute;
