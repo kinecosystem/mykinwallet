@@ -49,7 +49,6 @@ interface IReviewPaymentStyled {
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
 	// hide the button if error disable progress
 	const [transactionRegular, setTransactionRegular] = useState(true);
-	console.log(store)
 	const handleApprove = () => {
 		setTransactionRegular(true);
 		const { derviationPath, unsignedTransaction, secret } = store.blockchain;
