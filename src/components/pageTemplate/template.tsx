@@ -20,7 +20,8 @@ import {
 	resetAll,
 	getIsKeyPairValid,
 	setSignTransactionKeyPair,
-	setLoader
+	setLoader,
+	setAccount
 } from 'src/store/actions/site/actions';
 import { bindActionCreators } from 'redux';
 import { Location } from '@reach/router';
@@ -116,7 +117,8 @@ const mapDispatchToProps = dispatch => {
 				isLedgerConnected,
 				getPublicKey,
 				getIsKeyPairValid,
-				setSignTransactionKeyPair
+				setSignTransactionKeyPair,
+				setAccount
 			},
 			dispatch
 		)

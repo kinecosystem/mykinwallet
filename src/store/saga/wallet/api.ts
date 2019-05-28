@@ -65,7 +65,7 @@ function* getAccount(action) {
 		// payload is public key
 		const data = yield bc.getAccount(action.payload);
 		yield put({
-			type: types.SET_PUBLIC_KEY,
+			type: types.SET_ACCOUNT,
 			payload: { account: data }
 		});
 		// trigger load
