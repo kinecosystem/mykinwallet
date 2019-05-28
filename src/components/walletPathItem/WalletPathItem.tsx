@@ -24,7 +24,7 @@ const WalletPathItem = ({ type, img, alert, link, actions, store, title }) => {
 			// check if ledger connected
 			actions.isLedgerConnected();
 			actions.setLoader(true);
-			actions.isLedgerConnected({loader:true, timeout:1000});
+			actions.isLedgerConnected();
 			reCheck.current = setTimeout(() => {
 				actions.isLedgerConnected();
 				LoaderSet.current = setTimeout(() => {

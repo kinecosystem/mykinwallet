@@ -44,7 +44,7 @@ const ErrorsTemplateRed = error => {
 		case 'Failed to sign with Ledger device: U2F TIMEOUT':
 			return 'Failed to sign with your Ledger device. Session timeout.';
 		case 'Error: Network Error':
-			return "Your payment wasn't sent due to a network error. Please try again at a later time.";
+			return "It seems that you are experiencing network issues. Please try again at a later time.";
 		case 'Resource Missing':
 			return 'Account is missing or does not exist.';
 		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
