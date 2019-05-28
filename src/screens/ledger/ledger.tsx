@@ -75,13 +75,3 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 };
 export default IndexPage;
 
-//terms
-/*
-<CheckboxContainer>
-<Checkbox onChange={handleCheckbox}>To access my wallet, I accept the</Checkbox>
-<Link to="/terms-and-conditions" state={{ lastPage: 'ledger' }}>
-	<span className="terms"> terms. </span>
-</Link>
-</CheckboxContainer>
-<CheckboxAlert hide={hideCheckboxAlert}>Please accept terms</CheckboxAlert>
-*/

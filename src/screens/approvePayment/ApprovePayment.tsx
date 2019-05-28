@@ -37,7 +37,9 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, sto
 		setInitial(false);
 	};
 	useEffect(() => {
+		if(!store.blockchain.unsignedTransaction) navigate('/');
 		if (store.errors.length && !initial) navigate('/review-payment');
+
 		// if transaction was signed
 		if (store.blockchain.signedTransaction) navigate('/transaction-approved');
 	}, [store.blockchain.signedTransaction, store.errors]);

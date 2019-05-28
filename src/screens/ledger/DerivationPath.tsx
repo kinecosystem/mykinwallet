@@ -58,7 +58,7 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address,
 						<div className={`base ${classes}`}>
 							{address && (
 								<>
-									{addressGenerator(address)} <div>Copied!</div>
+									{addressGenerator(address, window.innerWidth < 576)} <div>Copied!</div>
 								</>
 							)}
 						</div>

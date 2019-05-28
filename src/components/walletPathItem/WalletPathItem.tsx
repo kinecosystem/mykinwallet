@@ -4,18 +4,18 @@ import { navigate } from 'gatsby';
 
 const WalletPathItem = ({ type, img, alert, link, actions, store, title }) => {
 	const [ableNavigate, setAbleNavigate] = useState(false);
-	let reCheck = useRef(null);
-	let LoaderSet = useRef(null);
+	// let reCheck = useRef(null);
+	// let LoaderSet = useRef(null);
 	useEffect(() => {
 		const { ledgerConnected } = store.blockchain;
 
 		if (ledgerConnected && ableNavigate && type === 'ledger') {
-			actions.setLoader(false);
+			// actions.setLoader(false);
 			navigate(`/ledger`);
-			return () => {
-				clearTimeout(reCheck.current);
-				clearTimeout(LoaderSet.current);
-			};
+			// return () => {
+			// 	clearTimeout(reCheck.current);
+			// 	clearTimeout(LoaderSet.current);
+			// };
 		}
 	}, [store.blockchain.ledgerConnected, ableNavigate]);
 

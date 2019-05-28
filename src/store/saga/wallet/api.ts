@@ -97,6 +97,7 @@ function* signTransaction(action) {
 	try {
 		// trigger load
 		yield loading(true);
+
 		const data = yield Kin.Ledger.signTransaction(...action.payload);
 		const confirm = yield bc.submitTransaction(data);
 		yield put({
@@ -106,6 +107,7 @@ function* signTransaction(action) {
 		// trigger load
 		yield loading(false);
 	} catch (error) {
+		console.dir(error);
 		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
 	}

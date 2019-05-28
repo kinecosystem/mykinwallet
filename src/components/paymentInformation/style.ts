@@ -3,7 +3,10 @@ import media from 'common/breakpoints';
 import { grid } from 'common/mixin';
 
 export const PaymentInfoStyled = styled.div`
+	padding: 18px;
+	${media.sm`
 	padding: 18px 25px;
+	`}
 	background: ${({ theme }) => theme.silverado};
 	margin-bottom: 30px;
 	border-top: ${({ border, theme }) => (border ? '2px' : '1px')} solid
@@ -13,7 +16,10 @@ export const PaymentInfoStyled = styled.div`
 `;
 
 export const Item = styled.div`
-	${grid('32px', 'flex-start', 'center', '130px auto', 'auto')}
+	${grid('2px', 'flex-start', 'center', 'auto', 'auto')}
+	${media.sm`
+		${grid('32px', 'flex-start', 'center', '130px auto', 'auto')}
+	`}	
 	margin-bottom: 20px;
 
 	color: ${({ theme }) => theme.blackish};

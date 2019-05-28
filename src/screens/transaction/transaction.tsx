@@ -64,7 +64,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		let { balance } = store.blockchain.account.balances[0];
 		balance = Number(balance);
 		validate(formValues, balance);
-		if (balance < formValues.kinAmount) return actions.setTemplateErrors(['Cant transfer more Kin coins then you posses']);
+		if (balance < formValues.kinAmount) return actions.setTemplateErrors(['Cannot transfer more Kin coins then you posses']);
 		const { destinationAccount, kinAmount, memo } = formValues;
 		const { account } = store.blockchain;
 		// from: account  to: Destination account   amount:Kin Amount   memo:memo
