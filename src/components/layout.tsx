@@ -3,7 +3,6 @@ import { ThemeProvider } from 'styled-components';
 import SEO from './seo';
 import KinTheme from '../style/theme';
 import Header from './header';
-import Footer from './footer';
 import './layout.css';
 import { Grid } from 'common/grid';
 import Loader from 'src/components/loader/Loader';
