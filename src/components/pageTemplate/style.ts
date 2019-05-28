@@ -61,24 +61,26 @@ export const SideContainer_content = styled.div`
 		margin:48px 78px;
 	`}
 	${media.xl`
-		margin:66px 72px;
+		margin:60px 72px;
 	`}
 `;
 
 export const Conditions = styled.div`
 	width: 100%;
 	position: absolute;
-	bottom: 66px;
 	font-size: 11px;
 	line-height: 21px;
 	${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
 
 	${media.md`
-		font-size: 12px;
-		line-height:23px;
-		${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
+	font-size: 12px;
+	line-height:23px;
+	${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
 	`}
-
+	bottom: 42px;
+	${media.lg`
+		bottom: 60px;
+	`}
 
 	.terms {
 		cursor: pointer;

@@ -237,7 +237,7 @@ const Privacy = ({ location }) => {
 											<div>
 												Access to Personal Data of EU residents from Israel is covered by the European Commission’s Adequacy
 												Decision regarding Israel. You can read more here:
-												<a href="https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en">
+												<a target='__blank' href="https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en">
 													{' '}
 													https://ec.europa.eu/info/law/law-topic/data-protection/data-transfers-
 													outside-eu/adequacy-protection-personal-data-non-eu-countries_en.
