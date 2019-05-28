@@ -51,23 +51,22 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 	const [transactionRegular, setTransactionRegular] = useState(true);
 	const handleApprove = () => {
 		setTransactionRegular(true);
-		const { derviationPath, unsignedTransaction, secret } = store.blockchain;
+		const { signedTransaction, unsignedTransaction, secret } = store.blockchain;
 		// ledger sign
 		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
 		// keyPair sign
-		else actions.setSignTransactionKeyPair([secret, unsignedTransaction]);
+		else actions.setSignTransactionKeyPair({secret, unsignedTransaction, signedTransaction});
 	};
 	useEffect(() => {
-		if (store.blockchain.signedTransaction || !store.blockchain.unsignedTransaction) navigate('/transaction-approved');
+		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
 		if (
 			store.errors[0] === 'Error: Request failed with status code 404' ||
 			store.errors[0] === 'Error: Request failed with status code 400'
 		) {
-			console.log(store.errors[0]);
 			// hide the approve button if false (transaction not valid)
 			setTransactionRegular(false);
 		}
-	}, [store.blockchain.signedTransaction, store.errors]);
+	}, [store.blockchain.transactionSubmitted, store.errors]);
 
 	// const { balance } = store.blockchain.account.balances[0];
 	// const { kinAmount } = store.transactionForm;

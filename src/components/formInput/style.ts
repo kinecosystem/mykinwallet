@@ -6,7 +6,8 @@ import { grid } from 'common/mixin';
 export const group = styled.div`
 	position: relative;
 	${grid('6px', 'initial', 'flex-start', 'auto', 'auto')}
-	margin-top:34px;
+
+	${({ notGroup }) => (notGroup ? 'margin-top:0;' : 'margin-top:34px;')};
 `;
 
 export const formLabel = styled.label`
@@ -63,7 +64,19 @@ export const input = styled.input.attrs({
 		
     border-color: ${props => props.outLineFocusColor};
 		background: ${({ inputValueBackgroundColor }) => inputValueBackgroundColor};
+	};
+	&::placeholder {
+		color: ${props => props.placeholderColor};
+		letter-spacing: 0.4px;
+		font-size: 14px;
+		${media.sm`
+			font-size: 16px;
+		`}
   };
+
+  &::-webkit-input-placeholder  {
+    padding-top: 5px;
+	};
 
 	/* margin-bottom: ${({ name }) => (transactionFormBottomMargins[name] ? transactionFormBottomMargins[name] : '34px')}; */
 	font-size: 16px;
@@ -97,15 +110,7 @@ export const input = styled.input.attrs({
 			`}
 
 
-  &::placeholder {
-		color: ${props => props.placeholderColor};
-		font-size: 16px;
-		letter-spacing: 0.4px;
-  };
 
-  &::-webkit-input-placeholder  {
-    padding-top: 5px;
-	};
 
 	::-webkit-credentials-auto-fill-button {
     visibility: hidden;

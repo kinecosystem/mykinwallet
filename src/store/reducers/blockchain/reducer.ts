@@ -33,6 +33,9 @@ export default function(state = initialState, action: any) {
 		case type.SIGN_TRANSACTION_KEYPAIR: {
 			return { ...state, blockchain: { ...state.blockchain, signedTransaction: action.payload } };
 		}
+		case type.SUBMIT_TRANSACTION: {
+			return { ...state, blockchain: { ...state.blockchain, transactionSubmitted: action.payload } };
+		}
 		case type.SET_TERMS: {
 			return { ...state, blockchain: { ...state.blockchain, terms: true } };
 		}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
-import {  KeyAccessContainer, TitleContainer, Form, ButtonContainer } from './style';
+import { KeyAccessContainer, TitleContainer, Form, ButtonContainer } from './style';
 import { authFormTheme } from 'style/theme/generalVariables';
 import { H3, Button } from 'common/selectors';
 import formInput from 'src/components/formInput/formInput';
@@ -49,12 +49,14 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 		label: string;
 		placeholder: string;
 		special: boolean;
+		notGroup: boolean;
 	}[] = [
 		{
 			name: 'privateKey',
 			label: 'Private Key',
 			special: true,
-			placeholder: 'Enter your private key'
+			placeholder: 'Enter your private key',
+			notGroup: true
 		}
 	];
 

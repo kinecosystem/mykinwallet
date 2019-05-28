@@ -27,6 +27,7 @@ export interface ITxtProps extends WrappedFieldProps {
 	pattern?: string;
 	step?: string;
 	special?: boolean;
+	notGroup?: boolean;
 }
 
 const formInput = ({
@@ -54,13 +55,14 @@ const formInput = ({
 	min,
 	step,
 	pattern,
-	special
+	special,
+	notGroup
 }: ITxtProps) => {
 	const outLineColor = touched && error ? errorBorderColor : borderColor;
 	return (
 		<>
-			<Styled.group>
-				<Styled.formLabel 	special={special} inputColor={inputColor}>
+			<Styled.group notGroup={notGroup}>
+				<Styled.formLabel special={special} inputColor={inputColor}>
 					{label}
 					{input.name === 'kinAmount' && <Styled.subLabel>{subLabel}</Styled.subLabel>}
 				</Styled.formLabel>
@@ -82,7 +84,6 @@ const formInput = ({
 					min={min}
 					step={step}
 					pattern={pattern}
-				
 				/>
 				{input.name === 'memo' && (
 					<Styled.bottomLabel>

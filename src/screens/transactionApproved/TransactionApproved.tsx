@@ -18,30 +18,30 @@ const IndexPage = props => {
 };
 
 interface ITransactionApproved {
-	props: {
-		store: {
-			errors: string[];
-		};
-		actions: object[];
+	store: {
+		blockchain: {
+			transactionSubmitted: object
+		}
+
+		errors: string[];
 	};
+	actions: object[];
 }
 
 const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ store, actions }) => {
 	useEffect(() => {
-		!store.blockchain.unsignedTransaction && navigate('/');
+		!store.blockchain.signedTransaction && navigate('/');
 		return () => actions.resetAll();
-	}, [store.blockchain.signedTransaction]);
-	// const { balance } = store.blockchain.account.balances[0];
-	// const { kinAmount } = store.transactionForm;
+	}, [store.blockchain.transactionSubmitted]);
 	return (
 		<ApprovedPaymentStyled>
 			<H3>Transaction approved</H3>
 			<P>Here are the details of your payment:</P>
-			{store.transactionForm.kinAmount && store.blockchain.signedTransaction && (
+			{store.transactionForm.kinAmount && store.blockchain.transactionSubmitted && (
 				<PaymentInformation
-					ledger={<Ledger ledger={store.blockchain.signedTransaction.ledger} />}
+					ledger={<Ledger ledger={store.blockchain.transactionSubmitted.ledger} />}
 					amount={store.transactionForm.kinAmount}
-					transaction={<Transaction transaction={store.blockchain.signedTransaction.hash} />}
+					transaction={<Transaction transaction={store.blockchain.transactionSubmitted.hash} />}
 					balance={IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))}
 					purple="purple"
 				/>
@@ -57,11 +57,17 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 export default IndexPage;
 
 const Transaction = ({ transaction }) => (
-	<a target='__blank' href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Transaction&id=${transaction}`}>{transaction}</a>
+	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Transaction&id=${transaction}`}>
+		{transaction}
+	</a>
 );
 const Ledger = ({ ledger }) => (
-	<a target='__blank' href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Ledgers&id=${ledger}`}>{ledger}</a>
+	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Ledgers&id=${ledger}`}>
+		{ledger}
+	</a>
 );
 const Account = ({ account }) => (
-	<a target='__blank' href={`https://www.kin.org/blockchainAccount/?&dataType=test&header=accountID&id=${account}`}>account</a>
+	<a target="__blank" href={`https://www.kin.org/blockchainAccount/?&dataType=test&header=accountID&id=${account}`}>
+		account
+	</a>
 );

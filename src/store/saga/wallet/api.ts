@@ -94,20 +94,27 @@ function* getUnsignedTransaction(action) {
 }
 
 function* signTransaction(action) {
+	const { derviationPath, unsignedTransaction, signedTransaction } = action.payload;
+	let data;
 	try {
 		// trigger load
 		yield loading(true);
+		if (!signedTransaction) {
+			data = yield Kin.Ledger.signTransaction(derviationPath, unsignedTransaction);
+			yield put({
+				type: types.SIGN_TRANSACTION,
+				payload: data
+			});
+		} else data = signedTransaction;
 
-		const data = yield Kin.Ledger.signTransaction(...action.payload);
 		const confirm = yield bc.submitTransaction(data);
 		yield put({
-			type: types.SIGN_TRANSACTION,
+			type: types.SUBMIT_TRANSACTION,
 			payload: confirm
 		});
 		// trigger load
 		yield loading(false);
 	} catch (error) {
-		console.dir(error);
 		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
 	}
@@ -140,13 +147,25 @@ function* isKeyPairValid(action) {
 	}
 }
 function* signTransactionKeyPair(action) {
+	console.log(action);
+	const { unsignedTransaction, secret, signedTransaction } = action.payload;
 	try {
 		yield loading(true);
-
-		const data = yield Kin.KeyPair.signTransaction(...action.payload);
-		const confirm = yield bc.submitTransaction(data);
+		let data;
+		if (!signedTransaction) {
+			data = yield Kin.KeyPair.signTransaction(secret, unsignedTransaction);
+			yield put({
+				type: types.SIGN_TRANSACTION,
+				payload: data
+			});
+		} else data = signedTransaction;
 		yield put({
 			type: types.SIGN_TRANSACTION_KEYPAIR,
+			payload: data
+		});
+		const confirm = yield bc.submitTransaction(data);
+		yield put({
+			type: types.SUBMIT_TRANSACTION,
 			payload: confirm
 		});
 		yield loading(false);
