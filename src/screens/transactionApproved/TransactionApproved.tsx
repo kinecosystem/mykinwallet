@@ -4,13 +4,16 @@ import PaymentInformation from 'src/components/paymentInformation/PaymentInforma
 import { H3, P } from 'common/selectors';
 import { ApprovedPaymentStyled } from './style';
 import { navigate } from 'gatsby';
+import { connect } from 'react-redux';
 
 const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
 const IndexPage = props => {
+	const stepByPath = () => (props.isLedgerConnected ? 5 : 4);
+	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
 	return (
 		<>
-			<Template hide="terms" step={5} outOf={5} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template hide="terms" step={stepByPath()} outOf={outOfByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 				<TransactionApproved {...props} />
 			</Template>
 		</>
@@ -56,7 +59,12 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 		</ApprovedPaymentStyled>
 	);
 };
-export default IndexPage;
+
+const mapStateToProps = state => ({
+	isLedgerConnected: state.blockchain.blockchain.ledgerConnected
+});
+
+export default connect(mapStateToProps)(IndexPage);
 
 const Transaction = ({ transaction }) => (
 	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Transaction&id=${transaction}`}>

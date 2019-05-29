@@ -18,8 +18,8 @@ const validator = ({ memo, destinationAccount, kinAmount }) => {
 	}
 
 	// required validation
-	if (!kinAmount) errors.kinAmount = 'Required';
-	if (!destinationAccount) errors.destinationAccount = 'Required';
+	if (!kinAmount) errors.kinAmount = 'Cannot be empty / Not a valid number';
+	if (!destinationAccount) errors.destinationAccount = 'Cannot be empty';
 	return errors;
 };
 

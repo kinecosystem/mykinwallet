@@ -91,12 +91,16 @@ export const ModalStyledX = styled.div`
 	}
 `;
 export const ModalHeader = styled.header`
-	margin-top: calc(24px - 70px);
+margin-top:1px;
+    ${media.md`
+        margin-top: calc(24px - 70px);
+    `}
 	${media.xl`
         margin-top:calc(36px - 93px);
 
     `}
 	${flexRow('space-between', 'center')}
+    height: 96px;
 `;
 export const ModalHeaderContainer = styled.div`
 	position: sticky;
