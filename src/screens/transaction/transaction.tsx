@@ -41,7 +41,7 @@ interface ITransaction {
 	actions: {
 		getAccount: Function;
 		getUnsignedTransaction: Function;
-		resetUnsignedTransaction: Function;
+		resetTransactions: Function;
 		setTransactionDataInput: Function;
 	};
 	handleSubmit: Function;
@@ -83,6 +83,8 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		if (!store.blockchain.account) actions.getAccount(store.blockchain.publicKey);
 		// if unsigned transaction have been made & its not on page mount
 		if (store.blockchain.unsignedTransaction && !initial) navigate('/review-payment');
+		if(initial) actions.resetTransactions()
+
 	}, [store.blockchain.account, store.blockchain.unsignedTransaction, store.blockchain.publicKey]);
 
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);

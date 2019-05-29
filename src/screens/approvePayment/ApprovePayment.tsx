@@ -22,7 +22,9 @@ interface IApprovePayment {
 			unsignedTransaction: string;
 			signedTransaction: string;
 			transactionSubmitted: string;
+			publicKey:string
 		};
+		transactionForm: object;
 	};
 	actions: {
 		setSignTransaction: Function;
@@ -33,12 +35,18 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, sto
 	// state to prevent auto navigation on error at mounting
 	const [initial, setInitial] = useState(true);
 	const handleApprove = () => {
-		const { derviationPath, unsignedTransaction, signedTransaction } = store.blockchain;
-		actions.setSignTransaction({derviationPath, unsignedTransaction, signedTransaction});
+		const { derviationPath, unsignedTransaction, signedTransaction, publicKey } = store.blockchain;
+		const { destinationAccount, kinAmount, memo } = store.transactionForm;
+		actions.setSignTransaction({
+			derviationPath,
+			unsignedTransaction,
+			signedTransaction,
+			tx: {formData:[destinationAccount, kinAmount, memo], publicKey}
+		});
 		setInitial(false);
 	};
 	useEffect(() => {
-		if(!store.blockchain.unsignedTransaction) navigate('/');
+		if (!store.blockchain.unsignedTransaction) navigate('/');
 		if (store.errors.length && !initial) navigate('/review-payment');
 
 		// if transaction was signed

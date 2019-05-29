@@ -29,6 +29,7 @@ interface IReviewPaymentStyled {
 			account: object;
 			derviationPath: string;
 			unsignedTransaction: object;
+			transactionSubmitted: object;
 			signedTransaction: object;
 			ledgerConnected: boolean;
 			secret: string;
@@ -42,6 +43,7 @@ interface IReviewPaymentStyled {
 	actions: {
 		resetAll: Function;
 		setSignTransaction: Function;
+		getUnsignedTransaction: Function;
 		setSignTransactionKeyPair: Function;
 	};
 }
@@ -49,13 +51,16 @@ interface IReviewPaymentStyled {
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
 	// hide the button if error disable progress
 	const [transactionRegular, setTransactionRegular] = useState(true);
+	const [initial, setInitial] = useState(true);
 	const handleApprove = () => {
 		setTransactionRegular(true);
-		const { signedTransaction, unsignedTransaction, secret } = store.blockchain;
+		setInitial(false);
+		const { signedTransaction, unsignedTransaction, secret, account } = store.blockchain;
 		// ledger sign
 		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
 		// keyPair sign
-		else actions.setSignTransactionKeyPair({ secret, unsignedTransaction, signedTransaction });
+		else 
+			actions.setSignTransactionKeyPair({ secret, unsignedTransaction, signedTransaction});
 	};
 	useEffect(() => {
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
@@ -66,10 +71,13 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 			// hide the approve button if false (transaction not valid)
 			setTransactionRegular(false);
 		}
+		// if (store.errors[0]) {
+		// 	const { destinationAccount, kinAmount, memo } = store.transactionForm;
+		// 	const { account } = store.blockchain;
+		// 	actions.resetTransactions();
+		// 	actions.getUnsignedTransaction([account, destinationAccount, kinAmount, memo || '']);
+		// }
 	}, [store.blockchain.transactionSubmitted, store.errors]);
-
-	// const { balance } = store.blockchain.account.balances[0];
-	// const { kinAmount } = store.transactionForm;
 	return (
 		<ReviewPaymentStyled>
 			<Link to="/transaction">
