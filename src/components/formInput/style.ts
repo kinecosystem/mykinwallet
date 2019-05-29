@@ -121,9 +121,10 @@ export const input = styled.input.attrs({
 `;
 
 export const errorMsg = styled.div`
-	font-size: 12px;
+	font-size: 11px;
 	font-style: ${({ errorFontStyle }) => errorFontStyle};
 	font-weight: ${({ errorFontWeight }) => errorFontWeight};
+	font-family: SailecLight;
 	line-height: 1.83;
 	letter-spacing: 0.6px;
 	color: ${props => props.errorColor};

@@ -106,7 +106,7 @@ export const ModalHeaderContainer = styled.div`
 `;
 
 export const FloatingApprove = styled.div`
-	position: sticky;
+	position: fixed;
 	z-index: 5;
 	width: 100%;
     top:calc(100% - 66px) ;
