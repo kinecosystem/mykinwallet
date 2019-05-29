@@ -106,10 +106,11 @@ export const ModalHeaderContainer = styled.div`
 `;
 
 export const FloatingApprove = styled.div`
-	position: fixed;
+    position: fixed;
 	z-index: 5;
 	width: 100%;
-    top:calc(100% - 66px) ;
+    /* top:calc(100% - 66px) ; */
+    bottom:0;
     font-family:SailecBold;
     letter-spacing:0.63px;
 	background: ${({ theme }) => theme.purple};
@@ -120,6 +121,7 @@ export const FloatingApprove = styled.div`
     ${({ theme }) => theme.h3.mobile}
 
     ${media.md`
+        position:sticky;
         top:calc(100% - 84px) ;
 	    height: 84px;
     `}
