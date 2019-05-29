@@ -45,6 +45,9 @@ export default function(state = initialState, action: any) {
 		case type.SET_LOADER: {
 			return { ...state, loading: action.payload };
 		}
+		case type.RESET_TRANSACTION_DATA: {
+			return { ...state, blockchain: { ...state.blockchain, signedTransaction: false, unsignedTransaction: false } };
+		}
 		default:
 			return state;
 	}

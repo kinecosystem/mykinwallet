@@ -21,7 +21,8 @@ import {
 	getIsKeyPairValid,
 	setSignTransactionKeyPair,
 	setLoader,
-	setAccount
+	setAccount,
+	resetTransactions
 } from 'src/store/actions/site/actions';
 import { bindActionCreators } from 'redux';
 import { Location } from '@reach/router';
@@ -119,7 +120,8 @@ const mapDispatchToProps = dispatch => {
 				getPublicKey,
 				getIsKeyPairValid,
 				setSignTransactionKeyPair,
-				setAccount
+				setAccount,
+				resetTransactions
 			},
 			dispatch
 		)

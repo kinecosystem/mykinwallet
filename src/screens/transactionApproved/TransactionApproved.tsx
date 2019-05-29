@@ -20,8 +20,8 @@ const IndexPage = props => {
 interface ITransactionApproved {
 	store: {
 		blockchain: {
-			transactionSubmitted: object
-		}
+			transactionSubmitted: object;
+		};
 
 		errors: string[];
 	};
@@ -42,7 +42,9 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 					ledger={<Ledger ledger={store.blockchain.transactionSubmitted.ledger} />}
 					amount={store.transactionForm.kinAmount}
 					transaction={<Transaction transaction={store.blockchain.transactionSubmitted.hash} />}
-					balance={IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))}
+					balance={IntlNumber(
+						Number(store.blockchain.account.balances[0].balance) - (Number(store.transactionForm.kinAmount) - 0.001)
+					)}
 					purple="purple"
 				/>
 			)}

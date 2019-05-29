@@ -14,12 +14,7 @@ const IndexPage = props => {
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
 	return (
 		<>
-			<Template
-				hide="terms"
-				step={3}
-				outOf={outOfByPath()}
-				title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}
-			>
+			<Template hide="terms" step={3} outOf={outOfByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 				<ApprovePayment {...props} />
 			</Template>
 		</>

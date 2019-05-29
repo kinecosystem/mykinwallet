@@ -42,7 +42,6 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, sto
 		if (store.errors.length && !initial) navigate('/review-payment');
 
 		// if transaction was signed
-		console.log(store.blockchain.transactionSubmitted)
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
 	}, [store.blockchain.signedTransaction, store.errors, store.blockchain.transactionSubmitted]);
 

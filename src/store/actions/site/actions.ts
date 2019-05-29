@@ -58,6 +58,12 @@ export const setTransactionDataInput = payload => {
 		payload
 	};
 };
+export const resetTransactions = payload => {
+	return {
+		type: types.RESET_TRANSACTION_DATA,
+		payload
+	};
+};
 
 //transaction
 

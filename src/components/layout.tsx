@@ -49,7 +49,7 @@ class Layout extends Component<IProps, IS> {
 			<ThemeProvider theme={KinTheme}>
 				<>
 					<Loader loading={loading} />
-					<SEO title="Kin Esystem" keywords={['kin', 'application', 'react']} />
+					<SEO title="My kin wallet" keywords={['kin', 'application', 'react']} />
 					<Header background={background} isOnTop={this.state.isOnTop} />
 					<Grid>
 						<div className="container">{children}</div>
