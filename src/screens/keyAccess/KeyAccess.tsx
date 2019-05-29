@@ -62,7 +62,7 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 
 	useEffect(() => {
 		const { actions, store } = props;
-		// actions.setTemplateErrors([/*...store.errors,*/ ...errors]);
+		actions.setTemplateErrors([/*...store.errors,*/ ...errors]);
 		if (store.blockchain.keyPairValid && initial) {
 			if (!store.blockchain.terms) {
 				navigate('/terms-and-conditions', { state: { lastPage: 'key-access' } });
