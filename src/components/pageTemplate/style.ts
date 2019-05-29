@@ -72,7 +72,7 @@ export const Conditions = styled.div`
 	line-height: 21px;
 	${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
 
-	${media.md`
+	${media.lg`
 	font-size: 12px;
 	line-height:23px;
 	${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
@@ -106,9 +106,9 @@ export const Github = styled.div`
 `;
 
 export const ErrorStyle = styled.div`
-	br {
-		${media.md`
+	/* font-size: 15px;
+	${media.lg`
 			display:none
-		`}
-	}
+			font-size:20px;
+		`} */
 `;

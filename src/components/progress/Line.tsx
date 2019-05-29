@@ -3,10 +3,12 @@ import { Line } from 'rc-progress';
 import { purple } from 'style/theme/generalVariables';
 import { Step, ProgressLineContainer } from './style';
 
-const ProgressLine = ({ step }) => (
+const ProgressLine = ({ step, outOf }) => (
 	<ProgressLineContainer>
-		<Step>STEP {step}/6</Step>
-		<Line percent={step * 16.6} strokeColor={purple} />
+		<Step>
+			STEP {step}/{outOf}
+		</Step>
+		<Line percent={step * (100 / outOf)} strokeColor={purple} />
 	</ProgressLineContainer>
 );
 

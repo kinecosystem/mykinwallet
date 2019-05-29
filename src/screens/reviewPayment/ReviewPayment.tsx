@@ -10,11 +10,16 @@ import { connect } from 'react-redux';
 const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
 const IndexPage = props => {
-	const stepByPath = () => (props.isLedgerConnected ? 4 : 5);
-
+	const stepByPath = () => (props.isLedgerConnected ? 3 : 4);
+	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
 	return (
 		<>
-			<Template hide="terms" step={stepByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template
+				hide="terms"
+				step={3}
+				outOf={outOfByPath()}
+				title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}
+			>
 				<ApprovePayment {...props} />
 			</Template>
 		</>
@@ -55,7 +60,7 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 		// ledger sign
 		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
 		// keyPair sign
-		else actions.setSignTransactionKeyPair({secret, unsignedTransaction, signedTransaction});
+		else actions.setSignTransactionKeyPair({ secret, unsignedTransaction, signedTransaction });
 	};
 	useEffect(() => {
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');

@@ -10,7 +10,7 @@ const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 const IndexPage = props => {
 	return (
 		<>
-			<Template hide="terms" step={6} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template hide="terms" step={5} outOf={5} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 				<TransactionApproved {...props} />
 			</Template>
 		</>

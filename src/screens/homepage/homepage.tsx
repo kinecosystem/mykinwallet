@@ -1,6 +1,6 @@
 import React, { ReactNode, FunctionComponent, useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
-import { H3, H6 } from 'common/selectors';
+import { H3, H6_lg } from 'common/selectors';
 import WalletPathItem from 'src/components/walletPathItem/WalletPathItem';
 import { ItemsContainer, HeaderContainer } from 'src/screens/homepage/style';
 import ledger from 'src/images/ledger.svg';
@@ -9,7 +9,7 @@ import keypair from 'src/images/keypair.svg';
 const IndexPage = props => {
 	return (
 		<>
-			<Template github={true} step={1} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template github={true} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 				<Homepage {...props} />
 			</Template>
 		</>
@@ -33,7 +33,7 @@ const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 		<div>
 			<HeaderContainer>
 				<H3>Access my wallet</H3>
-				<H6>Choose a method to access your account:</H6>
+				<H6_lg >Choose a method to access your account:</H6_lg>
 			</HeaderContainer>
 			<ItemsContainer>
 				<WalletPathItem

@@ -1,6 +1,10 @@
+import React from 'react';
+import { JsxElement } from 'typescript';
+import {Fee} from './style'
+
 const inputFields: {
 	name: string;
-	label: string;
+	label: JsxElement | string;
 	subLabel?: string;
 	bottomLabelBold?: string;
 	bottomLabelRegular?: string;
@@ -20,7 +24,7 @@ const inputFields: {
 		name: 'kinAmount',
 		type: 'number',
 		label: 'Kin Amount*',
-		subLabel: 'The network base fee is 100 Quarks (0.001 kin)',
+		subLabel: <Fee> The network base fee is 100 Quarks <br/> (0.001 kin) </Fee>,
 		placeholder: 'Max amount 100M Kin',
 		max: 100000000,
 		min: 0.1,

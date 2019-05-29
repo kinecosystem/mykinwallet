@@ -12,9 +12,9 @@ export const ItemsContainer = styled.div`
 `;
 
 export const HeaderContainer = styled.div`
+	color: ${({ theme }) => theme.blackish};
 	${grid('6px', 'initial', 'initial', 'auto', 'auto')};
 	${media.lg`
 		${grid('12px', 'initial', 'initial', 'auto', 'auto')};
-	color: ${({ theme }) => theme.blackish};
 `}
 `;

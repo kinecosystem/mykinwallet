@@ -8,7 +8,7 @@ import { navigate, Link } from 'gatsby';
 
 const IndexPage = props => {
 	return (
-		<Template step={2} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+		<Template step={1} outOf={5} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 			<Ledger {...props} />
 		</Template>
 	);

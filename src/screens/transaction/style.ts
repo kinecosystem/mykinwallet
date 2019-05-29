@@ -38,3 +38,11 @@ export const GrayedArea = styled.div`
 export const TransactionContent = styled.div`
 	position: relative;
 `;
+
+export const Fee = styled.span`
+	br {
+		${media.sm`
+				display:none
+			`}
+	}
+`;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Alerts from 'src/components/messages/error';
 import { MessageHeadAText } from 'src/components/messages/info';
 import { ErrorStyle } from './style';
-import { Br_md } from 'common/selectors';
+import { Br_lg,Br_xl } from 'common/selectors';
 
 const ErrorsTemplate = error => {
 	switch (error) {
@@ -13,7 +13,7 @@ const ErrorsTemplate = error => {
 				head: `Failed to sign with your Ledger device. Session timeout.`,
 				text: (
 					<ErrorStyle>
-						Connect your Ledger device, unlock it <Br_md /> and open the Kin application.
+						Connect your Ledger device, unlock it <Br_lg/> <Br_xl/> and open the Kin application.
 					</ErrorStyle>
 				)
 			};
@@ -44,7 +44,7 @@ const ErrorsTemplateRed = error => {
 		case 'Failed to sign with Ledger device: U2F TIMEOUT':
 			return 'Failed to sign with your Ledger device. Session timeout.';
 		case 'Error: Network Error':
-			return "It seems that you are experiencing network issues. Please try again at a later time.";
+			return 'It seems that you are experiencing network issues. Please try again at a later time.';
 		case 'Resource Missing':
 			return 'Account is missing or does not exist.';
 		case 'Ledger device: UNKNOWN_ERROR (0x6804)':

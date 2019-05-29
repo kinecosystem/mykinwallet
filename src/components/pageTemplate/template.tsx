@@ -32,6 +32,7 @@ interface ITemplateProps {
 		sub: string;
 	};
 	step: number;
+	outOf: number;
 	children: ReactNode;
 	actions: object;
 	github: boolean;
@@ -43,7 +44,7 @@ interface ITemplateProps {
 }
 
 const Template: FunctionComponent<ITemplateProps> = props => {
-	const { title, step, children, actions, store, github, hide, location } = props;
+	const { title, step, outOf, children, actions, store, github, hide, location } = props;
 	const childrenWithProps = React.Children.map(children, child => React.cloneElement(child, { actions, store, location }));
 	const [atleastTwoErrorsInHomepage, setAtleastTwoErrorsInHomepage] = useState(0);
 	useEffect(() => {
@@ -73,7 +74,7 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 				{/** right white container */}
 				<SideContainer>
 					<SideContainer_content>
-						<Progressbar step={step} />
+						{step && <Progressbar step={step} outOf={outOf} />}
 						<Messages show={atleastTwoErrorsInHomepage > 1} path={location.pathname} errors={store.errors} />
 						{childrenWithProps}
 						<Conditions path={location.pathname} hide={hide} />

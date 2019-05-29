@@ -10,7 +10,7 @@ import * as Styled from './style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
 import validate from './validation';
 import { navigate, Link } from 'gatsby';
-import inputFields from './inputFileds';
+import inputFields from './inputFileds.tsx';
 
 interface IFormData {
 	destinationAccount?: string;
@@ -19,9 +19,10 @@ interface IFormData {
 }
 
 const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
-	const stepByPath = () => (props.isLedgerConnected ? 3 : 4);
+	const stepByPath = () => (props.isLedgerConnected ? 3 : 2);
+	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
 	return (
-		<Template hide="terms" step={stepByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+		<Template hide="terms" step={2} outOf={outOfByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
 			<Transaction {...props} />
 		</Template>
 	);

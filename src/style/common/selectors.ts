@@ -23,17 +23,30 @@ export const H1 = styled.h1`
 
 export const H6 = styled.header`
 	${({ theme }) => theme.h6.mobile}
-	${media.md`
-    ${({ theme }) => theme.h6.desktop}
-    `}
-    font-family:primaryFont;
+
+	font-family:primaryFont;
 	margin: 0 0 36px 0;
 	font-family: ${({ bold }) => bold && 'sailecBold'};
+
+	${media.md`
+			${({ theme }) => theme.h6.desktop}
+		`}
+`;
+export const H6_lg = styled.header`
+	${({ theme }) => theme.h6.mobile}
+
+	font-family:primaryFont;
+	margin: 0 0 36px 0;
+	font-family: ${({ bold }) => bold && 'sailecBold'};
+
+	${media.lg`
+			${({ theme }) => theme.h6.desktop}
+		`}
 `;
 
 export const SmallTitle = styled.header`
 	${({ theme }) => theme.h6.mobile}
-	${media.md`
+	${media.lg`
     ${({ theme }) => theme.h6.desktop}
     `}
     font-family:primaryFont;
@@ -47,12 +60,12 @@ export const SmallTitle = styled.header`
 
 export const H3 = styled.header`
 	font-family: SailecBold;
-    margin: 0;
+	margin: 0;
+	color: ${({ theme }) => theme.blackish};
 	${({ theme }) => theme.h3.mobile}
-	${media.md`
+	${media.lg`
     ${({ theme }) => theme.h3.desktop}
     `}
-    color: ${({ theme }) => theme.blackish};
 `;
 
 export const P = styled.p`

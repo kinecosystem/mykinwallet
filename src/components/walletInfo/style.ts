@@ -54,7 +54,11 @@ export const WalletInfoItem = styled.div`
 		}
 		word-wrap: break-word;
 		word-break: break-all;
-		${grid('1em', 'initial', 'initial', '100%', 'auto')}
+		${grid('4px', 'initial', 'initial', '100%', 'auto')}
+		${media.sm`
+			
+			${grid('6px', 'initial', 'initial', '100%', 'auto')}
+			`}
 	}
 `;
 
