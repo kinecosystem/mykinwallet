@@ -1,8 +1,3 @@
-<style type="text/css">
-    ol ol { list-style-type: lower-alpha; }
-    ol ol ol { list-style-type: lower-roman; }
-</style>
-
 **Kin Ecosystem SDK License**
 
 **Last Updated:** March 11, 2019
