@@ -2,8 +2,8 @@ import { takeEvery, call, put, all } from 'redux-saga/effects';
 import types from '../../actions/site/types';
 import * as Kin from 'kin-wallet';
 import { setTemplateErrors } from '../../actions/errors/actionsErrors';
-
-const bc = new Kin.Blockchain(true);
+// to make test net pass true
+const bc = new Kin.Blockchain();
 
 function* loading(bool) {
 	yield put({
