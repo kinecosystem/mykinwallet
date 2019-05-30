@@ -67,17 +67,17 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(IndexPage);
 
 const Transaction = ({ transaction }) => (
-	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Transaction&id=${transaction}`}>
+	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=public&header=Transaction&id=${transaction}`}>
 		{transaction}
 	</a>
 );
 const Ledger = ({ ledger }) => (
-	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=test&header=Ledgers&id=${ledger}`}>
+	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=public&header=Ledgers&id=${ledger}`}>
 		{ledger}
 	</a>
 );
 const Account = ({ account }) => (
-	<a target="__blank" href={`https://www.kin.org/blockchainAccount/?&dataType=test&header=accountID&id=${account}`}>
+	<a target="__blank" href={`https://www.kin.org/blockchainAccount/?&dataType=public&header=accountID&id=${account}`}>
 		account
 	</a>
 );
