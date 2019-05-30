@@ -17,6 +17,7 @@ const IndexPage = props => {
 };
 
 interface IHompage {
+	
 	store: {
 		errors: string[];
 	};
