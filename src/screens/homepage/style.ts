@@ -18,3 +18,11 @@ export const HeaderContainer = styled.div`
 		${grid('12px', 'initial', 'initial', 'auto', 'auto')};
 `}
 `;
+
+export const DefaultError = styled.span`
+	color: ${({ theme }) => theme.volcanoRed};
+	p {
+		font-family: primaryFont;
+		margin: 0;
+	}
+`;
