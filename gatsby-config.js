@@ -1,8 +1,8 @@
-const path = require('path')
+const path = require('path');
 module.exports = {
 	siteMetadata: {
 		title: `Coin transfer system`,
-		description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+		description: `Kin coins transfer system`,
 		author: `@KIN`
 	},
 	plugins: [
@@ -10,6 +10,13 @@ module.exports = {
 		`gatsby-plugin-styled-components`,
 		'gatsby-plugin-antd',
 		`gatsby-plugin-typescript`,
+		{
+			resolve: `gatsby-plugin-google-analytics`,
+			options: {
+				trackingId: 'UA-136101659-2',
+				head: true
+			}
+		},
 		{
 			resolve: `gatsby-source-filesystem`,
 			options: {
