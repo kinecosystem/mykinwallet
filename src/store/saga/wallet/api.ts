@@ -83,7 +83,6 @@ function* getAccount(action) {
 function* getUnsignedTransaction(action) {
 	try {
 		// payload is public key
-		console.log(action.payload);
 		const data = yield bc.getUnsignedTransaction(...action.payload);
 		yield put({
 			type: types.SET_UNSIGNED_TRANSACTION,
@@ -102,7 +101,6 @@ function* signTransaction(action) {
 		yield loading(true);
 		if (!signedTransaction) {
 			data = yield Kin.Ledger.signTransaction(derviationPath, unsignedTransaction);
-			console.log('im if', data);
 			yield put({
 				type: types.SIGN_TRANSACTION,
 				payload: data
@@ -111,7 +109,6 @@ function* signTransaction(action) {
 			const account = yield bc.getAccount(tx.publicKey);
 			const newUnsignedTransaction = yield bc.getUnsignedTransaction(account, ...tx.formData);
 			data = yield Kin.Ledger.signTransaction(derviationPath, newUnsignedTransaction);
-			console.log('im else', data, newUnsignedTransaction);
 			yield put({
 				type: types.SIGN_TRANSACTION,
 				payload: data
@@ -119,7 +116,6 @@ function* signTransaction(action) {
 		}
 
 		const confirm = yield bc.submitTransaction(data);
-		console.log('im confirm:', confirm);
 		yield put({
 			type: types.SUBMIT_TRANSACTION,
 			payload: confirm
@@ -159,7 +155,6 @@ function* isKeyPairValid(action) {
 	}
 }
 function* signTransactionKeyPair(action) {
-	console.log(action);
 	const { unsignedTransaction, secret, signedTransaction } = action.payload;
 	try {
 		yield loading(true);
