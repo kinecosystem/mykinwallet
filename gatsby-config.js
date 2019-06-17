@@ -20,7 +20,9 @@ module.exports = {
 		{
 			resolve: `gatsby-plugin-s3`,
 			options: {
-				bucketName: 'www.mykinwallet.org'
+				bucketName: 'www.mykinwallet.org',
+				protocol: "https",
+				hostname: "www.mykinwallet.org",
 			}
 		},
 		{
