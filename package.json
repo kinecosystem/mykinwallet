@@ -65,7 +65,8 @@
 	"scripts": {
 		"build": "gatsby build",
     "deploy": "gatsby-plugin-s3 deploy",
-		"develop": "gatsby develop",
+    "develop": "gatsby develop",
+    "deployS3":"gatsby build && gatsby-plugin-s3 deploy",
 		"developSecure": "gatsby develop -S",
 		"format": "prettier --write src/**/*.{js,jsx}",
 		"start": "npm run develop",
