@@ -1,19 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import PaymentInformation from 'src/components/paymentInformation/PaymentInformation';
 import { H3, P } from 'common/selectors';
 import { ApprovedPaymentStyled } from './style';
 import { navigate } from 'gatsby';
 import { connect } from 'react-redux';
+import balanceCalculator from 'src/components/helpers/balanceCalculator';
 
-const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
 const IndexPage = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 5 : 4);
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
 	return (
 		<>
-			<Template hide="terms" step={stepByPath()} outOf={outOfByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template
+				hide="terms"
+				step={stepByPath()}
+				outOf={outOfByPath()}
+				title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}
+			>
 				<TransactionApproved {...props} />
 			</Template>
 		</>
@@ -32,10 +37,24 @@ interface ITransactionApproved {
 }
 
 const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ store, actions }) => {
+	const [balanceAfterTransaction, setBalanceAfterTransaction] = useState(0);
+
 	useEffect(() => {
 		!store.blockchain.signedTransaction && navigate('/');
 		return () => actions.resetAll();
 	}, [store.blockchain.transactionSubmitted]);
+
+	useEffect(() => {
+		if (store.blockchain.account) {
+			if (store.blockchain.account.balances) {
+				const balance = Number(store.blockchain.account.balances[0].balance);
+				const amount = Number(store.transactionForm.kinAmount);
+				const sum = balanceCalculator(balance, amount);
+				setBalanceAfterTransaction(sum);
+			}
+		}
+	}, [store.blockchain.account]);
+
 	return (
 		<ApprovedPaymentStyled>
 			<H3>Transaction approved</H3>
@@ -45,9 +64,7 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 					ledger={<Ledger ledger={store.blockchain.transactionSubmitted.ledger} />}
 					amount={store.transactionForm.kinAmount}
 					transaction={<Transaction transaction={store.blockchain.transactionSubmitted.hash} />}
-					balance={IntlNumber(
-						Number(store.blockchain.account.balances[0].balance) - (Number(store.transactionForm.kinAmount) - 0.001)
-					)}
+					balance={balanceAfterTransaction}
 					purple="purple"
 				/>
 			)}

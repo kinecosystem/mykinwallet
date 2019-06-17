@@ -6,8 +6,8 @@ import { ReviewPaymentStyled, GoBack, ButtonContainer, MessageTextContainer } fr
 import PaymentInformation from 'src/components/paymentInformation/PaymentInformation';
 import { Link, navigate } from 'gatsby';
 import { connect } from 'react-redux';
+import balanceCalculator from 'src/components/helpers/balanceCalculator';
 
-const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
 const IndexPage = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 3 : 4);
@@ -51,16 +51,16 @@ interface IReviewPaymentStyled {
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
 	// hide the button if error disable progress
 	const [transactionRegular, setTransactionRegular] = useState(true);
-	const [initial, setInitial] = useState(true);
+	// const [initial, setInitial] = useState(true);
+	const [balanceAfterTransaction, setBalanceAfterTransaction] = useState(0);
 	const handleApprove = () => {
 		setTransactionRegular(true);
-		setInitial(false);
+		// setInitial(false);
 		const { signedTransaction, unsignedTransaction, secret, account } = store.blockchain;
 		// ledger sign
 		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
 		// keyPair sign
-		else 
-			actions.setSignTransactionKeyPair({ secret, unsignedTransaction, signedTransaction});
+		else actions.setSignTransactionKeyPair({ secret, unsignedTransaction, signedTransaction });
 	};
 	useEffect(() => {
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
@@ -71,13 +71,19 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 			// hide the approve button if false (transaction not valid)
 			setTransactionRegular(false);
 		}
-		// if (store.errors[0]) {
-		// 	const { destinationAccount, kinAmount, memo } = store.transactionForm;
-		// 	const { account } = store.blockchain;
-		// 	actions.resetTransactions();
-		// 	actions.getUnsignedTransaction([account, destinationAccount, kinAmount, memo || '']);
-		// }
 	}, [store.blockchain.transactionSubmitted, store.errors]);
+
+	useEffect(() => {
+		if (store.blockchain.account) {
+			if (store.blockchain.account.balances) {
+				const balance = Number(store.blockchain.account.balances[0].balance);
+				const amount = Number(store.transactionForm.kinAmount);
+				const sum = balanceCalculator(balance, amount);
+				setBalanceAfterTransaction(sum);
+			}
+		}
+	}, [store.blockchain.account]);
+
 	return (
 		<ReviewPaymentStyled>
 			<Link to="/transaction">
@@ -91,10 +97,7 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 					amount={store.transactionForm.kinAmount}
 					publicAddress={store.transactionForm.destinationAccount}
 					memo={store.transactionForm.memo}
-					balance={
-						transactionRegular &&
-						IntlNumber(Number(store.blockchain.account.balances[0].balance) - Number(store.transactionForm.kinAmount))
-					}
+					balance={transactionRegular && balanceAfterTransaction}
 				/>
 			)}
 			<MessageTextContainer visible={transactionRegular}>

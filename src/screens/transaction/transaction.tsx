@@ -67,7 +67,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		validate(formValues, balance);
 		if (balance < formValues.kinAmount) return actions.setTemplateErrors(['Cannot transfer more Kin coins then you posses']);
 		const { destinationAccount, kinAmount, memo } = formValues;
-		const { account } = store.blockchain;
+		const account = store.blockchain.publicKey;
 		// from: account  to: Destination account   amount:Kin Amount   memo:memo
 		actions.getUnsignedTransaction([account, destinationAccount, kinAmount, memo || '']);
 		actions.setTransactionDataInput({ destinationAccount, kinAmount, memo });
@@ -83,8 +83,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		if (!store.blockchain.account) actions.getAccount(store.blockchain.publicKey);
 		// if unsigned transaction have been made & its not on page mount
 		if (store.blockchain.unsignedTransaction && !initial) navigate('/review-payment');
-		if(initial) actions.resetTransactions()
-
+		if (initial) actions.resetTransactions();
 	}, [store.blockchain.account, store.blockchain.unsignedTransaction, store.blockchain.publicKey]);
 
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
