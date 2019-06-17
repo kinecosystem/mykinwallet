@@ -83,6 +83,7 @@ function* getAccount(action) {
 function* getUnsignedTransaction(action) {
 	const [publicKey, destinationAccount, kinAmount, memo] = action.payload;
 	try {
+		yield loading(true);
 		const account = yield bc.getAccount(publicKey);
 		// payload is public key
 		const data = yield bc.getUnsignedTransaction(account, destinationAccount, kinAmount, memo);
@@ -90,7 +91,10 @@ function* getUnsignedTransaction(action) {
 			type: types.SET_UNSIGNED_TRANSACTION,
 			payload: { unsignedTransaction: data }
 		});
+		yield loading(false);
 	} catch (error) {
+		yield loading(false);
+
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }
