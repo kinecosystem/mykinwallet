@@ -1,9 +1,9 @@
 {
-	"name": "gatsby-starter-default",
+	"name": "kin-ecosystem",
 	"private": true,
-	"description": "A simple starter to get up and developing quickly with Gatsby",
+	"description": "crypto transfer system",
 	"version": "0.1.0",
-	"author": "Kyle Mathews <mathews.kyle@gmail.com>",
+	"author": "Kin-ecosystem",
 	"dependencies": {
 		"body-scroll-lock": "^2.6.1",
 		"copy-to-clipboard": "^3.1.0",
@@ -22,6 +22,7 @@
 		"gatsby-source-filesystem": "^2.0.29",
 		"gatsby-transformer-sharp": "^2.1.17",
 		"kin-wallet": "^1.0.6",
+		"lodash": "^4.17.14",
 		"prop-types": "^15.7.2",
 		"rc-progress": "^2.3.0",
 		"react": "^16.8.6",
@@ -64,9 +65,9 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "gatsby build",
-    "deploy": "gatsby-plugin-s3 deploy",
-    "develop": "gatsby develop",
-    "deployS3":"gatsby build && gatsby-plugin-s3 deploy",
+		"deploy": "gatsby-plugin-s3 deploy",
+		"develop": "gatsby develop",
+		"deployS3": "gatsby build && gatsby-plugin-s3 deploy",
 		"developSecure": "gatsby develop -S",
 		"format": "prettier --write src/**/*.{js,jsx}",
 		"start": "npm run develop",
