@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { ErrorContainer, ErrorText } from './style';
 import { MessageBox, MessageBoxTextOnly } from './style';
 import { SmallTitle, P } from 'common/selectors';
+import { T_14_16_lg } from '../../style/common/selectors';
 
 interface IMessage {
 	errors: [];
@@ -13,7 +14,9 @@ export const MessageHeadAText: React.SFC<IMessage> = ({ errors }) => {
 		aMessages.map(({ head, text }, i) => {
 			return (
 				<MessageBox infoBox={true} key={`${i}_head`}>
-					<SmallTitle bold>{head}</SmallTitle>
+					<SmallTitle bold={!!text}>
+						{head}
+					</SmallTitle>
 					<SmallTitle>{text}</SmallTitle>
 				</MessageBox>
 			);

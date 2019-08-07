@@ -7,5 +7,24 @@ export const TitleContainer = styled.div`
 	color: white;
 	div {
 		color: white;
+		p {
+			letter-spacing:0.42px;
+			&:first-of-type{
+				margin-bottom: 18px;
+				${media.md`
+					margin-bottom: 60px;
+				
+				`}
+			}
+			${media.md`
+				max-width:222px;
+			`}
+			${media.lg`
+				max-width:279px;
+			`}
+			${media.xl`
+				max-width:453px;
+			`}
+		}
 	}
 `;

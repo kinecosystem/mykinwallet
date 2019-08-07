@@ -35,13 +35,13 @@ interface ITemplateProps {
 	step: number;
 	outOf: number;
 	children: ReactNode;
-	actions: object;
+	actions: Iactions;
 	github: boolean;
 	hide: string;
 	location: {
 		pathname: string;
 	};
-	store: Object;
+	store: { errors: Array<string>; loading: boolean };
 }
 
 const Template: FunctionComponent<ITemplateProps> = props => {
@@ -132,3 +132,22 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps
 )(props => <Location>{locationProps => <Template {...locationProps} {...props} />}</Location>);
+
+interface Iactions {
+	setLoader: Function;
+	resetAll: Function;
+	setTransactionDataInput: Function;
+	resetUnsignedTransaction: Function;
+	setDerivationPath: Function;
+	getUnsignedTransaction: Function;
+	setSignTransaction: Function;
+	getAccount: Function;
+	resetTemplateErrors: Function;
+	setTemplateErrors: Function;
+	isLedgerConnected: Function;
+	getPublicKey: Function;
+	getIsKeyPairValid: Function;
+	setSignTransactionKeyPair: Function;
+	setAccount: Function;
+	resetTransactions: Function;
+}

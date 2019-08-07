@@ -4,20 +4,20 @@ import { blackish } from 'style/theme/generalVariables';
 
 export const H1 = styled.h1`
 	${({ theme }) => theme.h1.mobile}
-	${media.md`
+	${media.lg`
         ${({ theme }) => theme.h1.desktop}
     `}
     font-family:SailecBold;
     color:white;
 	margin: 0 0 18px 0;
 	${media.md`
-        margin: 145px 0 18px 0;
+        margin: 38px 0 12px 0;
     `}
 	${media.lg`
-        margin: 124px 0 18px 0;
+        margin: 78px 0 24px 0;
     `}
 	${media.xl`
-        margin: 154px 0 18px 0;
+        margin: 72px 0 18px 0;
     `}
 `;
 
@@ -29,8 +29,8 @@ export const H6 = styled.header`
 	font-family: ${({ bold }) => bold && 'sailecBold'};
 
 	${media.md`
-			${({ theme }) => theme.h6.desktop}
-		`}
+		${({ theme }) => theme.h6.desktop}
+	`}
 `;
 export const H6_lg = styled.header`
 	${({ theme }) => theme.h6.mobile}
@@ -55,7 +55,7 @@ export const SmallTitle = styled.header`
 	margin: ${({ bold }) => bold && '0 0 16px 0'};
 	${media.md`  
 		margin: ${({ bold }) => bold && '0 0 20px 0'};
-    `}
+	`}
 `;
 
 export const H3 = styled.header`
@@ -137,5 +137,17 @@ export const Br_xl = styled.br`
 	display: none;
 	${media.xl`
 			display:block;
+	`}
+`;
+
+export const T_14_16_lg = styled.p`
+	color: ${({ color }) => color || `white`};
+	font-family: ${({ family }) => family || 'primaryFont'};
+	margin: 0;
+	font-size: 14px;
+	line-height: 25px;
+	${media.lg`
+	line-height:27px;
+		font-size:16px;
 	`}
 `;

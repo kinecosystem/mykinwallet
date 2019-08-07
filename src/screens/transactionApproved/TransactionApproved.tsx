@@ -17,7 +17,7 @@ const IndexPage = props => {
 				hide="terms"
 				step={stepByPath()}
 				outOf={outOfByPath()}
-				title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}
+				title={{ main: 'My Kin Wallet', sub: ['Send Kin from your account'] }}
 			>
 				<TransactionApproved {...props} />
 			</Template>
