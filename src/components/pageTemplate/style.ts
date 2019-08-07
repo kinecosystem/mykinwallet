@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export const Structure_container = styled.div`
 	${grid('0', 'initial', 'initial', 'auto', 'auto')}
 	${media.md`
-		${grid('0em', 'initial', 'initial', '222px auto', 'auto')}
+		${grid('0em', 'initial', 'initial', '238px auto', 'auto')}
 	`}
 	${media.lg`
 		${grid('0em', 'initial', 'initial', '312px auto', 'auto')}

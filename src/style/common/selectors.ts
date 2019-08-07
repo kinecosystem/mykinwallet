@@ -17,7 +17,7 @@ export const H1 = styled.h1`
         margin: 78px 0 24px 0;
     `}
 	${media.xl`
-        margin: 72px 0 18px 0;
+        margin: 72px 0 30px 0;
     `}
 `;
 

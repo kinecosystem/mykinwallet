@@ -6,6 +6,10 @@ export const TitleContainer = styled.div`
 	${grid('0em', 'initial', 'flex-start', 'auto', 'auto')}
 	color: white;
 	div {
+		h1 {
+			cursor:pointer;
+
+		}
 		color: white;
 		p {
 			letter-spacing:0.42px;
@@ -13,6 +17,10 @@ export const TitleContainer = styled.div`
 				margin-bottom: 18px;
 				${media.md`
 					margin-bottom: 60px;
+				
+				`}
+				${media.xl`
+					margin-bottom: 84px;
 				
 				`}
 			}
