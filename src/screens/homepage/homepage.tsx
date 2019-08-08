@@ -13,7 +13,7 @@ import { T_14_16_lg } from '../../style/common/selectors';
 const IndexPage = props => {
 	return (
 		<>
-			<Template github={true} title={{ main: 'My Kin Wallet', sub: text.Text }}>
+			<Template github={true} title={{ main: 'My Kin Wallet', sub: text.Text, page: 'homepage' }}>
 				<Homepage {...props} />
 			</Template>
 		</>
@@ -31,7 +31,10 @@ interface IHompage {
 const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 	const [errors] = useState([
 		<Fragment>
-			<T_14_16_lg color={volcanoRed} family="SailecBold">DON’T GET PHISHED!</T_14_16_lg> <br />
+			<T_14_16_lg color={volcanoRed} family="SailecBold">
+				DON’T GET PHISHED!
+			</T_14_16_lg>{' '}
+			<br />
 			<T_14_16_lg color={volcanoRed}>
 				Make sure you have entered the correct MyKinWallet URL in full in the browser address line. Please bookmark (CTRL+D) for
 				future use

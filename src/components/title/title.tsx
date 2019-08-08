@@ -7,9 +7,9 @@ import { T_14_16_lg } from '../../style/common/selectors';
 const HandleSub = ({ sList }) => {
 	return sList.map((str, i) => <T_14_16_lg key={`${str}_${i}`}>{str}</T_14_16_lg>);
 };
-const Title = ({ main, sub, handleClick }) => {
+const Title = ({ main, sub, handleClick, page }) => {
 	return (
-		<TitleContainer>
+		<TitleContainer page={page}>
 			<div>
 				<Link to="/" onClick={handleClick}>
 					<H1>{main}</H1>

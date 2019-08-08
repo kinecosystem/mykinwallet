@@ -1,6 +1,7 @@
 import media from 'common/breakpoints';
 import { grid } from 'common/mixin';
 import styled from 'styled-components';
+import { purple } from '../../style/theme/generalVariables';
 
 export const Structure_container = styled.div`
 	${grid('0', 'initial', 'initial', 'auto', 'auto')}
@@ -16,12 +17,12 @@ export const Structure_container = styled.div`
 `;
 
 export const SideContainer = styled.div`
+	position: relative;
 	background: white;
 	width: 100%;
 	justify-self: flex-end;
 	margin-top: 30px;
 	min-height: 942px;
-	position: relative;
 
 	${media.sm`
 		width:433px;
@@ -64,31 +65,54 @@ export const SideContainer_content = styled.div`
 		margin:60px 72px;
 	`}
 `;
-
-export const Conditions = styled.div`
+//FOOTER\\
+export const Footer = styled.div`
 	width: 100%;
 	position: absolute;
-	font-size: 11px;
+	font-size: 12px;
+	left: 0;
 	line-height: 21px;
-	${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
-
+	${grid('2em', 'space-between', 'initial', 'repeat(2, auto)', 'auto')}
 	${media.lg`
 	font-size: 12px;
 	line-height:23px;
-	${grid('2em', 'flex-start', 'initial', 'repeat(3, auto)', 'auto')}
+	${grid('2em', 'space-between', 'initial', 'repeat(2, auto)', 'auto')}
 	`}
-	bottom: 42px;
+	bottom:40px;
+	width: 95%;
+	left:2.5%;
+	${media.sm`
+		width: 85%;
+		left:7.5%;
+	
+	`}
+	${media.md`
+		width: 79%;
+		left:10.5%;
+	`}
 	${media.lg`
-		bottom: 60px;
+	
+		width: 72%;
+		left:13.5%;
 	`}
-
-	.terms {
-		cursor: pointer;
-		${({ hide }) => hide === 'terms' && 'display:none'}
+	${media.xl`
+	
+		width: 75%;
+		left:12.5%;
+	`}
+	.logOut {
+		font-size:16px;
+		cursor:pointer;
+		text-decoration:underline;
+		color:${purple};
 	}
-	.conditions {
+	.cSupp {
 		${({ hide }) => hide === 'conditions' && 'display:none'}
 	}
+`;
+
+export const Support = styled.section`
+	${grid('2em', 'flex-start', 'initial', 'repeat(2, auto)', 'auto')}
 `;
 
 export const Github = styled.div`

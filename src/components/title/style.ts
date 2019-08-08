@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { grid } from 'common/mixin';
 import media from 'common/breakpoints';
 
@@ -7,13 +7,12 @@ export const TitleContainer = styled.div`
 	color: white;
 	div {
 		h1 {
-			cursor:pointer;
-
+			cursor: pointer;
 		}
 		color: white;
 		p {
-			letter-spacing:0.42px;
-			&:first-of-type{
+			letter-spacing: 0.42px;
+			&:first-of-type {
 				margin-bottom: 18px;
 				${media.md`
 					margin-bottom: 60px;
@@ -24,15 +23,37 @@ export const TitleContainer = styled.div`
 				
 				`}
 			}
-			${media.md`
-				max-width:222px;
-			`}
-			${media.lg`
-				max-width:279px;
-			`}
-			${media.xl`
-				max-width:453px;
-			`}
+			/*// TEXT UNDER HEAD \\*/
+			${({ page }) => {
+				switch (page) {
+					case 'homepage':
+						return css`
+							${media.md`
+								max-width:222px;
+							`}
+							${media.lg`
+								max-width:279px;
+							`}
+							${media.xl`
+								max-width:453px;
+							`}
+						`;
+					case 'key-access':
+						return css`
+							${media.md`
+								max-width:222px;
+							`}
+							${media.lg`
+								max-width:279px;
+							`}
+							${media.xl`
+								max-width:314px;
+							`}
+						`;
+					default:
+						return '';
+				}
+			}}
 		}
 	}
 `;
