@@ -5,6 +5,7 @@ import { ApprovePaymentStyled } from './style';
 import { navigate, Link } from 'gatsby';
 import { MessageTextContainer, GoBack } from '../reviewPayment/style';
 import { MessageText } from 'src/components/messages/info';
+import { createTransactionLedger } from '../../components/transactions_handlers/createTransaction';
 
 const IndexPage = props => {
 	return (
@@ -30,23 +31,16 @@ interface IApprovePayment {
 	};
 	actions: {
 		setSignTransaction: Function;
+		setLoader: Function;
 	};
 }
 
 const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, store }) => {
 	// state to prevent auto navigation on error at mounting
 	const [initial, setInitial] = useState(true);
-	const handleApprove = () => {
-		const { derviationPath, unsignedTransaction, signedTransaction, publicKey } = store.blockchain;
-		const { destinationAccount, kinAmount, memo } = store.transactionForm;
-		actions.setSignTransaction({
-			derviationPath,
-			unsignedTransaction,
-			signedTransaction,
-			tx: { formData: [destinationAccount, kinAmount, memo], publicKey }
-		});
-		setInitial(false);
-	};
+	// const handleApprove = () => {
+	// 	setInitial(false);
+	// };
 	useEffect(() => {
 		if (!store.blockchain.unsignedTransaction) navigate('/');
 		if (store.errors.length && !initial) navigate('/review-payment');
@@ -54,7 +48,9 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, sto
 		// if transaction was signed
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
 	}, [store.blockchain.signedTransaction, store.errors, store.blockchain.transactionSubmitted]);
-
+	useEffect(() => {
+		createTransactionLedger(store, actions.setSignTransaction);
+	}, []);
 	return (
 		<ApprovePaymentStyled>
 			<Link to="/transaction">

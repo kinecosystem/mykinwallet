@@ -7,7 +7,6 @@ import { navigate } from 'gatsby';
 import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
 
-
 const IndexPage = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 5 : 4);
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
@@ -29,11 +28,14 @@ interface ITransactionApproved {
 	store: {
 		blockchain: {
 			transactionSubmitted: object;
+			transactionForm: object;
 		};
 
 		errors: string[];
 	};
-	actions: object[];
+	actions: {
+		setLoader: Function;
+	};
 }
 
 const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ store, actions }) => {
@@ -54,7 +56,9 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 			}
 		}
 	}, [store.blockchain.account]);
-
+	useEffect(() => {
+		actions.setLoader(false);
+	}, []);
 	return (
 		<ApprovedPaymentStyled>
 			<H3>Transaction approved</H3>

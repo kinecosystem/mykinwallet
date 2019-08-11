@@ -1,4 +1,4 @@
-import { takeEvery, call, put, all } from 'redux-saga/effects';
+import { takeLatest, put } from 'redux-saga/effects';
 import types from '../../actions/site/types';
 import * as Kin from 'kin-wallet';
 import { setTemplateErrors } from '../../actions/errors/actionsErrors';
@@ -103,10 +103,9 @@ function* signTransaction(action) {
 	const { derviationPath, unsignedTransaction, signedTransaction, tx } = action.payload;
 	let data;
 	try {
-		// trigger load
-		yield loading(true);
 		if (!signedTransaction) {
 			data = yield Kin.Ledger.signTransaction(derviationPath, unsignedTransaction);
+			yield loading(true);
 			yield put({
 				type: types.SIGN_TRANSACTION,
 				payload: data
@@ -115,6 +114,7 @@ function* signTransaction(action) {
 			const account = yield bc.getAccount(tx.publicKey);
 			const newUnsignedTransaction = yield bc.getUnsignedTransaction(account, ...tx.formData);
 			data = yield Kin.Ledger.signTransaction(derviationPath, newUnsignedTransaction);
+			yield loading(true);
 			yield put({
 				type: types.SIGN_TRANSACTION,
 				payload: data
@@ -126,10 +126,7 @@ function* signTransaction(action) {
 			type: types.SUBMIT_TRANSACTION,
 			payload: confirm
 		});
-		// trigger load
-		yield loading(false);
 	} catch (error) {
-		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }
@@ -191,13 +188,13 @@ function* signTransactionKeyPair(action) {
 
 // watcher
 function* blockchainSaga() {
-	yield takeEvery(types.IS_LEDGER_CONNECTED, isLedgerConnected);
-	yield takeEvery(types.GET_PUBLIC_KEY, getPublicKey);
-	yield takeEvery(types.GET_ACCOUNT, getAccount);
-	yield takeEvery(types.GET_UNSIGNED_TRANSACTION, getUnsignedTransaction);
-	yield takeEvery(types.SET_SIGN_TRANSACTION, signTransaction);
-	yield takeEvery(types.GET_IS_KEYPAIR_VALID, isKeyPairValid);
-	yield takeEvery(types.SET_SIGN_TRANSACTION_KEYPAIR, signTransactionKeyPair);
+	yield takeLatest(types.IS_LEDGER_CONNECTED, isLedgerConnected);
+	yield takeLatest(types.GET_PUBLIC_KEY, getPublicKey);
+	yield takeLatest(types.GET_ACCOUNT, getAccount);
+	yield takeLatest(types.GET_UNSIGNED_TRANSACTION, getUnsignedTransaction);
+	yield takeLatest(types.SET_SIGN_TRANSACTION, signTransaction);
+	yield takeLatest(types.GET_IS_KEYPAIR_VALID, isKeyPairValid);
+	yield takeLatest(types.SET_SIGN_TRANSACTION_KEYPAIR, signTransactionKeyPair);
 }
 
 export default blockchainSaga;

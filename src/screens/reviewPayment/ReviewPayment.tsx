@@ -7,10 +7,9 @@ import PaymentInformation from 'src/components/paymentInformation/PaymentInforma
 import { Link, navigate } from 'gatsby';
 import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
-import createTransactionKeyPair from '../../components/transactions_handlers/createTransaction';
+import { createTransactionKeyPair, createTransactionLedger } from '../../components/transactions_handlers/createTransaction';
 
 const IndexPage = props => {
-	const stepByPath = () => (props.isLedgerConnected ? 3 : 4);
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
 	return (
 		<>
@@ -50,6 +49,7 @@ interface IReviewPaymentStyled {
 		setSignTransaction: Function;
 		getUnsignedTransaction: Function;
 		setSignTransactionKeyPair: Function;
+		setLoader: Function;
 	};
 }
 
@@ -57,16 +57,15 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 	// hide the button if error disable progress
 	const [transactionRegular, setTransactionRegular] = useState(true);
 	const [balanceAfterTransaction, setBalanceAfterTransaction] = useState(0);
-	
+
 	const handleApprove = () => {
 		setTransactionRegular(true);
-		
-		const { signedTransaction, unsignedTransaction, secret, account } = store.blockchain;
+
 		// ledger step
 		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
 		// keyPair step
 		// create keyPair transaction
-		else actions.setSignTransactionKeyPair({ secret, unsignedTransaction, signedTransaction });
+		else createTransactionKeyPair(store, actions.setSignTransactionKeyPair);
 	};
 	useEffect(() => {
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
