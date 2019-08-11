@@ -49,6 +49,7 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, sto
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
 	}, [store.blockchain.signedTransaction, store.errors, store.blockchain.transactionSubmitted]);
 	useEffect(() => {
+		// ask use to approve ledger transaction at page load 
 		createTransactionLedger(store, actions.setSignTransaction);
 	}, []);
 	return (

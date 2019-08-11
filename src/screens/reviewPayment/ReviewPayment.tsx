@@ -25,33 +25,7 @@ const IndexPage = props => {
 	);
 };
 
-interface IReviewPaymentStyled {
-	store: {
-		errors: string[];
-		blockchain: {
-			publicKey: string;
-			account: object;
-			derviationPath: string;
-			unsignedTransaction: object;
-			transactionSubmitted: object;
-			signedTransaction: object;
-			ledgerConnected: boolean;
-			secret: string;
-		};
-		transactionForm: {
-			destinationAccount: string;
-			kinAmount: string;
-			memo: string;
-		};
-	};
-	actions: {
-		resetAll: Function;
-		setSignTransaction: Function;
-		getUnsignedTransaction: Function;
-		setSignTransactionKeyPair: Function;
-		setLoader: Function;
-	};
-}
+
 
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
 	// hide the button if error disable progress
@@ -120,3 +94,32 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default connect(mapStateToProps)(IndexPage);
+
+
+interface IReviewPaymentStyled {
+	store: {
+		errors: string[];
+		blockchain: {
+			publicKey: string;
+			account: object;
+			derviationPath: string;
+			unsignedTransaction: object;
+			transactionSubmitted: object;
+			signedTransaction: object;
+			ledgerConnected: boolean;
+			secret: string;
+		};
+		transactionForm: {
+			destinationAccount: string;
+			kinAmount: string;
+			memo: string;
+		};
+	};
+	actions: {
+		resetAll: Function;
+		setSignTransaction: Function;
+		getUnsignedTransaction: Function;
+		setSignTransactionKeyPair: Function;
+		setLoader: Function;
+	};
+}
