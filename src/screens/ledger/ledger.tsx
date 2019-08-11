@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
-import { CheckboxAlert, CheckboxContainer, LedgerStyle, LedgerHeader, PurpleTitle, ButtonContainer } from './style';
+import { LedgerStyle, LedgerHeader, PurpleTitle, ButtonContainer } from './style';
 import { H3, Button } from 'common/selectors';
 import DerivationPath from './DerivationPath';
-import { CheckboxPremade as Checkbox } from 'src/components/antd/index';
-import { navigate, Link } from 'gatsby';
+import { navigate } from 'gatsby';
 
 const IndexPage = props => {
 	return (
-		<Template step={1} outOf={5} title={{ main: 'My Kin Wallet', sub: ['Send Kin from your account'] }}>
+		<Template
+			step={1}
+			outOf={5}
+			title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
+		>
 			<Ledger {...props} />
 		</Template>
 	);
@@ -74,4 +77,3 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 	);
 };
 export default IndexPage;
-

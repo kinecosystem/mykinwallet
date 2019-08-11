@@ -38,7 +38,7 @@ export const TitleContainer = styled.div`
 								max-width:453px;
 							`}
 						`;
-					case 'key-access':
+					case 'shared':
 						return css`
 							${media.md`
 								max-width:222px;
@@ -50,6 +50,7 @@ export const TitleContainer = styled.div`
 								max-width:314px;
 							`}
 						`;
+
 					default:
 						return '';
 				}

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { H3, P, Button } from 'common/selectors';
 import { ApprovePaymentStyled } from './style';
-import { navigate } from 'gatsby';
+import { navigate, Link } from 'gatsby';
+import { MessageTextContainer, GoBack } from '../reviewPayment/style';
+import { MessageText } from 'src/components/messages/info';
 
 const IndexPage = props => {
 	return (
@@ -22,9 +24,9 @@ interface IApprovePayment {
 			unsignedTransaction: string;
 			signedTransaction: string;
 			transactionSubmitted: string;
-			publicKey:string
+			publicKey: string;
 		};
-		transactionForm: object;
+		transactionForm: ItransactionForm;
 	};
 	actions: {
 		setSignTransaction: Function;
@@ -41,7 +43,7 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, sto
 			derviationPath,
 			unsignedTransaction,
 			signedTransaction,
-			tx: {formData:[destinationAccount, kinAmount, memo], publicKey}
+			tx: { formData: [destinationAccount, kinAmount, memo], publicKey }
 		});
 		setInitial(false);
 	};
@@ -55,11 +57,22 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, sto
 
 	return (
 		<ApprovePaymentStyled>
-			<H3>Approve Payment</H3>
+			<Link to="/transaction">
+				<GoBack>{'<- Edit transaction details'}</GoBack>
+			</Link>
+			<H3>Verify payment on ledger</H3>
 			<P>Please verify the payment details on your Ledger device and approve the transaction.</P>
-
-			<Button onClick={handleApprove}>Continue</Button>
+			<MessageTextContainer visible={true}>
+				<MessageText text="Once you send payment it is not possible to cancel the transaction." />
+			</MessageTextContainer>
+			{/* <Button onClick={handleApprove}>Continue</Button> */}
 		</ApprovePaymentStyled>
 	);
 };
 export default IndexPage;
+
+interface ItransactionForm {
+	destinationAccount: string;
+	kinAmount: Number;
+	memo: string;
+}

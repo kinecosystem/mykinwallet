@@ -7,14 +7,19 @@ import PaymentInformation from 'src/components/paymentInformation/PaymentInforma
 import { Link, navigate } from 'gatsby';
 import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
-
+import createTransactionKeyPair from '../../components/transactions_handlers/createTransaction';
 
 const IndexPage = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 3 : 4);
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
 	return (
 		<>
-			<Template hide="terms" step={3} outOf={outOfByPath()} title={{ main: 'My Kin Wallet', sub: ['Send Kin from your account'] }}>
+			<Template
+				hide="terms"
+				step={3}
+				outOf={outOfByPath()}
+				title={{ main: 'My Kin Wallet', sub: ['Send Kin from your account'] }}
+			>
 				<ApprovePayment {...props} />
 			</Template>
 		</>
@@ -51,15 +56,16 @@ interface IReviewPaymentStyled {
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
 	// hide the button if error disable progress
 	const [transactionRegular, setTransactionRegular] = useState(true);
-	// const [initial, setInitial] = useState(true);
 	const [balanceAfterTransaction, setBalanceAfterTransaction] = useState(0);
+	
 	const handleApprove = () => {
 		setTransactionRegular(true);
-		// setInitial(false);
+		
 		const { signedTransaction, unsignedTransaction, secret, account } = store.blockchain;
-		// ledger sign
+		// ledger step
 		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
-		// keyPair sign
+		// keyPair step
+		// create keyPair transaction
 		else actions.setSignTransactionKeyPair({ secret, unsignedTransaction, signedTransaction });
 	};
 	useEffect(() => {
