@@ -10,7 +10,12 @@ import { createTransactionLedger } from '../../components/transactions_handlers/
 const IndexPage = props => {
 	return (
 		<>
-			<Template hide="terms" step={4} outOf={5} title={{ main: 'My Kin Wallet', sub: ['Send Kin from your account'] }}>
+			<Template
+				hide="terms"
+				step={4}
+				outOf={5}
+				title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
+			>
 				<ApprovePayment {...props} />
 			</Template>
 		</>
@@ -37,19 +42,18 @@ interface IApprovePayment {
 
 const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, store }) => {
 	// state to prevent auto navigation on error at mounting
-	const [initial, setInitial] = useState(true);
-	// const handleApprove = () => {
-	// 	setInitial(false);
-	// };
+
+	const handleApprove = () => {
+		createTransactionLedger(store, actions.setSignTransaction);
+	};
 	useEffect(() => {
 		if (!store.blockchain.unsignedTransaction) navigate('/');
-		if (store.errors.length && !initial) navigate('/review-payment');
 
 		// if transaction was signed
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
 	}, [store.blockchain.signedTransaction, store.errors, store.blockchain.transactionSubmitted]);
 	useEffect(() => {
-		// ask use to approve ledger transaction at page load 
+		// ask use to approve ledger transaction at page load
 		createTransactionLedger(store, actions.setSignTransaction);
 	}, []);
 	return (
@@ -62,7 +66,7 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, sto
 			<MessageTextContainer visible={true}>
 				<MessageText text="Once you send payment it is not possible to cancel the transaction." />
 			</MessageTextContainer>
-			{/* <Button onClick={handleApprove}>Continue</Button> */}
+			{store.errors.length ? <Button onClick={handleApprove}>Try again</Button> : null}
 		</ApprovePaymentStyled>
 	);
 };

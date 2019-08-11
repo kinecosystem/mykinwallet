@@ -72,6 +72,10 @@ export const Alert = styled.div`
 `;
 
 export const TooltipHoc = styled.div`
+	display:none;
+	${media.lg`
+		display:flex;
+	`}
 	position: absolute;
 	top: 0;
 	left: 0;
