@@ -9,7 +9,10 @@ import rootSaga from './saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-export interface IRootReducerState {}
+export interface IRootReducerState {
+	errors: [];
+	blockchain: {};
+}
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
