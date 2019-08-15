@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { CheckboxStyle, SelectStyle, InputStyle } from './style';
+import { CheckboxStyle, SelectStyle, InputStyle, StyledFloatingMessage } from './style';
 import { Select, Checkbox, Input } from 'antd';
 
 import downArrow from 'images/arrow_down.svg';
+import copy from 'images/copy.svg';
+
 //CHECKBOX\\
 
 export const CheckboxPremade = ({ onChange, children }) => (
@@ -51,3 +53,14 @@ export const InputPremade = props => (
 	</InputStyle>
 );
 
+const icons = {
+	copy: <img src={copy} alt="copy" />
+};
+
+export const FloatingMessage = ({ children, icon }) => {
+	return (
+		<StyledFloatingMessage>
+			{icons[icon]} {children}
+		</StyledFloatingMessage>
+	);
+};

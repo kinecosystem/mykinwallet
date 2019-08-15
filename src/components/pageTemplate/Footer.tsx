@@ -1,22 +1,30 @@
 import React from 'react';
-import { Footer, Support } from './style';
+import { Footer, Support, FooterItem } from './style';
 import { Link } from 'gatsby';
 import { A } from 'common/selectors';
 
+const hidePrivacyAt = ['/transaction', '/transaction-approved','/review-payment','/approve-payment'];
+const hidecostumerSupAt = ['/transaction-approved'];
+
 const FooterComponent = ({ hide, path, store, resetAll }) => (
 	<Footer hide={hide}>
-		{store.blockchain.publicKey && <div className='logOut' onClick={()=>resetAll()}>Sign out</div>}
+		{store.blockchain.publicKey && (
+			<div className="logOut" onClick={() => resetAll()}>
+				Sign out
+			</div>
+		)}
+		{console.log(path)}
 		<Support>
-			<div className="cSupp">
+			<FooterItem className="cSupp">
 				<a href="mailto:migration-support@kin.org" target="_top">
 					<A>Customer Support</A>
 				</a>
-			</div>
-			<div>
+			</FooterItem>
+			<FooterItem hide={hidePrivacyAt.includes(path)}>
 				<Link to="/privacy-policy" state={{ lastPage: path }}>
 					<A>Privacy policy</A>
 				</Link>
-			</div>
+			</FooterItem>
 		</Support>
 	</Footer>
 );

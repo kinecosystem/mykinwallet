@@ -6,7 +6,7 @@ import { ItemsContainer, HeaderContainer, DefaultError } from 'src/screens/homep
 import ledger from 'src/images/ledger.svg';
 import keypair from 'src/images/keypair.svg';
 import { volcanoRed } from 'src/style/theme/generalVariables';
-import text from './text.json';
+import text from './text.jsx';
 
 import { T_14_16_lg } from '../../style/common/selectors';
 

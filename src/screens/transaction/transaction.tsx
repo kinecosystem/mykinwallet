@@ -99,6 +99,8 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 						networkType="Public"
 						walletAddress={store.blockchain.publicKey}
 						balance={store.blockchain.account.balances[0].balance || 'No balance found'}
+						ledgerConnected={store.blockchain.ledgerConnected}
+						derivationPath={store.blockchain.derviationPath}
 					/>
 				)}
 

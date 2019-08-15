@@ -17,6 +17,7 @@ export const formLabel = styled.label`
 	position: relative;
 	pointer-events: none;
 	top: unset;
+	color: ${({ theme }) => theme.blackish};
 	left: 0;
 	transition: 0.2s ease all;
 	${({ special }) =>

@@ -1,22 +1,28 @@
 import React from 'react';
-import { WalletInfoContainer, WalletInfoItem, Wallet_seperator, Wallet_seperatorHeight } from './style';
+import { WalletInfoContainer, WalletInfoItem, Wallet_seperator, Wallet_seperatorHeight, Footer } from './style';
+import handleCopy from '../../components/helpers/copy';
+import showAddress from '../helpers/showAddressOnLedger';
 
-// example to call this 
-{/* <WalletInfo 
-    networkType='Public' 
-    walletAddress="GBUZFMZXZ6S2Y6HP5IIMTCESJJYJW32GFPN7XAVMRNE2OYQTM3Y7XYXL" 
-    balance={1500000000}
-    /> */}
-
+interface IwalletInfo {
+	walletAddress: string;
+	ledgerConnected: boolean;
+	derivationPath: any;
+	balance: number;
+	networkType: string;
+}
 const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
-const WalletInfo = props => {
+const WalletInfo = (props: IwalletInfo) => {
 	return (
 		<WalletInfoContainer>
 			<WalletInfoItem>
 				<div className="WalletInfoItem__container">
 					<span>Wallet Public address</span>
 					<span className="wallet-address">{props.walletAddress}</span>
+					<Footer>
+						<p onClick={() => handleCopy(props.walletAddress)}>Copy address</p>
+						{props.ledgerConnected && <p onClick={() => showAddress(props.derivationPath)}>Display address on your device</p>}
+					</Footer>
 				</div>
 			</WalletInfoItem>
 			<Wallet_seperator />

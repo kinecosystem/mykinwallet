@@ -80,7 +80,7 @@ export const Footer = styled.div`
 	`}
 	bottom:40px;
 	width: 95%;
-	left:2.5%;
+	left:5%;
 	${media.sm`
 		width: 85%;
 		left:7.5%;
@@ -109,6 +109,10 @@ export const Footer = styled.div`
 	.cSupp {
 		${({ hide }) => hide === 'conditions' && 'display:none'}
 	}
+`;
+
+export const FooterItem = styled.div`
+	${({ hide }) => hide && 'display:none'}
 `;
 
 export const Support = styled.section`
