@@ -1,6 +1,6 @@
 import React from 'react';
 import { Footer, Support, FooterItem } from './style';
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import { A } from 'common/selectors';
 
 const hidePrivacyAt = ['/transaction', '/transaction-approved','/review-payment','/approve-payment'];
@@ -9,7 +9,10 @@ const hidecostumerSupAt = ['/transaction-approved'];
 const FooterComponent = ({ hide, path, store, resetAll }) => (
 	<Footer hide={hide}>
 		{store.blockchain.publicKey && (
-			<div className="logOut" onClick={() => resetAll()}>
+			<div className="logOut" onClick={() => {
+				resetAll()
+				navigate('/')
+				}}>
 				Sign out
 			</div>
 		)}
