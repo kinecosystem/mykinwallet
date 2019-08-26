@@ -6,7 +6,7 @@ export default {
 			In order to use MyKinWallet you need to obtain a supported wallet (See list of Kin supported wallets at -{' '}
 			<a target="_blank" href="https://www.kin.org/migration/" style={{ color: 'white', textDecoration:'underline' }}>
 				https://www.kin.org/migration
-			</a>{' '}partners section
+			</a>{' '}partners section)
 		</div>
 	]
 };

@@ -28,7 +28,7 @@ const Title = () => {
 
 const TooltipLedger = () => {
 	return (
-		<TooltipHoc>
+		<TooltipHoc onClick={e => e.stopPropagation()}>
 			<Tooltip title={Title} placement="bottomLeft">
 				<div className="pressArea">
 					<Icon type="info-circle" />

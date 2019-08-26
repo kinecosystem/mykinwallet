@@ -49,6 +49,8 @@ const ErrorsTemplateRed = error => {
 			return 'Account is missing or does not exist.';
 		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
 			return 'Failed to sign with your Ledger device. Session timeout.';
+		case 'Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE':
+			return 'Failed to sign with your Ledger device. Session timeout.';
 		default:
 			return error;
 	}

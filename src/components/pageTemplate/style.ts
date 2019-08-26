@@ -100,6 +100,7 @@ export const Footer = styled.div`
 		width: 75%;
 		left:12.5%;
 	`}
+	${({ hide }) => hide === 'signOut' && `display:none !important;`}
 	.logOut {
 		font-size:16px;
 		cursor:pointer;

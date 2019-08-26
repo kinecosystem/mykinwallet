@@ -8,6 +8,7 @@ const hidecostumerSupAt = ['/transaction-approved'];
 
 const FooterComponent = ({ hide, path, store, resetAll }) => (
 	<Footer hide={hide}>
+		{console.log(hide)}
 		{store.blockchain.publicKey && (
 			<div className="logOut" onClick={() => {
 				resetAll()
@@ -16,7 +17,6 @@ const FooterComponent = ({ hide, path, store, resetAll }) => (
 				Sign out
 			</div>
 		)}
-		{console.log(path)}
 		<Support>
 			<FooterItem className="cSupp">
 				<a href="mailto:migration-support@kin.org" target="_top">
