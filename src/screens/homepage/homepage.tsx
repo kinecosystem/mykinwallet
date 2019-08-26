@@ -36,8 +36,7 @@ const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 			</T_14_16_lg>{' '}
 			<br />
 			<T_14_16_lg color={volcanoRed}>
-				Make sure you have entered the correct MyKinWallet URL in full in the browser address line. Please bookmark (CTRL+D) for
-				future use
+			Make sure you enter the correct MyKinWallet URL in your browser's navigation bar and bookmark it (CTRL+D) for future use.
 			</T_14_16_lg>
 		</Fragment>
 	]);
