@@ -8,10 +8,10 @@ import { MessageText } from 'src/components/messages/info';
 import { createTransactionLedger } from '../../components/transactions_handlers/createTransaction';
 
 const IndexPage = props => {
-	const [isSignOut, setIsSignOut] = useState('signOut')
-	const setHideSignOut = (value)=>{
-		setIsSignOut(value)
-	}
+	const [isSignOut, setIsSignOut] = useState('signOut');
+	const setHideSignOut = value => {
+		setIsSignOut(value);
+	};
 	return (
 		<>
 			<Template
@@ -43,21 +43,26 @@ interface IApprovePayment {
 		setLoader: Function;
 		resetTemplateErrors: Function;
 	};
-	setHideSignOut: Function
+	setHideSignOut: Function;
 }
 
-const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({setHideSignOut, actions, store }) => {
-	
+const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ setHideSignOut, actions, store }) => {
+	const [txActionInitiated, setTxActionInitiated] = useState(true);
 	// state to prevent auto navigation on error at mounting
 	const handleApprove = () => {
 		createTransactionLedger(store, actions.setSignTransaction);
-		actions.resetTemplateErrors()
-
+		actions.resetTemplateErrors();
+		setTxActionInitiated(true);
 	};
 	useEffect(() => {
 		if (!store.blockchain.unsignedTransaction) navigate('/');
-		if(store.errors.length) setHideSignOut(null)
-		else setHideSignOut("signOut")
+		if (store.errors.length) {
+			setHideSignOut(null);
+			setTxActionInitiated(false);
+		} else {
+			setHideSignOut('signOut');
+			setTxActionInitiated(true);
+		}
 		// if transaction was signed
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
 	}, [store.blockchain.signedTransaction, store.errors, store.blockchain.transactionSubmitted]);
@@ -67,9 +72,11 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({setHideSignOu
 	}, []);
 	return (
 		<ApprovePaymentStyled>
-			<Link to="/transaction">
-				<GoBack>{'<- Edit transaction details'}</GoBack>
-			</Link>
+			{!txActionInitiated && (
+				<Link to="/transaction">
+					<GoBack>{'<- Edit transaction details'}</GoBack>
+				</Link>
+			)}
 			<H3>Verify payment on ledger</H3>
 			<P>Please verify the payment details on your Ledger device and approve the transaction.</P>
 			<MessageTextContainer visible={true}>

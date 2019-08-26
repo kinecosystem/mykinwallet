@@ -43,6 +43,7 @@ interface ITransaction {
 		getUnsignedTransaction: Function;
 		resetTransactions: Function;
 		setTransactionDataInput: Function;
+		resetTemplateErrors: Function;
 	};
 	handleSubmit: Function;
 	validate: Function;
@@ -85,7 +86,9 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		if (store.blockchain.unsignedTransaction && !initial) navigate('/review-payment');
 		if (initial) actions.resetTransactions();
 	}, [store.blockchain.account, store.blockchain.unsignedTransaction, store.blockchain.publicKey]);
-
+	useEffect(()=>{
+		actions.resetTemplateErrors()
+	},[])
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 	return (
 		<TransactionStyled>
