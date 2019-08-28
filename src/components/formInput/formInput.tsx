@@ -1,6 +1,7 @@
 import React from 'react';
 import { WrappedFieldProps } from 'redux-form';
 import * as Styled from './style';
+import { volcanoRed } from '../../style/theme/generalVariables';
 
 export interface ITxtProps extends WrappedFieldProps {
 	label?: string;
@@ -94,7 +95,7 @@ const formInput = ({
 			</Styled.group>
 			{touched &&
 				(error && (
-					<Styled.errorMsg errorColor={errorColor} errorFontStyle={errorFontStyle} errorFontWeight={errorFontWeight}>
+					<Styled.errorMsg errorColor={errorColor || volcanoRed} errorFontStyle={errorFontStyle} errorFontWeight={errorFontWeight}>
 						{error}
 					</Styled.errorMsg>
 				))}

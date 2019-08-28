@@ -29,11 +29,11 @@ const IndexPage = props => {
 
 const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, actions }) => {
 	// hide the button if error disable progress
-	const [transactionRegular, setTransactionRegular] = useState(true);
+	const [transactionValid, setTransactionValid] = useState(true);
 	const [balanceAfterTransaction, setBalanceAfterTransaction] = useState(0);
 
 	const handleApprove = () => {
-		setTransactionRegular(true);
+		setTransactionValid(true);
 
 		// ledger step
 		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
@@ -48,7 +48,7 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 			store.errors[0] === 'Error: Request failed with status code 400'
 		) {
 			// hide the approve button if false (transaction not valid)
-			setTransactionRegular(false);
+			setTransactionValid(false);
 		}
 	}, [store.blockchain.transactionSubmitted, store.errors]);
 
@@ -76,13 +76,13 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 					amount={store.transactionForm.kinAmount}
 					publicAddress={store.transactionForm.destinationAccount}
 					memo={store.transactionForm.memo}
-					balance={transactionRegular && balanceAfterTransaction}
+					balance={transactionValid && balanceAfterTransaction}
 				/>
 			)}
-			<MessageTextContainer visible={transactionRegular}>
+			<MessageTextContainer visible={transactionValid}>
 				<MessageText text="Once you send payment it is not possible to cancel the transaction." />
 			</MessageTextContainer>
-			<ButtonContainer visible={transactionRegular}>
+			<ButtonContainer visible={transactionValid}>
 				<Button onClick={handleApprove}>Approve</Button>
 			</ButtonContainer>
 		</ReviewPaymentStyled>

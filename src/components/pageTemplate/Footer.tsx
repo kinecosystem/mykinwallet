@@ -8,7 +8,6 @@ const hidecostumerSupAt = ['/transaction-approved'];
 
 const FooterComponent = ({ hide, path, store, resetAll }) => (
 	<Footer hide={hide}>
-		{console.log(hide)}
 		{store.blockchain.publicKey && (
 			<div className="logOut" onClick={() => {
 				resetAll()
