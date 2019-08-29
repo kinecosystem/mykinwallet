@@ -1,0 +1,16 @@
+.ant-tooltip .ant-tooltip-content .ant-tooltip-inner {
+	background: white !important;
+	color: #1f1f1f;
+	font-family: primaryFont;
+	font-size: 11px;
+}
+.ant-tooltip .ant-tooltip-content .ant-tooltip-inner section {
+	color: #8b8b8b;
+}
+.ant-tooltip .ant-tooltip-content .ant-tooltip-inner a {
+	color: #8b8b8b;
+}
+
+.ant-tooltip .ant-tooltip-content .ant-tooltip-arrow {
+	border-bottom-color: white;
+}

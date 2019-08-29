@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import media from 'common/breakpoints';
-import { grid } from 'common/mixin';
+import { grid, flexRow } from 'common/mixin';
 
 export const Item = styled.div`
 	border: solid 2px ${({ theme }) => theme.blackish};
@@ -70,3 +70,21 @@ export const Alert = styled.div`
 			bottom:15px;
     `}
 `;
+
+export const TooltipHoc = styled.div`
+	display:none;
+	${media.lg`
+		display:flex;
+	`}
+	position: absolute;
+	top: 0;
+	left: 0;
+	.pressArea {
+		${flexRow('center', 'center')}
+		width: 40px;
+		height: 40px;
+		font-size: 20px;
+		color: ${({ theme }) => theme.purple};
+	}
+`;
+export const TitleStyled = styled.div``;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { H3, P, Button } from 'common/selectors';
 import { PaymentInfoStyled, Item } from './style';
+import moment from 'moment'
 
 interface IPaymentInfo {
 	ledger: number;
@@ -33,6 +33,13 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 					<div>{ledger}</div>
 				</Item>
 			)}
+			{/** AMOUNT */}
+			{amount && (
+				<Item>
+					<span>Amount</span>
+					<div>{amount} KIN</div>
+				</Item>
+			)}
 			{network && (
 				<Item>
 					<span>Network</span>
@@ -55,14 +62,10 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 					<div>{publicAddress}</div>
 				</Item>
 			)}
-			{/** AMOUNT */}
-			{amount && (
-				<Item>
-					<span>Amount</span>
-					<div>{amount} KIN</div>
-				</Item>
-			)}
-
+			<Item>
+				<span>Created at</span>
+				<div>{moment().format("YYYY-MM-DD HH:mm")}</div>
+			</Item>
 			{/** memo */}
 			{memo && (
 				<Item>

@@ -116,3 +116,12 @@ export const InputStyle = styled.div`
 		}
 	}
 `;
+
+export const StyledFloatingMessage = styled.div`
+	color: #1f1f1f;
+	display: flex;
+	align-items: center;
+	img {
+		margin-right: 26px;
+	}
+`;

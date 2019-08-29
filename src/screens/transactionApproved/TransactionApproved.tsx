@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import PaymentInformation from 'src/components/paymentInformation/PaymentInformation';
 import { H3, P } from 'common/selectors';
-import { ApprovedPaymentStyled } from './style';
+import { ApprovedPaymentStyled, StartOver } from './style';
 import { navigate } from 'gatsby';
 import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
-
 
 const IndexPage = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 5 : 4);
@@ -17,7 +16,7 @@ const IndexPage = props => {
 				hide="terms"
 				step={stepByPath()}
 				outOf={outOfByPath()}
-				title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}
+				title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page:'shared'}}
 			>
 				<TransactionApproved {...props} />
 			</Template>
@@ -29,11 +28,21 @@ interface ITransactionApproved {
 	store: {
 		blockchain: {
 			transactionSubmitted: object;
+			transactionForm: object;
+			account: object;
+			signedTransaction: object;
+			publicKey: string;
+		};
+		transactionForm: {
+			kinAmount: number;
 		};
 
 		errors: string[];
 	};
-	actions: object[];
+	actions: {
+		setLoader: Function;
+		resetAll: Function;
+	};
 }
 
 const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ store, actions }) => {
@@ -54,7 +63,9 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 			}
 		}
 	}, [store.blockchain.account]);
-
+	useEffect(() => {
+		actions.setLoader(false);
+	}, []);
 	return (
 		<ApprovedPaymentStyled>
 			<H3>Transaction approved</H3>
@@ -73,10 +84,10 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 					Go to Kin Block Explorer to see your <Account account={store.blockchain.publicKey} />{' '}
 				</P>
 			</section>
+			<StartOver onClick={() => actions.resetAll()}> {'<-'} Create another transaction</StartOver>
 		</ApprovedPaymentStyled>
 	);
 };
-
 const mapStateToProps = state => ({
 	isLedgerConnected: state.blockchain.blockchain.ledgerConnected
 });

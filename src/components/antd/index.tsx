@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { CheckboxStyle, SelectStyle, InputStyle } from './style';
+import React, { useState } from 'react';
+import { CheckboxStyle, SelectStyle, InputStyle, StyledFloatingMessage } from './style';
 import { Select, Checkbox, Input } from 'antd';
 
 import downArrow from 'images/arrow_down.svg';
+import copy from 'images/copy.svg';
+
+//CHECKBOX\\
 
 export const CheckboxPremade = ({ onChange, children }) => (
 	<CheckboxStyle>
@@ -12,7 +15,7 @@ export const CheckboxPremade = ({ onChange, children }) => (
 );
 
 const Option = Select.Option;
-
+//SELECT\\
 export const SelectPremade = props => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const parseOptions = aOptions => {
@@ -42,8 +45,22 @@ export const SelectPremade = props => {
 	);
 };
 
+//INPUT\\
+
 export const InputPremade = props => (
 	<InputStyle>
 		<Input {...props} />
 	</InputStyle>
 );
+
+const icons = {
+	copy: <img src={copy} alt="copy" />
+};
+
+export const FloatingMessage = ({ children, icon }) => {
+	return (
+		<StyledFloatingMessage>
+			{icons[icon]} {children}
+		</StyledFloatingMessage>
+	);
+};

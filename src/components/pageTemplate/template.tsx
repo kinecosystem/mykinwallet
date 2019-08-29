@@ -4,7 +4,7 @@ import { purpleLight } from 'style/theme/generalVariables';
 import Title from 'src/components/title/title';
 import { Structure_container, SideContainer, SideContainer_content, Github } from './style';
 import Progressbar from 'src/components/progress/Line';
-import Conditions from './Conditions';
+import Footer from './Footer';
 import Messages from './handleErrors';
 import { connect } from 'react-redux';
 import { setTemplateErrors, resetTemplateErrors } from 'src/store/actions/errors/actionsErrors';
@@ -31,17 +31,18 @@ interface ITemplateProps {
 	title: {
 		main: string;
 		sub: string;
+		page?: string;
 	};
 	step: number;
 	outOf: number;
 	children: ReactNode;
-	actions: object;
+	actions: Iactions;
 	github: boolean;
 	hide: string;
 	location: {
 		pathname: string;
 	};
-	store: Object;
+	store: { errors: Array<string>; loading: boolean };
 }
 
 const Template: FunctionComponent<ITemplateProps> = props => {
@@ -70,6 +71,7 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 					}}
 					main={title.main}
 					sub={title.sub}
+					page={title.page}
 				/>
 
 				{/** right white container */}
@@ -78,7 +80,7 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 						{step && <Progressbar step={step} outOf={outOf} />}
 						<Messages show={atleastTwoErrorsInHomepage > 1} path={location.pathname} errors={store.errors} />
 						{childrenWithProps}
-						<Conditions path={location.pathname} hide={hide} />
+						<Footer resetAll={actions.resetAll} store={store} path={location.pathname} hide={hide} />
 					</SideContainer_content>
 				</SideContainer>
 				{github && (
@@ -132,3 +134,22 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps
 )(props => <Location>{locationProps => <Template {...locationProps} {...props} />}</Location>);
+
+interface Iactions {
+	setLoader: Function;
+	resetAll: Function;
+	setTransactionDataInput: Function;
+	resetUnsignedTransaction: Function;
+	setDerivationPath: Function;
+	getUnsignedTransaction: Function;
+	setSignTransaction: Function;
+	getAccount: Function;
+	resetTemplateErrors: Function;
+	setTemplateErrors: Function;
+	isLedgerConnected: Function;
+	getPublicKey: Function;
+	getIsKeyPairValid: Function;
+	setSignTransactionKeyPair: Function;
+	setAccount: Function;
+	resetTransactions: Function;
+}

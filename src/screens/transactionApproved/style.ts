@@ -14,3 +14,14 @@ export const ApprovedPaymentStyled = styled.div`
 		}
 	}
 `;
+
+export const StartOver = styled.div`
+	color: ${({ theme }) => theme.purple};
+	margin-top: 48px;
+	cursor: pointer;
+	${({ theme }) => theme.h6.mobile};
+	${media.lg`
+	
+		${({ theme }) => theme.h6.desktop};
+	`}
+`;

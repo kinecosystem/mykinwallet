@@ -22,33 +22,16 @@ const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 3 : 2);
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
 	return (
-		<Template hide="terms" step={2} outOf={outOfByPath()} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+		<Template
+			hide="terms"
+			step={2}
+			outOf={outOfByPath()}
+			title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
+		>
 			<Transaction {...props} />
 		</Template>
 	);
 };
-interface ITransaction {
-	store: {
-		errors: string[];
-		blockchain: {
-			publicKey: string;
-			account: object;
-			derviationPath: string;
-			unsignedTransaction: object;
-			ledgerConnected: boolean;
-		};
-	};
-	actions: {
-		getAccount: Function;
-		getUnsignedTransaction: Function;
-		resetTransactions: Function;
-		setTransactionDataInput: Function;
-	};
-	handleSubmit: Function;
-	validate: Function;
-	initialValues: Object;
-	location: object;
-}
 
 const Transaction: React.FunctionComponent<ITransaction> = ({
 	actions,
@@ -59,13 +42,15 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 	location
 }) => {
 	const [initial, setInitial] = useState(true);
+	const fee = 0.001;
 	// TODO: move to localization
 
 	const onSubmit = formValues => {
 		let { balance } = store.blockchain.account.balances[0];
 		balance = Number(balance);
+		const amountPlusFee = Number(formValues.kinAmount) + fee;
 		validate(formValues, balance);
-		if (balance < formValues.kinAmount) return actions.setTemplateErrors(['Cannot transfer more Kin coins then you posses']);
+		if (balance < amountPlusFee) return actions.setTemplateErrors(['Insufficient funds for the requested transfer']);
 		const { destinationAccount, kinAmount, memo } = formValues;
 		const account = store.blockchain.publicKey;
 		// from: account  to: Destination account   amount:Kin Amount   memo:memo
@@ -85,7 +70,9 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		if (store.blockchain.unsignedTransaction && !initial) navigate('/review-payment');
 		if (initial) actions.resetTransactions();
 	}, [store.blockchain.account, store.blockchain.unsignedTransaction, store.blockchain.publicKey]);
-
+	useEffect(() => {
+		actions.resetTemplateErrors();
+	}, []);
 	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
 	return (
 		<TransactionStyled>
@@ -99,6 +86,8 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 						networkType="Public"
 						walletAddress={store.blockchain.publicKey}
 						balance={store.blockchain.account.balances[0].balance || 'No balance found'}
+						ledgerConnected={store.blockchain.ledgerConnected}
+						derivationPath={store.blockchain.derviationPath}
 					/>
 				)}
 
@@ -132,3 +121,27 @@ export default connect(mapStateToProps)(
 		validate
 	})(Index)
 );
+
+interface ITransaction {
+	store: {
+		errors: string[];
+		blockchain: {
+			publicKey: string;
+			account: object;
+			derviationPath: string;
+			unsignedTransaction: object;
+			ledgerConnected: boolean;
+		};
+	};
+	actions: {
+		getAccount: Function;
+		getUnsignedTransaction: Function;
+		resetTransactions: Function;
+		setTransactionDataInput: Function;
+		resetTemplateErrors: Function;
+	};
+	handleSubmit: Function;
+	validate: Function;
+	initialValues: Object;
+	location: object;
+}

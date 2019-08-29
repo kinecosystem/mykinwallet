@@ -19,10 +19,10 @@ export const HeaderContainer = styled.div`
 `}
 `;
 
-export const DefaultError = styled.span`
-	color: ${({ theme }) => theme.volcanoRed};
-	p {
-		font-family: primaryFont;
-		margin: 0;
-	}
-`;
+// export const DefaultError = styled.span`
+// 	color: ${({ theme }) => theme.volcanoRed};
+// 	p {
+// 		font-family: primaryFont;
+// 		margin: 0;
+// 	}
+// `;

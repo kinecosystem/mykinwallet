@@ -1,4 +1,4 @@
-import React, { ReactNode, FunctionComponent, useEffect, useState } from 'react';
+import React, { ReactNode, FunctionComponent, useEffect, useState, Fragment } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { H3, H6_lg } from 'common/selectors';
 import WalletPathItem from 'src/components/walletPathItem/WalletPathItem';
@@ -6,11 +6,14 @@ import { ItemsContainer, HeaderContainer, DefaultError } from 'src/screens/homep
 import ledger from 'src/images/ledger.svg';
 import keypair from 'src/images/keypair.svg';
 import { volcanoRed } from 'src/style/theme/generalVariables';
+import text from './text.jsx';
+
+import { T_14_16_lg } from '../../style/common/selectors';
 
 const IndexPage = props => {
 	return (
 		<>
-			<Template github={true} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+			<Template github={true} title={{ main: 'My Kin Wallet', sub: text.Text, page: 'homepage' }}>
 				<Homepage {...props} />
 			</Template>
 		</>
@@ -27,13 +30,15 @@ interface IHompage {
 
 const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 	const [errors] = useState([
-		<DefaultError>
-			<b>DON’T GET PHISHED!</b> <br />
-			<p>
-				Make sure you have entered the correct MyKinWallet URL in full in the browser address line. Please bookmark (CTRL+D) for
-				future use
-			</p>
-		</DefaultError>
+		<Fragment>
+			<T_14_16_lg color={volcanoRed} family="SailecBold">
+				DON’T GET PHISHED!
+			</T_14_16_lg>{' '}
+			<br />
+			<T_14_16_lg color={volcanoRed}>
+			Make sure you enter the correct MyKinWallet URL in your browser's navigation bar and bookmark it (CTRL+D) for future use.
+			</T_14_16_lg>
+		</Fragment>
 	]);
 	const [initial, setInitial] = useState(false);
 

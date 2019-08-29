@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Item, Alert } from './style';
 import { navigate } from 'gatsby';
+import TooltipLedger from './Tooltip';
 
 const WalletPathItem = ({ type, img, alert, link, actions, store, title }) => {
 	const [ableNavigate, setAbleNavigate] = useState(false);
@@ -30,6 +31,7 @@ const WalletPathItem = ({ type, img, alert, link, actions, store, title }) => {
 	};
 	return (
 		<Item onClick={handleClick}>
+			{type === "ledger" && <TooltipLedger />}
 			<img src={img} alt="icon" />
 			<div>{title}</div>
 			{alert && <Alert>Not recommended</Alert>}

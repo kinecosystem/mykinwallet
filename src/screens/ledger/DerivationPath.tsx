@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { ReactNode, FunctionComponent, useState } from 'react';
 import { DerivationStyle, AddressContainer, CopyAddress } from './style';
 import { H3 } from 'common/selectors';
 import { SelectPremade as Select } from 'src/components/antd/index';
-import copy from 'copy-to-clipboard';
 import { addressGenerator } from 'src/components/helpers/addressGenerator';
+import handleCopy from '../../components/helpers/copy';
 
 interface IDerivationPath {
 	address: string;
@@ -12,16 +12,8 @@ interface IDerivationPath {
 }
 
 const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address, initial }) => {
-	let [classes, setClasses] = useState('initial');
 	let [select, setSelect] = useState(false);
 
-	const handleCopy = () => {
-		copy(address);
-		setClasses('selected');
-		setTimeout(() => {
-			setClasses('initial');
-		}, 1500);
-	};
 	const handleChange = () => {
 		setSelect(true);
 	};
@@ -55,15 +47,9 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address,
 				<>
 					<AddressContainer>
 						<span>ADDRESS</span>
-						<div className={`base ${classes}`}>
-							{address && (
-								<>
-									{addressGenerator(address, window.innerWidth < 576)} <div>Copied!</div>
-								</>
-							)}
-						</div>
+						<div className={`base`}>{address && <>{addressGenerator(address, window.innerWidth < 576)}</>}</div>
 					</AddressContainer>
-					<CopyAddress onClick={handleCopy}>Copy address</CopyAddress>
+					<CopyAddress onClick={() => handleCopy(address)}>Copy address</CopyAddress>
 				</>
 			)}
 		</DerivationStyle>

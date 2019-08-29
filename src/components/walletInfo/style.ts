@@ -77,3 +77,16 @@ export const Wallet_seperatorGeneric = styled.div`
 	height: 2px;
 	background: ${({ theme }) => theme.purple};
 `;
+
+export const Footer = styled.footer`
+	${grid('18px', '', '', 'auto', 'auto')}
+	p {
+		margin: 0;
+		text-decoration: underline;
+		color: ${({ theme }) => theme.purple};
+		cursor: pointer;
+	}
+	${media.sm`
+		${grid('', 'space-between', '', 'auto auto', 'auto')}
+	`}
+`;

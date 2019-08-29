@@ -13,7 +13,11 @@ interface IFormData {
 
 const IndexPage: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 	return (
-		<Template step={1} outOf={4} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
+		<Template
+			step={1}
+			outOf={4}
+			title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
+		>
 			<KeyAccess {...props} />
 		</Template>
 	);

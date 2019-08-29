@@ -2,13 +2,25 @@ import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { H3, P, Button } from 'common/selectors';
 import { ApprovePaymentStyled } from './style';
-import { navigate } from 'gatsby';
+import { navigate, Link } from 'gatsby';
+import { MessageTextContainer, GoBack } from '../reviewPayment/style';
+import { MessageText } from 'src/components/messages/info';
+import { createTransactionLedger } from '../../components/transactions_handlers/createTransaction';
 
 const IndexPage = props => {
+	const [isSignOut, setIsSignOut] = useState('signOut');
+	const setHideSignOut = value => {
+		setIsSignOut(value);
+	};
 	return (
 		<>
-			<Template hide="terms" step={4} outOf={5} title={{ main: 'My Kin Wallet', sub: 'Send Kin from your account' }}>
-				<ApprovePayment {...props} />
+			<Template
+				hide={isSignOut}
+				step={4}
+				outOf={5}
+				title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
+			>
+				<ApprovePayment setHideSignOut={setHideSignOut} {...props} />
 			</Template>
 		</>
 	);
@@ -22,44 +34,62 @@ interface IApprovePayment {
 			unsignedTransaction: string;
 			signedTransaction: string;
 			transactionSubmitted: string;
-			publicKey:string
+			publicKey: string;
 		};
-		transactionForm: object;
+		transactionForm: ItransactionForm;
 	};
 	actions: {
 		setSignTransaction: Function;
+		setLoader: Function;
+		resetTemplateErrors: Function;
 	};
+	setHideSignOut: Function;
 }
 
-const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ actions, store }) => {
+const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ setHideSignOut, actions, store }) => {
+	const [txActionInitiated, setTxActionInitiated] = useState(true);
 	// state to prevent auto navigation on error at mounting
-	const [initial, setInitial] = useState(true);
 	const handleApprove = () => {
-		const { derviationPath, unsignedTransaction, signedTransaction, publicKey } = store.blockchain;
-		const { destinationAccount, kinAmount, memo } = store.transactionForm;
-		actions.setSignTransaction({
-			derviationPath,
-			unsignedTransaction,
-			signedTransaction,
-			tx: {formData:[destinationAccount, kinAmount, memo], publicKey}
-		});
-		setInitial(false);
+		createTransactionLedger(store, actions.setSignTransaction);
+		actions.resetTemplateErrors();
+		setTxActionInitiated(true);
 	};
 	useEffect(() => {
 		if (!store.blockchain.unsignedTransaction) navigate('/');
-		if (store.errors.length && !initial) navigate('/review-payment');
-
+		if (store.errors.length) {
+			setHideSignOut(null);
+			setTxActionInitiated(false);
+		} else {
+			setHideSignOut('signOut');
+			setTxActionInitiated(true);
+		}
 		// if transaction was signed
 		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
 	}, [store.blockchain.signedTransaction, store.errors, store.blockchain.transactionSubmitted]);
-
+	useEffect(() => {
+		// ask use to approve ledger transaction at page load
+		createTransactionLedger(store, actions.setSignTransaction);
+	}, []);
 	return (
 		<ApprovePaymentStyled>
-			<H3>Approve Payment</H3>
+			{!txActionInitiated && (
+				<Link to="/transaction">
+					<GoBack>{'<- Edit transaction details'}</GoBack>
+				</Link>
+			)}
+			<H3>Verify payment on ledger</H3>
 			<P>Please verify the payment details on your Ledger device and approve the transaction.</P>
-
-			<Button onClick={handleApprove}>Continue</Button>
+			<MessageTextContainer visible={true}>
+				<MessageText text="Once you send payment it is not possible to cancel the transaction." />
+			</MessageTextContainer>
+			{store.errors.length ? <Button onClick={handleApprove}>Try again</Button> : null}
 		</ApprovePaymentStyled>
 	);
 };
 export default IndexPage;
+
+interface ItransactionForm {
+	destinationAccount: string;
+	kinAmount: Number;
+	memo: string;
+}

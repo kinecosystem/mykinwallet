@@ -14,23 +14,68 @@
 	font-family: SailecBold;
 	src: url('../../static/fonts/SailecBold.otf');
 }
-
-html {
+:root {
+	--gradientHeight: 737px;
+	--gradient-sm-Height: 504px;
+	--gradient-md-Height: 448px;
+	--gradient-lg-Height: 505px;
+	--gradient-xl-Height: 428px;
 }
+
 body {
 	margin: 0;
 	overflow-x: hidden;
 	background: rgb(111, 65, 232);
-	background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 504px, rgba(111, 65, 232, 1) 504px);
+	background: linear-gradient(
+		to bottom,
+		rgba(147, 107, 251, 1) var(--gradientHeight),
+		rgba(111, 65, 232, 1) var(--gradientHeight)
+	);
 }
-#___gatsby, body {
+#___gatsby,
+body {
 	background: rgb(111, 65, 232);
-	background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 504px, rgba(111, 65, 232, 1) 504px);
+	background: linear-gradient(
+		to bottom,
+		rgba(147, 107, 251, 1) var(--gradientHeight),
+		rgba(111, 65, 232, 1) var(--gradientHeight)
+	);
 }
 
+@media screen and (min-width: 504px) {
+	#___gatsby {
+		background: linear-gradient(
+			to bottom,
+			rgba(147, 107, 251, 1) var(--gradient-sm-Height),
+			rgba(111, 65, 232, 1) var(--gradient-sm-Height)
+		);
+	}
+}
+@media screen and (min-width: 768px) {
+	#___gatsby {
+		background: linear-gradient(
+			to bottom,
+			rgba(147, 107, 251, 1) var(--gradient-md-Height),
+			rgba(111, 65, 232, 1) var(--gradient-md-Height)
+		);
+	}
+}
 @media screen and (min-width: 992px) {
 	#___gatsby {
-		background: linear-gradient(to bottom, rgba(147, 107, 251, 1) 537px, rgba(111, 65, 232, 1) 537px);
+		background: linear-gradient(
+			to bottom,
+			rgba(147, 107, 251, 1) var(--gradient-lg-Height),
+			rgba(111, 65, 232, 1) var(--gradient-lg-Height)
+		);
+	}
+}
+@media screen and (min-width: 1366px) {
+	#___gatsby {
+		background: linear-gradient(
+			to bottom,
+			rgba(147, 107, 251, 1) var(--gradient-xl-Height),
+			rgba(111, 65, 232, 1) var(--gradient-xl-Height)
+		);
 	}
 }
 
@@ -119,4 +164,13 @@ h3 {
 }
 .ant-modal-wrap .ant-modal .ant-modal-content .ant-modal-header {
 	border-bottom: none;
+}
+
+/* Message */
+.ant-message {
+	z-index: 2000 !important;
+}
+.ant-message .ant-message-info {
+	display: flex;
+	align-items: center;
 }
