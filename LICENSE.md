@@ -104,7 +104,7 @@ AUTHORITY TO BIND SUCH PERSON OR ENTITY TO THIS SDK LICENSE.**
 
 7. **Privacy**
 
-    Our privacy policy, which contains important information about our
+    Our privacy Policy, which contains important information about our
     practices in collecting, storing, using and disclosing information
     about identifiable individuals ("**Personal Information**"), can be
     found here: https://www.kin.org/privacy-policy.pdf. You acknowledge that you have

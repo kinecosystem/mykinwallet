@@ -13,7 +13,7 @@ import { T_14_16_lg } from '../../style/common/selectors';
 const IndexPage = props => {
 	return (
 		<>
-			<Template github={true} title={{ main: 'My Kin Wallet', sub: text.Text, page: 'homepage' }}>
+			<Template github={true} title={{ main: 'MyKinWallet', sub: text.Text, page: 'homepage' }}>
 				<Homepage {...props} />
 			</Template>
 		</>

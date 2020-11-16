@@ -31,7 +31,7 @@ const strings = {
 	footerTitleModified: 'Subscribe to our newsletter',
 	footerLeftBottom: [
 		{
-			name: 'Privacy policy',
+			name: 'Privacy Policy',
 			url: 'https://www.kin.org/privacy-policy.pdf',
 			isHref: true,
 			isNewTab: true

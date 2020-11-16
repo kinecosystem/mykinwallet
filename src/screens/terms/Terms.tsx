@@ -55,16 +55,16 @@ const Terms = ({ actions, location }) => {
 				</ModalHeaderContainer>
 				<Grid>
 					<TermsStyle>
-						<H3>MY KIN WALLET TERMS OF USE</H3>
+						<H3>MyKinWallet TERMS OF USE</H3>
 						<section>
 							<p>
 								<span>Last Updated: May 6, 2019</span>
 							</p>
 							<p>
-								<span>Welcome to My Kin Wallet Service!</span>
+								<span>Welcome to MyKinWallet Service!</span>
 							</p>
 							<p>
-								The following My Kin Wallet Terms of Use (the “Terms”) govern your access to and use of the My Kin Wallet Service
+								The following MyKinWallet Terms of Use (the “Terms”) govern your access to and use of the MyKinWallet Service
 								(the “Service”). The Service is designed to provide user-friendly functionality that allows users to transfer
 								their ‘Kin’ (“Kin”), a cryptocurrency stewarded by the Kin Foundation (“Kin Foundation”, “us”, “we”, “our”). These
 								Terms form an agreement between the Kin Foundation and you. The term “you” refers to the person or entity
@@ -201,7 +201,7 @@ const Terms = ({ actions, location }) => {
 								</p>
 								<li>Privacy</li>
 								<p>
-									Our privacy policy, which contains important information about our practices in collecting, storing, using and
+									Our privacy Policy, which contains important information about our practices in collecting, storing, using and
 									disclosing information about identifiable individuals (“Personal Information”), can be found here:
 									https://mykinwallet.org/privacy-policy (“Privacy Policy”). You acknowledge that you have read and understand our
 									Privacy Policy, and agree that we may collect, store, use and disclose Personal Information made available by

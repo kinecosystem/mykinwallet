@@ -10,7 +10,7 @@ const IndexPage = props => {
 		<Template
 			step={1}
 			outOf={5}
-			title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
+			title={{ main: 'MyKinWallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
 		>
 			<Ledger {...props} />
 		</Template>

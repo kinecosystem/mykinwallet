@@ -26,7 +26,7 @@ const Index: React.FunctionComponent<InjectedFormProps<IFormData>> = props => {
 			hide="terms"
 			step={2}
 			outOf={outOfByPath()}
-			title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
+			title={{ main: 'MyKinWallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
 		>
 			<Transaction {...props} />
 		</Template>
@@ -79,7 +79,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 			<TransactionContent>
 				<GrayedArea visible={!store.blockchain.account} className="grayedArea" />
 				<HeaderContainer>
-					<H3>My Kin Wallet</H3>
+					<H3>MyKinWallet</H3>
 				</HeaderContainer>
 				{store.blockchain.account && (
 					<WalletInfo

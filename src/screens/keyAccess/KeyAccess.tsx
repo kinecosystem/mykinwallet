@@ -16,7 +16,7 @@ const IndexPage: React.FunctionComponent<InjectedFormProps<IFormData>> = props =
 		<Template
 			step={1}
 			outOf={4}
-			title={{ main: 'My Kin Wallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
+			title={{ main: 'MyKinWallet', sub: ['Send your Kin coins to other wallets, exchanges or users.'], page: 'shared' }}
 		>
 			<KeyAccess {...props} />
 		</Template>

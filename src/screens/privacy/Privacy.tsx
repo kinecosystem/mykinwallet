@@ -44,15 +44,15 @@ const Privacy = ({ location }) => {
 				</ModalHeaderContainer>
 				<Grid>
 					<PrivacyStyle>
-						<H3>MY KIN WALLET PRIVACY POLICY</H3>
+						<H3>MyKinWallet PRIVACY POLICY</H3>
 						<section>
 							<p>
 								<span>Last Updated: May 5, 2019</span>
 							</p>
 							<p>
-								This is the privacy policy (the “Policy”) that governs how we, Kin Foundation (&quot;Foundation&quot;, “we”, “our”
+								This is the privacy Policy (the “Policy”) that governs how we, Kin Foundation (&quot;Foundation&quot;, “we”, “our”
 								or &quot;us&quot;), use Personal Data (defined below) that we collect, receive and store about individuals in
-								connection with My Kin Wallet Service (the “Service”). We respect your privacy and are committed to protecting it
+								connection with MyKinWallet Service (the “Service”). We respect your privacy and are committed to protecting it
 								through our compliance with this policy.
 							</p>
 							<ol>

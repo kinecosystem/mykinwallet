@@ -24,7 +24,7 @@ const FooterComponent = ({ hide, path, store, resetAll }) => (
 			</FooterItem>
 			<FooterItem hide={hidePrivacyAt.includes(path)}>
 				<Link to="/privacy-policy" state={{ lastPage: path }}>
-					<A>Privacy policy</A>
+					<A>Privacy Policy</A>
 				</Link>
 			</FooterItem>
 		</Support>
