@@ -1,6 +1,6 @@
 import React from 'react';
 import { JsxElement } from 'typescript';
-import {Fee} from './style'
+import {TransactionSubLabel} from './style'
 
 const inputFields: {
 	name: string;
@@ -16,6 +16,11 @@ const inputFields: {
 	step?: string;
 }[] = [
 	{
+		name: 'tokenAccount',
+		label: 'Token account*',
+		placeholder: 'Enter token account address'
+	},
+	{
 		name: 'destinationAccount',
 		label: 'Destination account*',
 		placeholder: 'Enter destination account address'
@@ -24,10 +29,9 @@ const inputFields: {
 		name: 'kinAmount',
 		type: 'number',
 		label: 'Kin Amount*',
-		subLabel: <Fee> The network base fee is 100 Quarks <br/> (0.001 kin) </Fee>,
 		placeholder: 'Max amount 100M Kin',
 		max: 100000000,
-		min: 0.1,
+		min: 1,
 		step: 'any',
 		maxlength: 9
 	},
@@ -37,7 +41,7 @@ const inputFields: {
 		bottomLabelBold: 'Please Note: ',
 		bottomLabelRegular:
 			'Some exchanges or swap companies require using a memo. Please check the relevant destination site for specific instructions.',
-		placeholder: 'Up to 28 chracters',
+		placeholder: 'Memo text',
 		maxlength: 28
 	}
 ];

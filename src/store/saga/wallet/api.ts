@@ -2,8 +2,25 @@ import { takeLatest, put } from 'redux-saga/effects';
 import types from '../../actions/site/types';
 import * as Kin from 'kin-wallet';
 import { setTemplateErrors } from '../../actions/errors/actionsErrors';
+import commonpb from '@kinecosystem/agora-api/node/common/v4/model_pb';
+import accountpb from '@kinecosystem/agora-api/node/account/v4/account_service_pb';
+import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
+import { Keypair } from '@kinecosystem/kin-sdk';
+import bs58 from 'bs58';
+import axios, { AxiosResponse } from 'axios';
+import { PublicKey } from '../../../models/keys';
+import { quarksToKin } from '../../../models/utils';
+
 // to make test net pass true
-const bc = new Kin.Blockchain();
+const bc = new Kin.Blockchain(true);
+
+const agoraURL = 'http://localhost:8085';
+const agoraHeaders = {
+	'Content-Type': 'application/proto'
+};
+const resolveTokenAccountsURL = agoraURL + '/api/kin.agora.account.v4.Account/ResolveTokenAccounts';
+const getAccountInfoURL = agoraURL + '/api/kin.agora.account.v4.Account/GetAccountInfo';
+const getRecentBlockhashURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetRecentBlockhash';
 
 function* loading(bool) {
 	yield put({
@@ -152,9 +169,20 @@ function* isKeyPairValid(action) {
 		});
 		yield loading(false);
 	} catch (error) {
-		// set error
-		yield loading(false);
-		yield put(setTemplateErrors([error.toString()]));
+		try {
+			const decoded = bs58.decode(action.payload.trim());
+			const kp = Keypair.fromRawEd25519Seed(decoded);
+			// set valid and set public key
+			yield put({
+				type: types.SET_IS_KEYPAIR_VALID,
+				payload: { keyPairValid: true, secret: action.payload, publicKey: kp.publicKey() }
+			});
+			yield loading(false);
+		} catch (error) {
+			// set error
+			yield loading(false);
+			yield put(setTemplateErrors([error.toString()]));
+		}
 	}
 }
 function* signTransactionKeyPair(action) {
@@ -186,6 +214,135 @@ function* signTransactionKeyPair(action) {
 	}
 }
 
+///////////////
+// Agora
+//////////////
+
+// resolveTokenAccounts expects the payload to be a base58-encoded public key of a token account.
+function* resolveTokenAccounts(action) {
+	try {
+		// trigger load
+		yield loading(true);
+
+		const accountID = new commonpb.SolanaAccountId();
+		accountID.setValue(PublicKey.fromBase58(action.payload.trim()).buffer);
+		const req = new accountpb.ResolveTokenAccountsRequest();
+		req.setAccountId(accountID);
+
+		const httpResp = yield submitAgoraReq(resolveTokenAccountsURL, req.serializeBinary());
+		const resp = accountpb.ResolveTokenAccountsResponse.deserializeBinary(httpResp.data);
+		console.log(resp);
+
+		if (resp.getTokenAccountsList().length == 0) {
+			yield put(setTemplateErrors([`No Kin token accounts found for ${action.payload.trim()}`]));
+		} else {
+			const accounts = [];
+			for (var i = 0; i < resp.getTokenAccountsList().length; i++) {
+				const tokenAccount = resp.getTokenAccountsList()[i];
+				const req = new accountpb.GetAccountInfoRequest();
+				req.setAccountId(tokenAccount);
+				req.setCommitment(commonpb.Commitment.SINGLE);
+
+				const httpResp = yield submitAgoraReq(getAccountInfoURL, req.serializeBinary());
+				const accountResp = accountpb.GetAccountInfoResponse.deserializeBinary(httpResp.data);
+
+				accounts.push({
+					accountID: new PublicKey(Buffer.from(tokenAccount.getValue_asU8())).toBase58(),
+					kinBalance: quarksToKin(accountResp.getAccountInfo().getBalance())
+				});
+			}
+
+			yield put({
+				type: types.SET_TOKEN_ACCOUNTS,
+				payload: {
+					tokenAccounts: accounts
+				}
+			});
+			// trigger load
+			yield loading(false);
+		}
+	} catch (error) {
+		yield loading(false);
+		if (error.response) {
+			yield put(setTemplateErrors([error.response.title]));
+		} else {
+			yield put(setTemplateErrors([error.message]));
+		}
+	}
+}
+
+// getAccountInfo expects the payload to be a base58-encoded public key of a token account.
+function* getAccountInfo(action) {
+	try {
+		const accountID = action.payload.trim();
+
+		// trigger load
+		yield loading(true);
+
+		const solAccountID = new commonpb.SolanaAccountId();
+		solAccountID.setValue(PublicKey.fromBase58(accountID).buffer);
+		const req = new accountpb.GetAccountInfoRequest();
+		req.setAccountId(solAccountID);
+		req.setCommitment(commonpb.Commitment.SINGLE);
+
+		const httpResp = yield submitAgoraReq(getAccountInfoURL, req.serializeBinary());
+		const resp = accountpb.GetAccountInfoResponse.deserializeBinary(httpResp.data);
+
+		if (resp.getResult() == accountpb.GetAccountInfoResponse.Result.OK) {
+			yield put({
+				type: types.SET_ACCOUNT_INFO,
+				payload: {
+					accountID: resp.getAccountInfo().getBalance()
+				}
+			});
+			// trigger load
+			yield loading(false);
+		} else {
+			yield put(setTemplateErrors([`Token account ${accountID} not found`]));
+		}
+	} catch (error) {
+		yield loading(false);
+		if (error.response) {
+			yield put(setTemplateErrors([error.response.title]));
+		} else {
+			yield put(setTemplateErrors([error.message]));
+		}
+	}
+}
+
+function* getRecentBlockhash() {
+	try {
+		yield loading(true);
+
+		// TODO: submit to agora instead
+		const req = new transactionpb.GetRecentBlockhashRequest();
+		const httpResp = yield submitAgoraReq(getRecentBlockhashURL, req.serializeBinary());
+		const resp = transactionpb.GetRecentBlockhashResponse.deserializeBinary(httpResp.data);
+
+		yield put({
+			type: types.SET_RECENT_BLOCKHASH,
+			payload: { recentBlockhash: resp.getBlockhash().getValue() }
+		});
+
+		// trigger load
+		yield loading(false);
+	} catch (error) {
+		console.log(error);
+		yield loading(false);
+		yield put(setTemplateErrors([error.toString()]));
+	}
+}
+
+function submitAgoraReq(url: string, data: Uint8Array): Promise<AxiosResponse> {
+	return axios.request({
+		method: 'post',
+		url: url,
+		data: data,
+		headers: agoraHeaders,
+		responseType: 'arraybuffer'
+	});
+}
+
 // watcher
 function* blockchainSaga() {
 	yield takeLatest(types.IS_LEDGER_CONNECTED, isLedgerConnected);
@@ -195,6 +352,9 @@ function* blockchainSaga() {
 	yield takeLatest(types.SET_SIGN_TRANSACTION, signTransaction);
 	yield takeLatest(types.GET_IS_KEYPAIR_VALID, isKeyPairValid);
 	yield takeLatest(types.SET_SIGN_TRANSACTION_KEYPAIR, signTransactionKeyPair);
+	yield takeLatest(types.RESOLVE_TOKEN_ACCOUNTS, resolveTokenAccounts);
+	yield takeLatest(types.GET_ACCOUNT_INFO, getAccountInfo);
+	yield takeLatest(types.GET_RECENT_BLOCKHASH, getRecentBlockhash);
 }
 
 export default blockchainSaga;

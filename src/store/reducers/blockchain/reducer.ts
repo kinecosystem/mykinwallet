@@ -5,6 +5,10 @@ const initialState = {
 		terms: false,
 		ledgerConnected: false
 	},
+	solana: {
+		tokenAccounts: [],
+		balances: {}
+	},
 	transactionForm: {},
 	loading: false
 };
@@ -47,6 +51,14 @@ export default function(state = initialState, action: any) {
 		}
 		case type.RESET_TRANSACTION_DATA: {
 			return { ...state, blockchain: { ...state.blockchain, signedTransaction: false, unsignedTransaction: false } };
+		}
+		case type.SET_RECENT_BLOCKHASH:
+		case type.SET_TOKEN_ACCOUNTS: {
+			console.log({ ...state, solana: { ...state.solana, ...action.payload } });
+			return { ...state, solana: { ...state.solana, ...action.payload } };
+		}
+		case type.SET_ACCOUNT_INFO: {
+			return { ...state, solana: { ...state.solana, balances: { ...state.solana.balances, ...action.payload } } };
 		}
 		default:
 			return state;

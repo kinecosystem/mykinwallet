@@ -8,9 +8,11 @@ import formInput from 'src/components/formInput/formInput';
 import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
+import RecentBlockhash from 'src/components/recentBlockhash/RecentBlockhash';
 import validate from './validation';
 import { navigate, Link } from 'gatsby';
-import inputFields from './inputFileds.tsx';
+import inputFields from './inputFields.tsx';
+import { PublicKey } from '../../models/keys';
 
 interface IFormData {
 	destinationAccount?: string;
@@ -64,8 +66,15 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 			navigate('/');
 			return;
 		}
-		// retrived user account
-		if (!store.blockchain.account) actions.getAccount(store.blockchain.publicKey);
+		if (store.solana.tokenAccounts.length == 0) {
+			actions.resolveTokenAccounts(PublicKey.fromString(store.blockchain.publicKey).toBase58())
+		}
+
+		// TODO: don't need to prefetch this
+		if (!store.solana.recentBlockhash) {
+			actions.getRecentBlockhash();
+		}
+
 		// if unsigned transaction have been made & its not on page mount
 		if (store.blockchain.unsignedTransaction && !initial) navigate('/review-payment');
 		if (initial) actions.resetTransactions();
@@ -77,15 +86,21 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 	return (
 		<TransactionStyled>
 			<TransactionContent>
-				<GrayedArea visible={!store.blockchain.account} className="grayedArea" />
+				{/** TODO: visible if !blockhash and !account */}
+				<GrayedArea visible={false} className="grayedArea" />
 				<HeaderContainer>
 					<H3>MyKinWallet</H3>
 				</HeaderContainer>
-				{store.blockchain.account && (
+				{/** TODO: remove this */}
+				{store.solana.recentBlockhash && (
+					<RecentBlockhash
+						recentBlockhash={store.solana.recentBlockhash} />
+				)}
+				{store.blockchain.publicKey && (
 					<WalletInfo
 						networkType="Public"
 						walletAddress={store.blockchain.publicKey}
-						balance={store.blockchain.account.balances[0].balance || 'No balance found'}
+						tokenAccounts={store.solana.tokenAccounts}
 						ledgerConnected={store.blockchain.ledgerConnected}
 						derivationPath={store.blockchain.derviationPath}
 					/>
@@ -95,14 +110,16 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 					<H3>Send Kin</H3>
 					<Styled.form initialValues={initialValues} onSubmit={handleSubmit(onSubmit)}>
 						{formFields}
-						<Styled.ButtonContainer visible={store.blockchain.account}>
+						{/** TODO: visible if blockhash + account present */}
+						<Styled.ButtonContainer visible={true}>
 							<Button type="submit">Send Payment</Button>
 						</Styled.ButtonContainer>
 					</Styled.form>
 				</Styled.formContainer>
 			</TransactionContent>
 			{/** if No account detailes present a back button */}
-			<Styled.ButtonContainer visible={!store.blockchain.account}>
+			{/** TODO: visible if !blockhash and !account */}
+			<Styled.ButtonContainer visible={false}>
 				<Link to={store.blockchain.ledgerConnected ? '/ledger' : '/key-access'}>
 					<Button>Back</Button>
 				</Link>
@@ -131,6 +148,11 @@ interface ITransaction {
 			derviationPath: string;
 			unsignedTransaction: object;
 			ledgerConnected: boolean;
+		},
+		solana: {
+			tokenAccounts: object[];
+			balances: object;
+			recentBlockhash: Uint8Array;
 		};
 	};
 	actions: {
@@ -139,6 +161,9 @@ interface ITransaction {
 		resetTransactions: Function;
 		setTransactionDataInput: Function;
 		resetTemplateErrors: Function;
+		resolveTokenAccounts: Function;
+		getAccountInfo: Function;
+		getRecentBlockhash: Function;
 	};
 	handleSubmit: Function;
 	validate: Function;

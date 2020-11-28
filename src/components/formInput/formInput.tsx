@@ -65,7 +65,7 @@ const formInput = ({
 			<Styled.group notGroup={notGroup}>
 				<Styled.formLabel special={special} inputColor={inputColor}>
 					{label}
-					{input.name === 'kinAmount' && <Styled.subLabel>{subLabel}</Styled.subLabel>}
+					{<Styled.subLabel>{subLabel}</Styled.subLabel>}
 				</Styled.formLabel>
 				<Styled.input
 					{...input}
@@ -86,7 +86,7 @@ const formInput = ({
 					step={step}
 					pattern={pattern}
 				/>
-				{input.name === 'memo' && (
+				{(
 					<Styled.bottomLabel>
 						<b>{bottomLabelBold}</b>
 						{bottomLabelRegular}
