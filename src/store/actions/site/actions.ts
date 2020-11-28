@@ -129,3 +129,40 @@ export const setTerms = () => {
 		type: types.SET_TERMS
 	};
 };
+
+// Solana
+export const resolveTokenAccounts = payload => {
+	return {
+		type: types.RESOLVE_TOKEN_ACCOUNTS,
+		payload
+	};
+};
+export const setTokenAccounts = payload => {
+	return {
+		type: types.SET_TOKEN_ACCOUNTS,
+		payload
+	};
+};
+export const getAccountInfo = payload => {
+	return {
+		type: types.GET_ACCOUNT_INFO,
+		payload
+	};
+};
+export const setAccountInfo = payload => {
+	return {
+		type: types.SET_ACCOUNT_INFO,
+		payload
+	};
+};
+export const getRecentBlockhash = () => {
+	return {
+		type: types.GET_RECENT_BLOCKHASH
+	};
+};
+export const setRecentBlockhash = payload => {
+	return {
+		type: types.SET_RECENT_BLOCKHASH,
+		payload
+	};
+};

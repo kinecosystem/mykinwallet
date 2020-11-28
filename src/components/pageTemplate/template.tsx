@@ -22,7 +22,10 @@ import {
 	setSignTransactionKeyPair,
 	setLoader,
 	setAccount,
-	resetTransactions
+	resetTransactions,
+	resolveTokenAccounts,
+	getAccountInfo,
+	getRecentBlockhash
 } from 'src/store/actions/site/actions';
 import { bindActionCreators } from 'redux';
 import { Location } from '@reach/router';
@@ -98,6 +101,7 @@ const mapStateToProps = state => {
 		store: {
 			errors: state.errors.errors,
 			blockchain: state.blockchain.blockchain,
+			solana: state.blockchain.solana,
 			transactionForm: state.blockchain.transactionForm,
 			loading: state.blockchain.loading
 		}
@@ -123,7 +127,10 @@ const mapDispatchToProps = dispatch => {
 				getIsKeyPairValid,
 				setSignTransactionKeyPair,
 				setAccount,
-				resetTransactions
+				resetTransactions,
+				resolveTokenAccounts,
+				getAccountInfo,
+				getRecentBlockhash,
 			},
 			dispatch
 		)
@@ -152,4 +159,7 @@ interface Iactions {
 	setSignTransactionKeyPair: Function;
 	setAccount: Function;
 	resetTransactions: Function;
+	resolveTokenAccounts: Function;
+	getAccountInfo: Function;
+	getRecentBlockhash: Function;
 }

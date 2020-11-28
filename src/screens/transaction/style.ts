@@ -39,7 +39,7 @@ export const TransactionContent = styled.div`
 	position: relative;
 `;
 
-export const Fee = styled.span`
+export const TransactionSubLabel = styled.span`
 	br {
 		${media.sm`
 				display:none

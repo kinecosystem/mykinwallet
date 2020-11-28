@@ -6,7 +6,7 @@ import { FloatingMessage } from '../antd';
 function handleCopy(address) {
 	copy(address);
 	message.open({
-		content: <FloatingMessage icon={'copy'}>Wallet’s public address was copied to your clipboard.</FloatingMessage>
+		content: <FloatingMessage icon={'copy'}>Address was copied to your clipboard.</FloatingMessage>
 	});
 }
 
