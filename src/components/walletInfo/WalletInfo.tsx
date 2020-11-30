@@ -7,6 +7,7 @@ import { PublicKey } from '../../models/keys';
 interface IWalletInfo {
 	walletAddress: string;
 	tokenAccounts: object[];
+	balances: object;
 	ledgerConnected: boolean;
 	derivationPath: any;
 	networkType: string;
@@ -40,10 +41,10 @@ const WalletInfo = (props: IWalletInfo) => {
 			<span>Token Accounts</span>
 			{props.tokenAccounts.length == 0 ? 
 				<span className="wallet-info">{"No token accounts"}</span> : 
-				props.tokenAccounts.map(tokenAccount => (
-					<div>
-					<span className="wallet-info">{tokenAccount.accountID}</span><div/>
-					<span className="wallet-info">Balance: {tokenAccount.kinBalance} Kin</span>
+				props.tokenAccounts.map((tokenAccount, i) => (
+					<div key={i}>
+					<span className="wallet-info">{tokenAccount}</span><div/>
+					<span className="wallet-info">Balance: {props.balances[tokenAccount]} Kin</span>
 					<Footer>
 						<p onClick={() => handleCopy(tokenAccount)}>Copy token account address</p>
 					</Footer>

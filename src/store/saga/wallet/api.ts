@@ -10,6 +10,9 @@ import bs58 from 'bs58';
 import axios, { AxiosResponse } from 'axios';
 import { PublicKey } from '../../../models/keys';
 import { quarksToKin } from '../../../models/utils';
+import { TestTokenProgram, TokenProgram } from '../../../solana/token-program';
+import { MemoProgram } from '../../../solana/memo-program';
+import { Transaction, PublicKey as SolanaPublicKey } from '@solana/web3.js';
 
 // to make test net pass true
 const bc = new Kin.Blockchain(true);
@@ -20,6 +23,8 @@ const agoraHeaders = {
 };
 const resolveTokenAccountsURL = agoraURL + '/api/kin.agora.account.v4.Account/ResolveTokenAccounts';
 const getAccountInfoURL = agoraURL + '/api/kin.agora.account.v4.Account/GetAccountInfo';
+
+const getServiceConfigURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetServiceConfig';
 const getRecentBlockhashURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetRecentBlockhash';
 
 function* loading(bool) {
@@ -236,7 +241,8 @@ function* resolveTokenAccounts(action) {
 		if (resp.getTokenAccountsList().length == 0) {
 			yield put(setTemplateErrors([`No Kin token accounts found for ${action.payload.trim()}`]));
 		} else {
-			const accounts = [];
+			const accountIDs = [];
+			const balances = {};
 			for (var i = 0; i < resp.getTokenAccountsList().length; i++) {
 				const tokenAccount = resp.getTokenAccountsList()[i];
 				const req = new accountpb.GetAccountInfoRequest();
@@ -246,21 +252,20 @@ function* resolveTokenAccounts(action) {
 				const httpResp = yield submitAgoraReq(getAccountInfoURL, req.serializeBinary());
 				const accountResp = accountpb.GetAccountInfoResponse.deserializeBinary(httpResp.data);
 
-				accounts.push({
-					accountID: new PublicKey(Buffer.from(tokenAccount.getValue_asU8())).toBase58(),
-					kinBalance: quarksToKin(accountResp.getAccountInfo().getBalance())
-				});
+				const accountID = new PublicKey(Buffer.from(tokenAccount.getValue_asU8())).toBase58();
+				accountIDs.push(accountID);
+				balances[accountID] = quarksToKin(accountResp.getAccountInfo().getBalance());
 			}
 
 			yield put({
 				type: types.SET_TOKEN_ACCOUNTS,
 				payload: {
-					tokenAccounts: accounts
+					tokenAccounts: accountIDs,
+					balances: balances
 				}
 			});
-			// trigger load
-			yield loading(false);
 		}
+		yield loading(false);
 	} catch (error) {
 		yield loading(false);
 		if (error.response) {
@@ -310,6 +315,38 @@ function* getAccountInfo(action) {
 	}
 }
 
+function* getServiceConfig() {
+	try {
+		yield loading(true);
+		// TODO: submit to agora instead
+		const req = new transactionpb.GetServiceConfigRequest();
+		const httpResp = yield submitAgoraReq(getServiceConfigURL, req.serializeBinary());
+		const resp = transactionpb.GetServiceConfigResponse.deserializeBinary(httpResp.data);
+
+		var subsidizer: Uint8Array | undefined;
+		if (resp.getSubsidizerAccount()) {
+			subsidizer = resp.getSubsidizerAccount().getValue_asU8();
+		}
+
+		yield put({
+			type: types.SET_SERVICE_CONFIG,
+			payload: {
+				serviceConfig: {
+					tokenProgram: resp.getTokenProgram().getValue_asU8(),
+					token: resp.getToken().getValue_asU8(),
+					subsidizer: subsidizer
+				}
+			}
+		});
+		// trigger load
+		yield loading(false);
+	} catch (error) {
+		console.log(error);
+		yield loading(false);
+		yield put(setTemplateErrors([error.toString()]));
+	}
+}
+
 function* getRecentBlockhash() {
 	try {
 		yield loading(true);
@@ -329,6 +366,57 @@ function* getRecentBlockhash() {
 	} catch (error) {
 		console.log(error);
 		yield loading(false);
+		yield put(setTemplateErrors([error.toString()]));
+	}
+}
+
+///////////////
+// Solana
+//////////////
+function* getSolanaTransaction(action) {
+	console.log(action.payload);
+	const [publicKey, tokenAccount, destinationAccount, kinAmount, memo, tokenProgram, subsidizer] = action.payload;
+	try {
+		yield loading(true);
+
+		const owner = PublicKey.fromString(publicKey).solanaKey();
+		var feePayer: SolanaPublicKey;
+		if (subsidizer) {
+			feePayer = new SolanaPublicKey(subsidizer);
+		} else {
+			feePayer = owner;
+		}
+
+		const instructions = [];
+		if (memo !== undefined && memo.length != 0) {
+			instructions.push(MemoProgram.memo({ data: memo }));
+		}
+
+		instructions.push(
+			TokenProgram.transfer(
+				{
+					source: PublicKey.fromBase58(tokenAccount).solanaKey(),
+					dest: PublicKey.fromBase58(destinationAccount).solanaKey(),
+					owner: PublicKey.fromString(publicKey).solanaKey(),
+					amount: BigInt(kinAmount)
+				},
+				new SolanaPublicKey(tokenProgram)
+			)
+		);
+
+		// TODO: might be from subsidizer?
+		const tx = new Transaction({
+			feePayer: feePayer
+		}).add(...instructions);
+
+		yield put({
+			type: types.SET_SOLANA_TRANSACTION,
+			payload: { transaction: tx }
+		});
+		yield loading(false);
+	} catch (error) {
+		yield loading(false);
+
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }
@@ -354,7 +442,9 @@ function* blockchainSaga() {
 	yield takeLatest(types.SET_SIGN_TRANSACTION_KEYPAIR, signTransactionKeyPair);
 	yield takeLatest(types.RESOLVE_TOKEN_ACCOUNTS, resolveTokenAccounts);
 	yield takeLatest(types.GET_ACCOUNT_INFO, getAccountInfo);
+	yield takeLatest(types.GET_SERVICE_CONFIG, getServiceConfig);
 	yield takeLatest(types.GET_RECENT_BLOCKHASH, getRecentBlockhash);
+	yield takeLatest(types.GET_SOLANA_TRANSACTION, getSolanaTransaction);
 }
 
 export default blockchainSaga;

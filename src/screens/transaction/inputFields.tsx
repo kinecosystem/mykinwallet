@@ -17,12 +17,12 @@ const inputFields: {
 }[] = [
 	{
 		name: 'tokenAccount',
-		label: 'Token account*',
-		placeholder: 'Enter token account address'
+		label: 'Sender Token Account*',
+		placeholder: 'Enter sender token account address'
 	},
 	{
 		name: 'destinationAccount',
-		label: 'Destination account*',
+		label: 'Destination Account*',
 		placeholder: 'Enter destination account address'
 	},
 	{

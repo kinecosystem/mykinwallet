@@ -9,7 +9,8 @@ interface IPaymentInfo {
 	time: string;
 	balance: number;
 	purple: string;
-	publicAddress: string;
+	tokenAccount: string;
+	destinationAccount: string;
 	network: string;
 	memo: string;
 }
@@ -19,7 +20,8 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 	ledger,
 	amount,
 	transaction,
-	publicAddress,
+	tokenAccount,
+	destinationAccount,
 	balance,
 	network,
 	memo
@@ -55,11 +57,19 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 				</Item>
 			)}
 
-			{/** PUBLIC ADDRESS */}
-			{publicAddress && (
+			{/** TOKEN ACCOUNT ADDRESS */}
+			{tokenAccount && (
 				<Item>
-					<span>Wallet's public address</span>
-					<div>{publicAddress}</div>
+					<span>Token account address</span>
+					<div>{tokenAccount}</div>
+				</Item>
+			)}
+
+			{/** PUBLIC ADDRESS */}
+			{destinationAccount && (
+				<Item>
+					<span>Destination account address</span>
+					<div>{destinationAccount}</div>
 				</Item>
 			)}
 			<Item>
