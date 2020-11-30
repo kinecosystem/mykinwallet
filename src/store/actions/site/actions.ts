@@ -189,3 +189,15 @@ export const setSolanaTransaction = payload => {
 		payload
 	};
 };
+export const signAndSubmitTransaction = payload => {
+	return {
+		type: types.SIGN_AND_SUBMIT_TRANSACTION,
+		payload
+	};
+};
+export const setSubmittedTransaction = payload => {
+	return {
+		type: types.SET_SUBMITTED_TRANSACTION,
+		payload
+	};
+};

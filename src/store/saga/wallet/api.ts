@@ -8,11 +8,11 @@ import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transacti
 import { Keypair } from '@kinecosystem/kin-sdk';
 import bs58 from 'bs58';
 import axios, { AxiosResponse } from 'axios';
-import { PublicKey } from '../../../models/keys';
-import { quarksToKin } from '../../../models/utils';
+import { PrivateKey, PublicKey } from '../../../models/keys';
+import { kinToQuarks, quarksToKin } from '../../../models/utils';
 import { TestTokenProgram, TokenProgram } from '../../../solana/token-program';
 import { MemoProgram } from '../../../solana/memo-program';
-import { Transaction, PublicKey as SolanaPublicKey } from '@solana/web3.js';
+import { Transaction, PublicKey as SolanaPublicKey, Account } from '@solana/web3.js';
 
 // to make test net pass true
 const bc = new Kin.Blockchain(true);
@@ -26,6 +26,7 @@ const getAccountInfoURL = agoraURL + '/api/kin.agora.account.v4.Account/GetAccou
 
 const getServiceConfigURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetServiceConfig';
 const getRecentBlockhashURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetRecentBlockhash';
+const submitTransactionURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/SubmitTransaction';
 
 function* loading(bool) {
 	yield put({
@@ -220,7 +221,7 @@ function* signTransactionKeyPair(action) {
 }
 
 ///////////////
-// Agora
+// Solana
 //////////////
 
 // resolveTokenAccounts expects the payload to be a base58-encoded public key of a token account.
@@ -370,9 +371,6 @@ function* getRecentBlockhash() {
 	}
 }
 
-///////////////
-// Solana
-//////////////
 function* getSolanaTransaction(action) {
 	console.log(action.payload);
 	const [publicKey, tokenAccount, destinationAccount, kinAmount, memo, tokenProgram, subsidizer] = action.payload;
@@ -398,7 +396,7 @@ function* getSolanaTransaction(action) {
 					source: PublicKey.fromBase58(tokenAccount).solanaKey(),
 					dest: PublicKey.fromBase58(destinationAccount).solanaKey(),
 					owner: PublicKey.fromString(publicKey).solanaKey(),
-					amount: BigInt(kinAmount)
+					amount: BigInt(kinToQuarks(kinAmount.toString()))
 				},
 				new SolanaPublicKey(tokenProgram)
 			)
@@ -417,6 +415,89 @@ function* getSolanaTransaction(action) {
 	} catch (error) {
 		yield loading(false);
 
+		yield put(setTemplateErrors([error.toString()]));
+	}
+}
+
+function* signAndSubmitTransaction(action) {
+	const [transaction, secret] = action.payload;
+	try {
+		yield loading(true);
+
+		// TODO: maybe only support base58 everywhere
+		var pk: PrivateKey;
+		try {
+			pk = PrivateKey.fromString(secret);
+		} catch (error) {
+			pk = PrivateKey.fromBase58(secret);
+		}
+
+		const req = new transactionpb.GetRecentBlockhashRequest();
+		const httpResp = yield submitAgoraReq(getRecentBlockhashURL, req.serializeBinary());
+		const resp = transactionpb.GetRecentBlockhashResponse.deserializeBinary(httpResp.data);
+
+		transaction.recentBlockhash = bs58.encode(Buffer.from(resp.getBlockhash()!.getValue_asU8()));
+		transaction.partialSign(new Account(pk.secretKey()));
+
+		const protoTx = new commonpb.Transaction();
+		protoTx.setValue(
+			transaction.serialize({
+				requireAllSignatures: false,
+				verifySignatures: false
+			})
+		);
+
+		const submitReq = new transactionpb.SubmitTransactionRequest();
+		submitReq.setTransaction(protoTx);
+		submitReq.setCommitment(commonpb.Commitment.SINGLE);
+
+		const submitHttpResp = yield submitAgoraReq(submitTransactionURL, submitReq.serializeBinary());
+		const submitResp = transactionpb.SubmitTransactionResponse.deserializeBinary(submitHttpResp.data);
+
+		switch (submitResp.getResult()) {
+			case transactionpb.SubmitTransactionResponse.Result.OK:
+			case transactionpb.SubmitTransactionResponse.Result.ALREADY_SUBMITTED:
+				yield put({
+					type: types.SET_SUBMITTED_TRANSACTION,
+					payload: {
+						submitResponse: submitResp,
+						signature: submitResp.getSignature().getValue_asU8()
+					}
+				});
+				break;
+			case transactionpb.SubmitTransactionResponse.Result.FAILED:
+				switch (submitResp.getTransactionError().getReason()) {
+					case commonpb.TransactionError.Reason.UNAUTHORIZED:
+						yield put(setTemplateErrors(['The transaction failed due to a signature error']));
+						break;
+					case commonpb.TransactionError.Reason.BAD_NONCE:
+						yield put(setTemplateErrors(['The transaction failed because of a bad nonce. Please try again.']));
+						break;
+					case commonpb.TransactionError.Reason.INSUFFICIENT_FUNDS:
+						yield put(setTemplateErrors(['The transaction failed because of insufficient funds.']));
+						break;
+					case commonpb.TransactionError.Reason.INVALID_ACCOUNT:
+						yield put(
+							setTemplateErrors(['The transaction failed because of an invalid account. Please check your account values'])
+						);
+						break;
+					default:
+						yield put(setTemplateErrors(['The transaction failed for an unknown reason']));
+				}
+				break;
+			case transactionpb.SubmitTransactionResponse.Result.REJECTED:
+				yield put(setTemplateErrors(['The transaction was rejected by the configured webhook']));
+				break;
+			case transactionpb.SubmitTransactionResponse.Result.INVOICE_ERROR:
+				yield put(setTemplateErrors(['The transaction was rejected by the configured webhook because of an invoice error.']));
+				break;
+			case transactionpb.SubmitTransactionResponse.Result.PAYER_REQUIRED:
+				yield put(setTemplateErrors(['The transaction failed because the transaction subsidizer did not sign the transaction.']));
+				break;
+		}
+		yield loading(false);
+	} catch (error) {
+		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }
@@ -445,6 +526,7 @@ function* blockchainSaga() {
 	yield takeLatest(types.GET_SERVICE_CONFIG, getServiceConfig);
 	yield takeLatest(types.GET_RECENT_BLOCKHASH, getRecentBlockhash);
 	yield takeLatest(types.GET_SOLANA_TRANSACTION, getSolanaTransaction);
+	yield takeLatest(types.SIGN_AND_SUBMIT_TRANSACTION, signAndSubmitTransaction);
 }
 
 export default blockchainSaga;

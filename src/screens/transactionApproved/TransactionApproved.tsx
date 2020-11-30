@@ -6,6 +6,8 @@ import { ApprovedPaymentStyled, StartOver } from './style';
 import { navigate } from 'gatsby';
 import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
+import bs58 from 'bs58';
+import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
 
 const IndexPage = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 5 : 4);
@@ -33,8 +35,14 @@ interface ITransactionApproved {
 			signedTransaction: object;
 			publicKey: string;
 		};
+		solana: {
+			balances: object;
+			signature: Uint8Array;
+			submitResponse: transactionpb.SubmitTransactionResponse;
+		}
 		transactionForm: {
 			kinAmount: number;
+			tokenAccount: string;
 		};
 
 		errors: string[];
@@ -49,20 +57,19 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 	const [balanceAfterTransaction, setBalanceAfterTransaction] = useState(0);
 
 	useEffect(() => {
-		!store.blockchain.signedTransaction && navigate('/');
+		!store.solana.signature && navigate('/');
 		return () => actions.resetAll();
-	}, [store.blockchain.transactionSubmitted]);
+	}, [store.solana.signature]);
 
 	useEffect(() => {
-		if (store.blockchain.account) {
-			if (store.blockchain.account.balances) {
-				const balance = Number(store.blockchain.account.balances[0].balance);
-				const amount = Number(store.transactionForm.kinAmount);
-				const sum = balanceCalculator(balance, amount);
-				setBalanceAfterTransaction(sum);
-			}
+		const tokenAccount = store.transactionForm.tokenAccount;
+		if (store.solana.balances[tokenAccount]) {
+			const balance = Number(store.solana.balances[tokenAccount]);
+			const amount = Number(store.transactionForm.kinAmount);
+			const result = balanceCalculator(balance, amount);
+			setBalanceAfterTransaction(result);
 		}
-	}, [store.blockchain.account]);
+	}, [store.solana.balances]);
 	useEffect(() => {
 		actions.setLoader(false);
 	}, []);
@@ -70,18 +77,17 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 		<ApprovedPaymentStyled>
 			<H3>Transaction approved</H3>
 			<P>Here are the details of your payment:</P>
-			{store.transactionForm.kinAmount && store.blockchain.transactionSubmitted && (
+			{store.transactionForm.kinAmount && store.solana.signature && (
 				<PaymentInformation
-					ledger={<Ledger ledger={store.blockchain.transactionSubmitted.ledger} />}
 					amount={store.transactionForm.kinAmount}
-					transaction={<Transaction transaction={store.blockchain.transactionSubmitted.hash} />}
+					transaction={<Transaction signature={bs58.encode(store.solana.signature)} />}
 					balance={balanceAfterTransaction}
 					purple="purple"
 				/>
 			)}
 			<section>
 				<P>
-					Go to Kin Block Explorer to see your <Account account={store.blockchain.publicKey} />{' '}
+					Go to Solana Explorer to see your <Account account={store.transactionForm.tokenAccount} />{' '}
 				</P>
 			</section>
 			<StartOver onClick={() => actions.resetAll()}> {'<-'} Create another transaction</StartOver>
@@ -94,18 +100,13 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps)(IndexPage);
 
-const Transaction = ({ transaction }) => (
-	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=public&header=Transaction&id=${transaction}`}>
-		{transaction}
-	</a>
-);
-const Ledger = ({ ledger }) => (
-	<a target="__blank" href={`https://www.kin.org/blockchainInfoPage/?&dataType=public&header=Ledgers&id=${ledger}`}>
-		{ledger}
+const Transaction = ({ signature }) => (
+	<a target="__blank" href={`https://explorer.solana.com/tx/${signature}`}>
+		{signature}
 	</a>
 );
 const Account = ({ account }) => (
-	<a target="__blank" href={`https://www.kin.org/blockchainAccount/?&dataType=public&header=accountID&id=${account}`}>
+	<a target="__blank" href={`https://explorer.solana.com/address/${account}`}>
 		account
 	</a>
 );
