@@ -5,7 +5,8 @@ import { ApprovePaymentStyled } from './style';
 import { navigate, Link } from 'gatsby';
 import { MessageTextContainer, GoBack } from '../reviewPayment/style';
 import { MessageText } from 'src/components/messages/info';
-import { createTransactionLedger } from '../../components/transactions_handlers/createTransaction';
+import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
+import { Transaction as SolanaTransaction } from '@solana/web3.js';
 
 const IndexPage = props => {
 	const [isSignOut, setIsSignOut] = useState('signOut');
@@ -36,12 +37,18 @@ interface IApprovePayment {
 			transactionSubmitted: string;
 			publicKey: string;
 		};
+		solana: {
+			transaction: SolanaTransaction;
+			signature: Uint8Array;
+			submitResponse: transactionpb.SubmitTransactionResponse;
+		}
 		transactionForm: 	ITransactionForm;
 	};
 	actions: {
 		setSignTransaction: Function;
 		setLoader: Function;
 		resetTemplateErrors: Function;
+		signAndSubmitTransactionWithLedger: Function;
 	};
 	setHideSignOut: Function;
 }
@@ -50,12 +57,12 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ setHideSignO
 	const [txActionInitiated, setTxActionInitiated] = useState(true);
 	// state to prevent auto navigation on error at mounting
 	const handleApprove = () => {
-		createTransactionLedger(store, actions.setSignTransaction);
+		actions.signAndSubmitTransactionWithLedger([store.blockchain.derviationPath, store.solana.transaction])
 		actions.resetTemplateErrors();
 		setTxActionInitiated(true);
 	};
 	useEffect(() => {
-		if (!store.blockchain.unsignedTransaction) navigate('/');
+		if (!store.solana.transaction) navigate('/');
 		if (store.errors.length) {
 			setHideSignOut(null);
 			setTxActionInitiated(false);
@@ -64,11 +71,11 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ setHideSignO
 			setTxActionInitiated(true);
 		}
 		// if transaction was signed
-		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
-	}, [store.blockchain.signedTransaction, store.errors, store.blockchain.transactionSubmitted]);
+		if (store.solana.signature) navigate('/transaction-approved');
+	}, [store.solana.transaction, store.errors, store.solana.submitResponse, store.solana.signature]);
 	useEffect(() => {
 		// ask use to approve ledger transaction at page load
-		createTransactionLedger(store, actions.setSignTransaction);
+		actions.signAndSubmitTransactionWithLedger([store.blockchain.derviationPath, store.solana.transaction])
 	}, []);
 	return (
 		<ApprovePaymentStyled>

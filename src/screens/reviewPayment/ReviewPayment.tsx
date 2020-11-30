@@ -7,7 +7,6 @@ import PaymentInformation from 'src/components/paymentInformation/PaymentInforma
 import { Link, navigate } from 'gatsby';
 import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
-import { createTransactionKeyPair, createTransactionLedger } from '../../components/transactions_handlers/createTransaction';
 import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
 import { Transaction as SolanaTransaction } from '@solana/web3.js';
 
