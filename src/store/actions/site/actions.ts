@@ -155,6 +155,17 @@ export const setAccountInfo = payload => {
 		payload
 	};
 };
+export const getServiceConfig = () => {
+	return {
+		type: types.GET_SERVICE_CONFIG
+	};
+};
+export const setServiceConfig = payload => {
+	return {
+		type: types.SET_SERVICE_CONFIG,
+		payload
+	};
+};
 export const getRecentBlockhash = () => {
 	return {
 		type: types.GET_RECENT_BLOCKHASH
@@ -163,6 +174,18 @@ export const getRecentBlockhash = () => {
 export const setRecentBlockhash = payload => {
 	return {
 		type: types.SET_RECENT_BLOCKHASH,
+		payload
+	};
+};
+export const getSolanaTransaction = payload => {
+	return {
+		type: types.GET_SOLANA_TRANSACTION,
+		payload
+	};
+};
+export const setSolanaTransaction = payload => {
+	return {
+		type: types.SET_SOLANA_TRANSACTION,
 		payload
 	};
 };

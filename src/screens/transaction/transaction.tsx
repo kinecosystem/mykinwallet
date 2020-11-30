@@ -8,11 +8,12 @@ import formInput from 'src/components/formInput/formInput';
 import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
-import RecentBlockhash from 'src/components/recentBlockhash/RecentBlockhash';
 import validate from './validation';
 import { navigate, Link } from 'gatsby';
 import inputFields from './inputFields.tsx';
 import { PublicKey } from '../../models/keys';
+import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
+import { Transaction as SolanaTransaction } from '@solana/web3.js';
 
 interface IFormData {
 	destinationAccount?: string;
@@ -44,20 +45,33 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 	location
 }) => {
 	const [initial, setInitial] = useState(true);
-	const fee = 0.001;
+	const fee = 0;  // TODO: verify fee
+	
 	// TODO: move to localization
-
 	const onSubmit = formValues => {
-		let { balance } = store.blockchain.account.balances[0];
-		balance = Number(balance);
-		const amountPlusFee = Number(formValues.kinAmount) + fee;
+		const { tokenAccount, destinationAccount, kinAmount, memo } = formValues;
+		if (!store.solana.balances[tokenAccount]) {
+			return actions.setTemplateErrors(['Invalid token account'])
+		}
+		
+		const balance = Number(store.solana.balances[tokenAccount]);
 		validate(formValues, balance);
-		if (balance < amountPlusFee) return actions.setTemplateErrors(['Insufficient funds for the requested transfer']);
-		const { destinationAccount, kinAmount, memo } = formValues;
+		const amountPlusFee = Number(formValues.kinAmount) + fee;
+		if (balance < amountPlusFee) {
+			return actions.setTemplateErrors(['Insufficient funds for the requested transfer']);
+		}
+
 		const account = store.blockchain.publicKey;
-		// from: account  to: Destination account   amount:Kin Amount   memo:memo
-		actions.getUnsignedTransaction([account, destinationAccount, kinAmount, memo || '']);
-		actions.setTransactionDataInput({ destinationAccount, kinAmount, memo });
+		actions.getSolanaTransaction([
+			account, 
+			tokenAccount, 
+			destinationAccount, 
+			kinAmount, 
+			memo || '',
+			store.solana.serviceConfig.tokenProgram,
+			store.solana.serviceConfig.subsidizer,
+		]);
+		actions.setTransactionDataInput({ tokenAccount, destinationAccount, kinAmount, memo });
 		setInitial(false);
 	};
 	useEffect(() => {
@@ -66,19 +80,18 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 			navigate('/');
 			return;
 		}
-		if (store.solana.tokenAccounts.length == 0) {
-			actions.resolveTokenAccounts(PublicKey.fromString(store.blockchain.publicKey).toBase58())
-		}
 
-		// TODO: don't need to prefetch this
-		if (!store.solana.recentBlockhash) {
-			actions.getRecentBlockhash();
+		if (!store.solana.serviceConfig || !store.solana.serviceConfig.tokenProgram) {
+			actions.getServiceConfig();
+		}
+		if (store.solana.tokenAccounts.length == 0) {
+			actions.resolveTokenAccounts(PublicKey.fromString(store.blockchain.publicKey).toBase58());
 		}
 
 		// if unsigned transaction have been made & its not on page mount
-		if (store.blockchain.unsignedTransaction && !initial) navigate('/review-payment');
+		if (store.solana.transaction && !initial) navigate('/review-payment');
 		if (initial) actions.resetTransactions();
-	}, [store.blockchain.account, store.blockchain.unsignedTransaction, store.blockchain.publicKey]);
+	}, [store.blockchain.account, store.solana.transaction, store.blockchain.publicKey]);
 	useEffect(() => {
 		actions.resetTemplateErrors();
 	}, []);
@@ -91,16 +104,12 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 				<HeaderContainer>
 					<H3>MyKinWallet</H3>
 				</HeaderContainer>
-				{/** TODO: remove this */}
-				{store.solana.recentBlockhash && (
-					<RecentBlockhash
-						recentBlockhash={store.solana.recentBlockhash} />
-				)}
 				{store.blockchain.publicKey && (
 					<WalletInfo
 						networkType="Public"
 						walletAddress={store.blockchain.publicKey}
 						tokenAccounts={store.solana.tokenAccounts}
+						balances={store.solana.balances}
 						ledgerConnected={store.blockchain.ledgerConnected}
 						derivationPath={store.blockchain.derviationPath}
 					/>
@@ -153,6 +162,12 @@ interface ITransaction {
 			tokenAccounts: object[];
 			balances: object;
 			recentBlockhash: Uint8Array;
+			transaction: SolanaTransaction;
+			serviceConfig: {
+				tokenProgram: Uint8Array;
+				token: Uint8Array;
+				subsidizer: Uint8Array;
+			};
 		};
 	};
 	actions: {
@@ -163,7 +178,9 @@ interface ITransaction {
 		resetTemplateErrors: Function;
 		resolveTokenAccounts: Function;
 		getAccountInfo: Function;
+		getServiceConfig: Function;
 		getRecentBlockhash: Function;
+		getSolanaTransaction: Function;
 	};
 	handleSubmit: Function;
 	validate: Function;

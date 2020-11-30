@@ -8,6 +8,7 @@ import { Link, navigate } from 'gatsby';
 import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
 import { createTransactionKeyPair, createTransactionLedger } from '../../components/transactions_handlers/createTransaction';
+import { Transaction as SolanaTransaction } from '@solana/web3.js';
 
 const IndexPage = props => {
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
@@ -53,15 +54,14 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 	}, [store.blockchain.transactionSubmitted, store.errors]);
 
 	useEffect(() => {
-		if (store.blockchain.account) {
-			if (store.blockchain.account.balances) {
-				const balance = Number(store.blockchain.account.balances[0].balance);
-				const amount = Number(store.transactionForm.kinAmount);
-				const sum = balanceCalculator(balance, amount);
-				setBalanceAfterTransaction(sum);
-			}
+		const tokenAccount = store.transactionForm.tokenAccount;
+		if (store.solana.balances[tokenAccount]) {
+			const balance = Number(store.solana.balances[tokenAccount]);
+			const amount = Number(store.transactionForm.kinAmount);
+			const result = balanceCalculator(balance, amount);
+			setBalanceAfterTransaction(result);
 		}
-	}, [store.blockchain.account]);
+	}, [store.solana.balances])
 
 	return (
 		<ReviewPaymentStyled>
@@ -70,11 +70,12 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 			</Link>
 			<H3>Review Payment</H3>
 			<P>Verify the payment details to continue</P>
-			{store.transactionForm.kinAmount && store.blockchain.unsignedTransaction && (
+			{store.transactionForm.kinAmount && store.solana.transaction && (
 				<PaymentInformation
 					network={'Public'}
 					amount={store.transactionForm.kinAmount}
-					publicAddress={store.transactionForm.destinationAccount}
+					tokenAccount={store.transactionForm.tokenAccount}
+					destinationAccount={store.transactionForm.destinationAccount}
 					memo={store.transactionForm.memo}
 					balance={transactionValid && balanceAfterTransaction}
 				/>
@@ -109,7 +110,14 @@ interface IReviewPaymentStyled {
 			ledgerConnected: boolean;
 			secret: string;
 		};
+		solana: {
+			tokenAccounts: object[];
+			balances: object;
+			recentBlockhash: Uint8Array;
+			transaction: SolanaTransaction;
+		};
 		transactionForm: {
+			tokenAccount: string;
 			destinationAccount: string;
 			kinAmount: string;
 			memo: string;

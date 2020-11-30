@@ -36,7 +36,7 @@ interface IApprovePayment {
 			transactionSubmitted: string;
 			publicKey: string;
 		};
-		transactionForm: IransactionForm;
+		transactionForm: 	ITransactionForm;
 	};
 	actions: {
 		setSignTransaction: Function;
@@ -89,6 +89,7 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ setHideSignO
 export default IndexPage;
 
 interface ITransactionForm {
+	tokenAccount: string;
 	destinationAccount: string;
 	kinAmount: Number;
 	memo: string;
