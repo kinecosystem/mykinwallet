@@ -195,6 +195,12 @@ export const signAndSubmitTransaction = payload => {
 		payload
 	};
 };
+export const signAndSubmitTransactionWithLedger = payload => {
+	return {
+		type: types.SIGN_AND_SUBMIT_TRANSACTION_LEDGER,
+		payload
+	};
+};
 export const setSubmittedTransaction = payload => {
 	return {
 		type: types.SET_SUBMITTED_TRANSACTION,

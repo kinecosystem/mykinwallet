@@ -13,6 +13,7 @@ import { kinToQuarks, quarksToKin } from '../../../models/utils';
 import { TestTokenProgram, TokenProgram } from '../../../solana/token-program';
 import { MemoProgram } from '../../../solana/memo-program';
 import { Transaction, PublicKey as SolanaPublicKey, Account } from '@solana/web3.js';
+import { signWithLedger } from '../../../solana/ledger-utils';
 
 // to make test net pass true
 const bc = new Kin.Blockchain(true);
@@ -502,6 +503,81 @@ function* signAndSubmitTransaction(action) {
 	}
 }
 
+function* signAndSubmitTransactionWithLedger(action) {
+	const [derivationPath, transaction] = action.payload;
+	var signedTransaction;
+	try {
+		yield loading(true);
+		const req = new transactionpb.GetRecentBlockhashRequest();
+		const httpResp = yield submitAgoraReq(getRecentBlockhashURL, req.serializeBinary());
+		const resp = transactionpb.GetRecentBlockhashResponse.deserializeBinary(httpResp.data);
+
+		transaction.recentBlockhash = bs58.encode(Buffer.from(resp.getBlockhash()!.getValue_asU8()));
+
+		signedTransaction = yield signWithLedger(derivationPath, transaction, 30 * 1000);
+
+		const protoTx = new commonpb.Transaction();
+		protoTx.setValue(
+			signedTransaction.serialize({
+				requireAllSignatures: false,
+				verifySignatures: false
+			})
+		);
+
+		const submitReq = new transactionpb.SubmitTransactionRequest();
+		submitReq.setTransaction(protoTx);
+		submitReq.setCommitment(commonpb.Commitment.SINGLE);
+
+		const submitHttpResp = yield submitAgoraReq(submitTransactionURL, submitReq.serializeBinary());
+		const submitResp = transactionpb.SubmitTransactionResponse.deserializeBinary(submitHttpResp.data);
+
+		switch (submitResp.getResult()) {
+			case transactionpb.SubmitTransactionResponse.Result.OK:
+			case transactionpb.SubmitTransactionResponse.Result.ALREADY_SUBMITTED:
+				yield put({
+					type: types.SET_SUBMITTED_TRANSACTION,
+					payload: {
+						submitResponse: submitResp,
+						signature: submitResp.getSignature().getValue_asU8()
+					}
+				});
+				break;
+			case transactionpb.SubmitTransactionResponse.Result.FAILED:
+				switch (submitResp.getTransactionError().getReason()) {
+					case commonpb.TransactionError.Reason.UNAUTHORIZED:
+						yield put(setTemplateErrors(['The transaction failed due to a signature error']));
+						break;
+					case commonpb.TransactionError.Reason.BAD_NONCE:
+						yield put(setTemplateErrors(['The transaction failed because of a bad nonce. Please try again.']));
+						break;
+					case commonpb.TransactionError.Reason.INSUFFICIENT_FUNDS:
+						yield put(setTemplateErrors(['The transaction failed because of insufficient funds.']));
+						break;
+					case commonpb.TransactionError.Reason.INVALID_ACCOUNT:
+						yield put(
+							setTemplateErrors(['The transaction failed because of an invalid account. Please check your account values'])
+						);
+						break;
+					default:
+						yield put(setTemplateErrors(['The transaction failed for an unknown reason']));
+				}
+				break;
+			case transactionpb.SubmitTransactionResponse.Result.REJECTED:
+				yield put(setTemplateErrors(['The transaction was rejected by the configured webhook']));
+				break;
+			case transactionpb.SubmitTransactionResponse.Result.INVOICE_ERROR:
+				yield put(setTemplateErrors(['The transaction was rejected by the configured webhook because of an invoice error.']));
+				break;
+			case transactionpb.SubmitTransactionResponse.Result.PAYER_REQUIRED:
+				yield put(setTemplateErrors(['The transaction failed because the transaction subsidizer did not sign the transaction.']));
+				break;
+		}
+		yield loading(false);
+	} catch (error) {
+		yield put(setTemplateErrors([error.toString()]));
+	}
+}
+
 function submitAgoraReq(url: string, data: Uint8Array): Promise<AxiosResponse> {
 	return axios.request({
 		method: 'post',
@@ -527,6 +603,7 @@ function* blockchainSaga() {
 	yield takeLatest(types.GET_RECENT_BLOCKHASH, getRecentBlockhash);
 	yield takeLatest(types.GET_SOLANA_TRANSACTION, getSolanaTransaction);
 	yield takeLatest(types.SIGN_AND_SUBMIT_TRANSACTION, signAndSubmitTransaction);
+	yield takeLatest(types.SIGN_AND_SUBMIT_TRANSACTION_LEDGER, signAndSubmitTransactionWithLedger);
 }
 
 export default blockchainSaga;

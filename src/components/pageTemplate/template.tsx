@@ -28,7 +28,8 @@ import {
 	getServiceConfig,
 	getRecentBlockhash,
 	getSolanaTransaction,
-	signAndSubmitTransaction
+	signAndSubmitTransaction,
+	signAndSubmitTransactionWithLedger
 } from 'src/store/actions/site/actions';
 import { bindActionCreators } from 'redux';
 import { Location } from '@reach/router';
@@ -136,7 +137,8 @@ const mapDispatchToProps = dispatch => {
 				getServiceConfig,
 				getRecentBlockhash,
 				getSolanaTransaction,
-				signAndSubmitTransaction
+				signAndSubmitTransaction,
+				signAndSubmitTransactionWithLedger
 			},
 			dispatch
 		)
@@ -171,4 +173,5 @@ interface Iactions {
 	getRecentBlockhash: Function;
 	getSolanaTransaction: Function;
 	signAndSubmitTransaction: Function
+	signAndSubmitTransactionWithLedger: Function
 }
