@@ -10,7 +10,7 @@ import bs58 from 'bs58';
 import axios, { AxiosResponse } from 'axios';
 import { PrivateKey, PublicKey } from '../../../models/keys';
 import { kinToQuarks, quarksToKin } from '../../../models/utils';
-import { TestTokenProgram, TokenProgram } from '../../../solana/token-program';
+import { TokenProgram } from '../../../solana/token-program';
 import { MemoProgram } from '../../../solana/memo-program';
 import { Transaction, PublicKey as SolanaPublicKey, Account } from '@solana/web3.js';
 import { signWithLedger } from '../../../solana/ledger-utils';
@@ -238,9 +238,15 @@ function* resolveTokenAccounts(action) {
 
 		const httpResp = yield submitAgoraReq(resolveTokenAccountsURL, req.serializeBinary());
 		const resp = accountpb.ResolveTokenAccountsResponse.deserializeBinary(httpResp.data);
-		console.log(resp);
 
 		if (resp.getTokenAccountsList().length == 0) {
+			yield put({
+				type: types.SET_TOKEN_ACCOUNTS,
+				payload: {
+					tokenAccounts: [],
+					balances: {}
+				}
+			});
 			yield put(setTemplateErrors([`No Kin token accounts found for ${action.payload.trim()}`]));
 		} else {
 			const accountIDs = [];
@@ -343,7 +349,6 @@ function* getServiceConfig() {
 		// trigger load
 		yield loading(false);
 	} catch (error) {
-		console.log(error);
 		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
 	}
@@ -366,14 +371,12 @@ function* getRecentBlockhash() {
 		// trigger load
 		yield loading(false);
 	} catch (error) {
-		console.log(error);
 		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
 	}
 }
 
 function* getSolanaTransaction(action) {
-	console.log(action.payload);
 	const [publicKey, tokenAccount, destinationAccount, kinAmount, memo, tokenProgram, subsidizer] = action.payload;
 	try {
 		yield loading(true);

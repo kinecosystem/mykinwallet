@@ -38,7 +38,7 @@ const WalletInfo = (props: IWalletInfo) => {
 			<Wallet_seperator />
 			<WalletInfoItem>
 			<div className="WalletInfoItem__container">
-			<span>Token Accounts</span>
+			<span>Kin Token Accounts</span>
 			{props.tokenAccounts.length == 0 ? 
 				<span className="wallet-info">{"No token accounts"}</span> : 
 				props.tokenAccounts.map((tokenAccount, i) => (

@@ -4,7 +4,9 @@ import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import Template from 'src/components/pageTemplate/template';
 import { TransactionContent, GrayedArea, TransactionStyled, HeaderContainer } from './style';
 import { H3, Button } from 'common/selectors';
+import { SelectPremade as Select } from 'src/components/antd/index';
 import formInput from 'src/components/formInput/formInput';
+import * as formStyled from 'src/components/formInput/style';
 import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
@@ -12,7 +14,6 @@ import validate from './validation';
 import { navigate, Link } from 'gatsby';
 import inputFields from './inputFields.tsx';
 import { PublicKey } from '../../models/keys';
-import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
 import { Transaction as SolanaTransaction } from '@solana/web3.js';
 
 interface IFormData {
@@ -45,11 +46,17 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 	location
 }) => {
 	const [initial, setInitial] = useState(true);
+	let [tokenAccount, setTokenAccount] = useState("");
+
 	const fee = 0;  // TODO: verify fee
 	
 	// TODO: move to localization
 	const onSubmit = formValues => {
-		const { tokenAccount, destinationAccount, kinAmount, memo } = formValues;
+		const { destinationAccount, kinAmount, memo } = formValues;
+		if (!tokenAccount || tokenAccount.length == 0) {
+			return actions.setTemplateErrors(['A token account is required'])
+		}
+
 		if (!store.solana.balances[tokenAccount]) {
 			return actions.setTemplateErrors(['Invalid token account'])
 		}
@@ -74,6 +81,11 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		actions.setTransactionDataInput({ tokenAccount, destinationAccount, kinAmount, memo });
 		setInitial(false);
 	};
+
+	const onTokenAccountSelect = val => {
+		setTokenAccount(val);
+	}
+
 	useEffect(() => {
 		// if publicKey couldnt be retrived
 		if (!store.blockchain.publicKey) {
@@ -117,6 +129,15 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 
 				<Styled.formContainer>
 					<H3>Send Kin</H3>
+					<formStyled.formLabel>Sender token account*<formStyled.subLabel/></formStyled.formLabel>
+					<Select
+						placeholder="Choose sender token account"
+						onChange={val => {
+							onTokenAccountSelect(val);
+						}}
+						list={store.solana.tokenAccounts}
+					/>
+
 					<Styled.form initialValues={initialValues} onSubmit={handleSubmit(onSubmit)}>
 						{formFields}
 						{/** TODO: visible if blockhash + account present */}
@@ -159,7 +180,7 @@ interface ITransaction {
 			ledgerConnected: boolean;
 		},
 		solana: {
-			tokenAccounts: object[];
+			tokenAccounts: string[];
 			balances: object;
 			recentBlockhash: Uint8Array;
 			transaction: SolanaTransaction;
@@ -181,6 +202,7 @@ interface ITransaction {
 		getServiceConfig: Function;
 		getRecentBlockhash: Function;
 		getSolanaTransaction: Function;
+		setTemplateErrors: Function;
 	};
 	handleSubmit: Function;
 	validate: Function;

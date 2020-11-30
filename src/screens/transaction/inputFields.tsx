@@ -1,6 +1,4 @@
-import React from 'react';
 import { JsxElement } from 'typescript';
-import {TransactionSubLabel} from './style'
 
 const inputFields: {
 	name: string;
@@ -15,11 +13,6 @@ const inputFields: {
 	min?: number;
 	step?: string;
 }[] = [
-	{
-		name: 'tokenAccount',
-		label: 'Sender Token Account*',
-		placeholder: 'Enter sender token account address'
-	},
 	{
 		name: 'destinationAccount',
 		label: 'Destination Account*',
