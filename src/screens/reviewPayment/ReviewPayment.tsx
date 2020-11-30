@@ -8,6 +8,7 @@ import { Link, navigate } from 'gatsby';
 import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
 import { createTransactionKeyPair, createTransactionLedger } from '../../components/transactions_handlers/createTransaction';
+import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
 import { Transaction as SolanaTransaction } from '@solana/web3.js';
 
 const IndexPage = props => {
@@ -37,21 +38,24 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 		setTransactionValid(true);
 
 		// ledger step
-		if (store.blockchain.ledgerConnected) navigate('/approve-payment');
-		// keyPair step
-		// create keyPair transaction
-		else createTransactionKeyPair(store, actions.setSignTransactionKeyPair);
+		if (store.blockchain.ledgerConnected) {
+			navigate('/approve-payment');
+		} else {
+			const tx = store.solana.transaction;
+			const secret = store.blockchain.secret;
+			actions.signAndSubmitTransaction([tx, secret]);
+		}
 	};
 	useEffect(() => {
-		if (store.blockchain.transactionSubmitted) navigate('/transaction-approved');
+		console.log(store.solana)
+		if (store.solana.signature && store.solana.submitResponse) navigate('/transaction-approved');
 		if (
-			store.errors[0] === 'Error: Request failed with status code 404' ||
-			store.errors[0] === 'Error: Request failed with status code 400'
+			store.errors[0] && (store.errors[0].includes('balance') || store.errors[0].includes('account'))
 		) {
 			// hide the approve button if false (transaction not valid)
 			setTransactionValid(false);
 		}
-	}, [store.blockchain.transactionSubmitted, store.errors]);
+	}, [store.solana.signature, store.solana.submitResponse, store.errors]);
 
 	useEffect(() => {
 		const tokenAccount = store.transactionForm.tokenAccount;
@@ -115,6 +119,8 @@ interface IReviewPaymentStyled {
 			balances: object;
 			recentBlockhash: Uint8Array;
 			transaction: SolanaTransaction;
+			signature: Uint8Array;
+			submitResponse: transactionpb.SubmitTransactionResponse;
 		};
 		transactionForm: {
 			tokenAccount: string;
@@ -129,5 +135,6 @@ interface IReviewPaymentStyled {
 		getUnsignedTransaction: Function;
 		setSignTransactionKeyPair: Function;
 		setLoader: Function;
+		signAndSubmitTransaction: Function;
 	};
 }

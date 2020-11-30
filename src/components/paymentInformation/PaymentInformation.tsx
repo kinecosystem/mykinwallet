@@ -3,7 +3,6 @@ import { PaymentInfoStyled, Item } from './style';
 import moment from 'moment'
 
 interface IPaymentInfo {
-	ledger: number;
 	amount: number;
 	transaction: string;
 	time: string;
@@ -17,7 +16,6 @@ interface IPaymentInfo {
 
 const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 	purple,
-	ledger,
 	amount,
 	transaction,
 	tokenAccount,
@@ -28,13 +26,6 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 }) => {
 	return (
 		<PaymentInfoStyled border={purple === 'purple'}>
-			{/** LEDGER */}
-			{ledger && (
-				<Item>
-					<span>Ledger number</span>
-					<div>{ledger}</div>
-				</Item>
-			)}
 			{/** AMOUNT */}
 			{amount && (
 				<Item>
@@ -65,7 +56,7 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 				</Item>
 			)}
 
-			{/** PUBLIC ADDRESS */}
+			{/** DESTINATION ADDRESS */}
 			{destinationAccount && (
 				<Item>
 					<span>Destination account address</span>

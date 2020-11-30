@@ -6,7 +6,7 @@ function validateStellarAddress(destinationAccount: string, errors: Object) {
 	}
 }
 
-const validator = ({ memo, destinationAccount, kinAmount }) => {
+const validator = ({ tokenAccount, memo, destinationAccount, kinAmount }) => {
 	const errors = {};
 	// destination validation
 	if (destinationAccount) {
@@ -17,6 +17,17 @@ const validator = ({ memo, destinationAccount, kinAmount }) => {
 			}
 		} catch (error) {
 			validateStellarAddress(destinationAccount, errors);
+		}
+	}
+
+	if (tokenAccount) {
+		try {
+			const decoded = bs58.decode(tokenAccount);
+			if (decoded.length != 32) {
+				errors.tokenAccount = 'Token account not valid';
+			}
+		} catch (error) {
+			errors.tokenAccount = 'Token account not valid';
 		}
 	}
 
@@ -34,6 +45,7 @@ const validator = ({ memo, destinationAccount, kinAmount }) => {
 	// required validation
 	if (!kinAmount) errors.kinAmount = 'Cannot be empty / Not a valid number';
 	if (!destinationAccount) errors.destinationAccount = 'Cannot be empty';
+	if (!tokenAccount) errors.tokenAccount = 'Cannot be empty';
 	return errors;
 };
 

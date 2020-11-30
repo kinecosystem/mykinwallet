@@ -44,7 +44,7 @@ export default function(state = initialState, action: any) {
 			return { ...state, blockchain: { ...state.blockchain, terms: true } };
 		}
 		case type.RESET_ALL: {
-			return { ...state, blockchain: {}, transactionForm: {} };
+			return { ...state, blockchain: {}, transactionForm: {}, solana: { tokenAccounts: [], balances: {} } };
 		}
 		case type.SET_LOADER: {
 			return { ...state, loading: action.payload };
@@ -55,7 +55,8 @@ export default function(state = initialState, action: any) {
 		case type.SET_SERVICE_CONFIG:
 		case type.SET_RECENT_BLOCKHASH:
 		case type.SET_TOKEN_ACCOUNTS:
-		case type.SET_SOLANA_TRANSACTION: {
+		case type.SET_SOLANA_TRANSACTION:
+		case type.SET_SUBMITTED_TRANSACTION: {
 			console.log({ ...state, solana: { ...state.solana, ...action.payload } });
 			return { ...state, solana: { ...state.solana, ...action.payload } };
 		}
