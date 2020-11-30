@@ -57,7 +57,6 @@ export default function(state = initialState, action: any) {
 		case type.SET_TOKEN_ACCOUNTS:
 		case type.SET_SOLANA_TRANSACTION:
 		case type.SET_SUBMITTED_TRANSACTION: {
-			console.log({ ...state, solana: { ...state.solana, ...action.payload } });
 			return { ...state, solana: { ...state.solana, ...action.payload } };
 		}
 		case type.SET_ACCOUNT_INFO: {

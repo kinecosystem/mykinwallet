@@ -36,7 +36,6 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 	const handleApprove = () => {
 		setTransactionValid(true);
 
-		// ledger step
 		if (store.blockchain.ledgerConnected) {
 			navigate('/approve-payment');
 		} else {
@@ -49,7 +48,7 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 		console.log(store.solana)
 		if (store.solana.signature && store.solana.submitResponse) navigate('/transaction-approved');
 		if (
-			store.errors[0] && (store.errors[0].includes('balance') || store.errors[0].includes('account'))
+			store.errors[0] && (store.errors[0].includes('insufficient funds') || store.errors[0].includes('invalid account'))
 		) {
 			// hide the approve button if false (transaction not valid)
 			setTransactionValid(false);
@@ -114,7 +113,7 @@ interface IReviewPaymentStyled {
 			secret: string;
 		};
 		solana: {
-			tokenAccounts: object[];
+			tokenAccounts: string[];
 			balances: object;
 			recentBlockhash: Uint8Array;
 			transaction: SolanaTransaction;
