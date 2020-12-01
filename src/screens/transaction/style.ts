@@ -29,7 +29,7 @@ export const TransactionStyled = styled.div`
 export const GrayedArea = styled.div`
 	position: absolute;
 	width: 100%;
-	height: 100%;
+	height: 60%;
 	z-index: 2;
 	background: rgba(255, 255, 255, 0.8);
 	display: ${({ visible }) => (visible ? 'block' : 'none')};

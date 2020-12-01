@@ -207,3 +207,21 @@ export const setSubmittedTransaction = payload => {
 		payload
 	};
 };
+export const createTokenAccount = payload => {
+	return {
+		type: types.CREATE_TOKEN_ACCOUNT,
+		payload
+	};
+};
+export const createTokenAccountWithLedger = payload => {
+	return {
+		type: types.CREATE_TOKEN_ACCOUNT_LEDGER,
+		payload
+	};
+};
+export const setAccountUpdateRequired = payload => {
+	return {
+		type: types.SET_ACCOUNT_UPDATE_REQUIRED,
+		payload
+	};
+};
