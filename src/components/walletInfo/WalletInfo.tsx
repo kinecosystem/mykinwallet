@@ -11,6 +11,7 @@ interface IWalletInfo {
 	ledgerConnected: boolean;
 	derivationPath: any;
 	networkType: string;
+	createTokenAccountFunc: () => {};
 }
 const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
@@ -31,7 +32,6 @@ const WalletInfo = (props: IWalletInfo) => {
 					<span className="wallet-info">{pk.toBase58()}</span>
 					<Footer>
 						<p onClick={() => handleCopy(pk.toBase58())}>Copy address</p>
-						{props.ledgerConnected && <p onClick={() => showAddress(props.derivationPath)}>Display address on your device</p>}
 					</Footer>
 				</div>
 			</WalletInfoItem>
@@ -51,6 +51,9 @@ const WalletInfo = (props: IWalletInfo) => {
 					</div>
 				))
 			}
+			<Footer>
+				<p onClick={() => props.createTokenAccountFunc()}>Create new token account (random address)</p>
+			</Footer>
 			</div>
 			</WalletInfoItem>
 			<Wallet_seperator />

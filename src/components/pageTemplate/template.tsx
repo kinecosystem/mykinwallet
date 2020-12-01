@@ -29,7 +29,10 @@ import {
 	getRecentBlockhash,
 	getSolanaTransaction,
 	signAndSubmitTransaction,
-	signAndSubmitTransactionWithLedger
+	signAndSubmitTransactionWithLedger,
+	createTokenAccount,
+	createTokenAccountWithLedger,
+	setAccountUpdateRequired,
 } from 'src/store/actions/site/actions';
 import { bindActionCreators } from 'redux';
 import { Location } from '@reach/router';
@@ -138,7 +141,10 @@ const mapDispatchToProps = dispatch => {
 				getRecentBlockhash,
 				getSolanaTransaction,
 				signAndSubmitTransaction,
-				signAndSubmitTransactionWithLedger
+				signAndSubmitTransactionWithLedger,
+				createTokenAccount,
+				createTokenAccountWithLedger,
+				setAccountUpdateRequired
 			},
 			dispatch
 		)
@@ -172,6 +178,9 @@ interface Iactions {
 	getServiceConfig: Function;
 	getRecentBlockhash: Function;
 	getSolanaTransaction: Function;
-	signAndSubmitTransaction: Function
-	signAndSubmitTransactionWithLedger: Function
+	signAndSubmitTransaction: Function;
+	signAndSubmitTransactionWithLedger: Function;
+	createTokenAccount: Function;
+	createTokenAccountWithLedger: Function;
+	setAccountUpdateRequired: Function;
 }

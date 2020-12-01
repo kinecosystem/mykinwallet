@@ -62,6 +62,9 @@ export default function(state = initialState, action: any) {
 		case type.SET_ACCOUNT_INFO: {
 			return { ...state, solana: { ...state.solana, balances: { ...state.solana.balances, ...action.payload } } };
 		}
+		case type.SET_ACCOUNT_UPDATE_REQUIRED: {
+			return { ...state, solana: { ...state.solana, accountUpdateRequired: action.payload } };
+		}
 		default:
 			return state;
 	}

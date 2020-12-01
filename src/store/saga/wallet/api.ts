@@ -10,23 +10,28 @@ import bs58 from 'bs58';
 import axios, { AxiosResponse } from 'axios';
 import { PrivateKey, PublicKey } from '../../../models/keys';
 import { kinToQuarks, quarksToKin } from '../../../models/utils';
-import { TokenProgram } from '../../../solana/token-program';
+import { AccountSize, AuthorityType, TokenProgram } from '../../../solana/token-program';
 import { MemoProgram } from '../../../solana/memo-program';
-import { Transaction, PublicKey as SolanaPublicKey, Account } from '@solana/web3.js';
-import { signWithLedger } from '../../../solana/ledger-utils';
+import { Transaction, PublicKey as SolanaPublicKey, Account, SystemProgram } from '@solana/web3.js';
+import { Kin4Ledger } from '../../../solana/kin-4-ledger';
 
 // to make test net pass true
 const bc = new Kin.Blockchain(true);
+const kin4Ledger = new Kin4Ledger();
 
 const agoraURL = 'http://localhost:8085';
 const agoraHeaders = {
 	'Content-Type': 'application/proto'
 };
+
+const createAccountURL = agoraURL + '/api/kin.agora.account.v4.Account/CreateAccount';
 const resolveTokenAccountsURL = agoraURL + '/api/kin.agora.account.v4.Account/ResolveTokenAccounts';
 const getAccountInfoURL = agoraURL + '/api/kin.agora.account.v4.Account/GetAccountInfo';
 
 const getServiceConfigURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetServiceConfig';
 const getRecentBlockhashURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetRecentBlockhash';
+const getMinimumBalanceForRentExceptionURL =
+	agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetMinimumBalanceForRentExemption';
 const submitTransactionURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/SubmitTransaction';
 
 function* loading(bool) {
@@ -43,13 +48,16 @@ function* loading(bool) {
 function* isLedgerConnected(action) {
 	try {
 		yield loading(true);
-		// prevent previouse connected ledger
+
+		// reset any previously connected ledger
 		yield put({
 			type: types.SET_IS_LEDGER_CONNECTED,
 			payload: { ledgerConnected: false }
 		});
+
 		// check if ledger connected
-		yield Kin.Ledger.getPublicKey("44'/2017'/0'");
+		yield kin4Ledger.connect();
+		yield kin4Ledger.getPublicKey(0);
 
 		// set connected
 		yield put({
@@ -59,20 +67,25 @@ function* isLedgerConnected(action) {
 
 		yield loading(false);
 	} catch (error) {
-		yield loading(false);
-		// set error
-		yield put(setTemplateErrors([error]));
+		if (error.message) {
+			yield put(setTemplateErrors([error.message]));
+		} else {
+			yield put(setTemplateErrors([error]));
+		}
 	}
+	yield loading(false);
 }
 
 function* getPublicKey(action) {
 	try {
-		// trigger load
 		yield loading(true);
-		const data = yield Kin.Ledger.getPublicKey(action.payload.trim());
+		yield kin4Ledger.connect();
+		const key = yield kin4Ledger.getPublicKey(getAccountFromPath(action.payload.trim()));
+		console.log();
+
 		yield put({
 			type: types.SET_PUBLIC_KEY,
-			payload: { publicKey: data.publicKey() }
+			payload: { publicKey: PublicKey.fromBase58(key.toBase58()).stellarAddress() }
 		});
 		// trigger end load
 		yield loading(false);
@@ -271,6 +284,10 @@ function* resolveTokenAccounts(action) {
 					tokenAccounts: accountIDs,
 					balances: balances
 				}
+			});
+			yield put({
+				type: types.SET_ACCOUNT_UPDATE_REQUIRED,
+				payload: false
 			});
 		}
 		yield loading(false);
@@ -511,13 +528,16 @@ function* signAndSubmitTransactionWithLedger(action) {
 	var signedTransaction;
 	try {
 		yield loading(true);
+		yield kin4Ledger.connect();
+		const pathAccount = getAccountFromPath(derivationPath);
+
 		const req = new transactionpb.GetRecentBlockhashRequest();
 		const httpResp = yield submitAgoraReq(getRecentBlockhashURL, req.serializeBinary());
 		const resp = transactionpb.GetRecentBlockhashResponse.deserializeBinary(httpResp.data);
 
 		transaction.recentBlockhash = bs58.encode(Buffer.from(resp.getBlockhash()!.getValue_asU8()));
 
-		signedTransaction = yield signWithLedger(derivationPath, transaction, 30 * 1000);
+		signedTransaction = yield kin4Ledger.signTransaction(pathAccount, transaction);
 
 		const protoTx = new commonpb.Transaction();
 		protoTx.setValue(
@@ -578,7 +598,244 @@ function* signAndSubmitTransactionWithLedger(action) {
 		yield loading(false);
 	} catch (error) {
 		yield put(setTemplateErrors([error.toString()]));
+		yield loading(false);
 	}
+}
+
+function* createTokenAccount(action) {
+	const [secret, tokenProgram, token, subsidizer] = action.payload;
+	try {
+		yield loading(true);
+		const tokenProgramKey = new SolanaPublicKey(tokenProgram);
+		const tokenKey = new SolanaPublicKey(token);
+
+		// TODO: maybe only support base58 everywhere
+		var owner: PrivateKey;
+		try {
+			owner = PrivateKey.fromString(secret);
+		} catch (error) {
+			owner = PrivateKey.fromBase58(secret);
+		}
+
+		const tokenAccount = PrivateKey.random();
+
+		var subsidizerKey: SolanaPublicKey;
+		if (subsidizer) {
+			subsidizerKey = new SolanaPublicKey(subsidizer);
+		} else {
+			subsidizerKey = owner.publicKey().solanaKey();
+		}
+
+		const req = new transactionpb.GetRecentBlockhashRequest();
+		const httpResp = yield submitAgoraReq(getRecentBlockhashURL, req.serializeBinary());
+		const resp = transactionpb.GetRecentBlockhashResponse.deserializeBinary(httpResp.data);
+
+		const recentBlockhash = bs58.encode(Buffer.from(resp.getBlockhash()!.getValue_asU8()));
+
+		const minBalanceReq = new transactionpb.GetMinimumBalanceForRentExemptionRequest();
+		minBalanceReq.setSize(AccountSize);
+		const minBalanceHttpResp = yield submitAgoraReq(getMinimumBalanceForRentExceptionURL, minBalanceReq.serializeBinary());
+		const minBalanceResp = transactionpb.GetMinimumBalanceForRentExemptionResponse.deserializeBinary(minBalanceHttpResp.data);
+
+		const tx = getCreateAccountTx(
+			recentBlockhash,
+			tokenAccount.publicKey().solanaKey(),
+			owner.publicKey().solanaKey(),
+			subsidizerKey,
+			tokenProgramKey,
+			tokenKey,
+			minBalanceResp.getLamports()
+		);
+		tx.partialSign(new Account(owner.secretKey()), new Account(tokenAccount.secretKey()));
+
+		const protoTx = new commonpb.Transaction();
+		protoTx.setValue(
+			tx.serialize({
+				requireAllSignatures: false,
+				verifySignatures: false
+			})
+		);
+
+		const createReq = new accountpb.CreateAccountRequest();
+		createReq.setTransaction(protoTx);
+		createReq.setCommitment(commonpb.Commitment.SINGLE);
+
+		const createHttpResp = yield submitAgoraReq(createAccountURL, createReq.serializeBinary());
+		const createResp = accountpb.CreateAccountResponse.deserializeBinary(createHttpResp.data);
+
+		switch (createResp.getResult()) {
+			case accountpb.CreateAccountResponse.Result.OK:
+				yield put({
+					type: types.SET_ACCOUNT_UPDATE_REQUIRED,
+					payload: true
+				});
+				break;
+			case accountpb.CreateAccountResponse.Result.EXISTS:
+				yield put({
+					type: types.SET_ACCOUNT_UPDATE_REQUIRED,
+					payload: true
+				});
+				yield put(setTemplateErrors(['An account with the randomly generated address exists. Please try again.']));
+				break;
+			case accountpb.CreateAccountResponse.Result.PAYER_REQUIRED:
+				yield put(
+					setTemplateErrors([
+						'The transaction to create a token account failed because the transaction subsidizer did not sign the transaction.'
+					])
+				);
+				break;
+			case accountpb.CreateAccountResponse.Result.BAD_NONCE:
+				yield put(
+					setTemplateErrors(['The transaction to create a token account failed because of a bad nonce. Please try again.'])
+				);
+				break;
+			default:
+				yield put(setTemplateErrors(['Something went wrong. Please reload']));
+				break;
+		}
+		yield loading(false);
+	} catch (error) {
+		yield put(setTemplateErrors([error.toString()]));
+		yield loading(false);
+	}
+}
+
+function* createTokenAccountWithLedger(action) {
+	const [derivationPath, tokenProgram, token, subsidizer] = action.payload;
+	try {
+		yield loading(true);
+		yield kin4Ledger.connect();
+		const pathAccount = getAccountFromPath(derivationPath);
+
+		const tokenProgramKey = new SolanaPublicKey(tokenProgram);
+		const tokenKey = new SolanaPublicKey(token);
+		const owner = yield kin4Ledger.getPublicKey(pathAccount);
+
+		const tokenAccount = PrivateKey.random();
+
+		var subsidizerKey: SolanaPublicKey;
+		if (subsidizer) {
+			subsidizerKey = new SolanaPublicKey(subsidizer);
+		} else {
+			subsidizerKey = owner;
+		}
+
+		const req = new transactionpb.GetRecentBlockhashRequest();
+		const httpResp = yield submitAgoraReq(getRecentBlockhashURL, req.serializeBinary());
+		const resp = transactionpb.GetRecentBlockhashResponse.deserializeBinary(httpResp.data);
+
+		const recentBlockhash = bs58.encode(Buffer.from(resp.getBlockhash()!.getValue_asU8()));
+
+		const minBalanceReq = new transactionpb.GetMinimumBalanceForRentExemptionRequest();
+		minBalanceReq.setSize(165);
+		const minBalanceHttpResp = yield submitAgoraReq(getMinimumBalanceForRentExceptionURL, minBalanceReq.serializeBinary());
+		const minBalanceResp = transactionpb.GetMinimumBalanceForRentExemptionResponse.deserializeBinary(minBalanceHttpResp.data);
+
+		const tx = getCreateAccountTx(
+			recentBlockhash,
+			tokenAccount.publicKey().solanaKey(),
+			owner,
+			subsidizerKey,
+			tokenProgramKey,
+			tokenKey,
+			minBalanceResp.getLamports()
+		);
+		tx.partialSign(new Account(tokenAccount.secretKey()));
+
+		const signedTransaction = yield kin4Ledger.signTransaction(pathAccount, tx);
+		console.log(signedTransaction);
+
+		const protoTx = new commonpb.Transaction();
+		protoTx.setValue(
+			signedTransaction.serialize({
+				requireAllSignatures: false,
+				verifySignatures: false
+			})
+		);
+
+		const createReq = new accountpb.CreateAccountRequest();
+		createReq.setTransaction(protoTx);
+		createReq.setCommitment(commonpb.Commitment.SINGLE);
+
+		const createHttpResp = yield submitAgoraReq(createAccountURL, createReq.serializeBinary());
+		const createResp = accountpb.CreateAccountResponse.deserializeBinary(createHttpResp.data);
+
+		switch (createResp.getResult()) {
+			case accountpb.CreateAccountResponse.Result.OK:
+				yield put({
+					type: types.SET_ACCOUNT_UPDATE_REQUIRED,
+					payload: true
+				});
+				break;
+			case accountpb.CreateAccountResponse.Result.EXISTS:
+				yield put({
+					type: types.SET_ACCOUNT_UPDATE_REQUIRED,
+					payload: true
+				});
+				yield put(setTemplateErrors(['An account with the randomly generated address exists. Please try again.']));
+				break;
+			case accountpb.CreateAccountResponse.Result.PAYER_REQUIRED:
+				yield put(
+					setTemplateErrors([
+						'The transaction to create a token account failed because the transaction subsidizer did not sign the transaction.'
+					])
+				);
+				break;
+			case accountpb.CreateAccountResponse.Result.BAD_NONCE:
+				yield put(
+					setTemplateErrors(['The transaction to create a token account failed because of a bad nonce. Please try again.'])
+				);
+				break;
+			default:
+				yield put(setTemplateErrors(['Something went wrong. Please reload']));
+				break;
+		}
+		yield loading(false);
+	} catch (error) {
+		console.log(error);
+		yield put(setTemplateErrors([error.toString()]));
+		yield loading(false);
+	}
+}
+
+function getCreateAccountTx(
+	recentBlockhash: string,
+	tokenAccount: SolanaPublicKey,
+	owner: SolanaPublicKey,
+	subsidizer: SolanaPublicKey,
+	tokenProgram: SolanaPublicKey,
+	token: SolanaPublicKey,
+	minBalance: number
+): Transaction {
+	return new Transaction({
+		feePayer: subsidizer,
+		recentBlockhash: recentBlockhash
+	}).add(
+		SystemProgram.createAccount({
+			fromPubkey: subsidizer,
+			newAccountPubkey: tokenAccount,
+			lamports: minBalance,
+			space: AccountSize,
+			programId: tokenProgram
+		}),
+		TokenProgram.initializeAccount(
+			{
+				account: tokenAccount,
+				mint: token,
+				owner: owner
+			},
+			tokenProgram
+		),
+		TokenProgram.setAuthority(
+			{
+				account: tokenAccount,
+				currentAuthority: owner,
+				newAuthority: subsidizer,
+				authorityType: AuthorityType.CloseAccount
+			},
+			tokenProgram
+		)
+	);
 }
 
 function submitAgoraReq(url: string, data: Uint8Array): Promise<AxiosResponse> {
@@ -589,6 +846,12 @@ function submitAgoraReq(url: string, data: Uint8Array): Promise<AxiosResponse> {
 		headers: agoraHeaders,
 		responseType: 'arraybuffer'
 	});
+}
+
+function getAccountFromPath(derivationPath: string): number {
+	const r = /\d+/g;
+	const account = derivationPath.match(r)[2];
+	return parseInt(account);
 }
 
 // watcher
@@ -607,6 +870,8 @@ function* blockchainSaga() {
 	yield takeLatest(types.GET_SOLANA_TRANSACTION, getSolanaTransaction);
 	yield takeLatest(types.SIGN_AND_SUBMIT_TRANSACTION, signAndSubmitTransaction);
 	yield takeLatest(types.SIGN_AND_SUBMIT_TRANSACTION_LEDGER, signAndSubmitTransactionWithLedger);
+	yield takeLatest(types.CREATE_TOKEN_ACCOUNT, createTokenAccount);
+	yield takeLatest(types.CREATE_TOKEN_ACCOUNT_LEDGER, createTokenAccountWithLedger);
 }
 
 export default blockchainSaga;

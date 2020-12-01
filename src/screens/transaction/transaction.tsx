@@ -86,6 +86,24 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		setTokenAccount(val);
 	}
 
+	const onCreateTokenAccount = () => {
+		if (store.blockchain.ledgerConnected) {
+			actions.createTokenAccountWithLedger([
+				store.blockchain.derviationPath,
+				store.solana.serviceConfig.tokenProgram,
+				store.solana.serviceConfig.token,
+				store.solana.serviceConfig.subsidizer,
+			]);
+		} else {
+			actions.createTokenAccount([
+				store.blockchain.secret,
+				store.solana.serviceConfig.tokenProgram,
+				store.solana.serviceConfig.token,
+				store.solana.serviceConfig.subsidizer,
+			]);
+		}
+	}
+
 	useEffect(() => {
 		// if publicKey couldnt be retrived
 		if (!store.blockchain.publicKey) {
@@ -96,14 +114,15 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		if (!store.solana.serviceConfig || !store.solana.serviceConfig.tokenProgram) {
 			actions.getServiceConfig();
 		}
-		if (store.solana.tokenAccounts.length == 0) {
+		if (store.solana.tokenAccounts.length == 0 || store.solana.tokenAccountUpdateRequired) {
 			actions.resolveTokenAccounts(PublicKey.fromString(store.blockchain.publicKey).toBase58());
 		}
 
 		// if unsigned transaction have been made & its not on page mount
 		if (store.solana.transaction && !initial) navigate('/review-payment');
 		if (initial) actions.resetTransactions();
-	}, [store.blockchain.account, store.solana.transaction, store.blockchain.publicKey]);
+	}, [store.blockchain.account, store.solana.transaction, store.blockchain.publicKey, store.solana.tokenAccountUpdateRequired]);
+
 	useEffect(() => {
 		actions.resetTemplateErrors();
 	}, []);
@@ -112,21 +131,22 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		<TransactionStyled>
 			<TransactionContent>
 				{/** TODO: visible if !blockhash and !account */}
-				<GrayedArea visible={false} className="grayedArea" />
 				<HeaderContainer>
 					<H3>MyKinWallet</H3>
 				</HeaderContainer>
 				{store.blockchain.publicKey && (
 					<WalletInfo
-						networkType="Public"
-						walletAddress={store.blockchain.publicKey}
-						tokenAccounts={store.solana.tokenAccounts}
-						balances={store.solana.balances}
-						ledgerConnected={store.blockchain.ledgerConnected}
-						derivationPath={store.blockchain.derviationPath}
+					networkType="Public"
+					walletAddress={store.blockchain.publicKey}
+					tokenAccounts={store.solana.tokenAccounts}
+					balances={store.solana.balances}
+					ledgerConnected={store.blockchain.ledgerConnected}
+					derivationPath={store.blockchain.derviationPath}
+					createTokenAccountFunc={onCreateTokenAccount}
 					/>
 				)}
 
+				<GrayedArea visible={store.solana.tokenAccounts.length == 0} className="grayedArea" />
 				<Styled.formContainer>
 					<H3>Send Kin</H3>
 					<formStyled.formLabel>Sender token account*<formStyled.subLabel/></formStyled.formLabel>
@@ -178,6 +198,7 @@ interface ITransaction {
 			derviationPath: string;
 			unsignedTransaction: object;
 			ledgerConnected: boolean;
+			secret: string;
 		},
 		solana: {
 			tokenAccounts: string[];
@@ -189,6 +210,7 @@ interface ITransaction {
 				token: Uint8Array;
 				subsidizer: Uint8Array;
 			};
+			tokenAccountUpdateRequired: boolean;
 		};
 	};
 	actions: {
@@ -203,6 +225,8 @@ interface ITransaction {
 		getRecentBlockhash: Function;
 		getSolanaTransaction: Function;
 		setTemplateErrors: Function;
+		createTokenAccount: Function;
+		createTokenAccountWithLedger: Function;
 	};
 	handleSubmit: Function;
 	validate: Function;

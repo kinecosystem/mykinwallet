@@ -17,10 +17,9 @@ const WalletPathItem = ({ type, img, alert, link, actions, store, title }) => {
 	const handleClick = () => {
 		if (type === 'ledger') {
 			// check if ledger connected
-			actions.isLedgerConnected();
 			actions.setLoader(true);
 			actions.isLedgerConnected();
-
+			
 			// prevent auto navigate in cdu
 			setAbleNavigate(true);
 		} else {
