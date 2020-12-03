@@ -6,12 +6,13 @@ import { addressGenerator } from 'src/components/helpers/addressGenerator';
 import handleCopy from '../../components/helpers/copy';
 
 interface IDerivationPath {
-	address: string;
+    stellarAddress: string;
+    solanaAddress: string;
 	onChange: Function;
 	initial: string;
 }
 
-const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address, initial }) => {
+const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, stellarAddress, solanaAddress, initial }) => {
 	let [select, setSelect] = useState(false);
 
 	const handleChange = () => {
@@ -46,10 +47,15 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, address,
 			{(select || initial) && (
 				<>
 					<AddressContainer>
-						<span>ADDRESS</span>
-						<div className={`base`}>{address && <>{addressGenerator(address, window.innerWidth < 576)}</>}</div>
+						<span><b>STELLAR ADDRESS (KIN 2/3)</b></span>
+						<div className={`base`}>{stellarAddress && <>{addressGenerator(stellarAddress, window.innerWidth < 576)}</>}</div>
 					</AddressContainer>
-					<CopyAddress onClick={() => handleCopy(address)}>Copy address</CopyAddress>
+					<CopyAddress onClick={() => handleCopy(stellarAddress)}>Copy address</CopyAddress>
+                    <AddressContainer>
+						<span><b>SOLANA ADDRESS (KIN 2/3)</b></span>
+						<div className={`base`}>{solanaAddress && <>{addressGenerator(solanaAddress, window.innerWidth < 576)}</>}</div>
+					</AddressContainer>
+					<CopyAddress onClick={() => handleCopy(solanaAddress)}>Copy address</CopyAddress>
 				</>
 			)}
 		</DerivationStyle>

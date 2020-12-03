@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
 import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
 import { Transaction as SolanaTransaction } from '@solana/web3.js';
+import { ENV_NAME } from '../../config';
 
 const IndexPage = props => {
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
@@ -45,7 +46,6 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 		}
 	};
 	useEffect(() => {
-		console.log(store.solana)
 		if (store.solana.signature && store.solana.submitResponse) navigate('/transaction-approved');
 		if (
 			store.errors[0] && (store.errors[0].includes('insufficient funds') || store.errors[0].includes('invalid account'))
@@ -74,7 +74,7 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 			<P>Verify the payment details to continue</P>
 			{store.transactionForm.kinAmount && store.solana.transaction && (
 				<PaymentInformation
-					network={'Public'}
+					environment={ENV_NAME}
 					amount={store.transactionForm.kinAmount}
 					tokenAccount={store.transactionForm.tokenAccount}
 					destinationAccount={store.transactionForm.destinationAccount}

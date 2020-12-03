@@ -62,7 +62,7 @@ export const DerivationStyle = styled.div`
 
 export const AddressContainer = styled.div`
 	margin-top: 30px;
-	margin-bottom: 25px;
+	margin-bottom: 15px;
 	color: ${({ theme }) => theme.purple};
 	font-size: 12px;
 	${grid('12px', 'initial', 'initial', 'auto', 'auto')}
@@ -90,7 +90,7 @@ export const AddressContainer = styled.div`
 
 export const CopyAddress = styled.div`
 	color: ${({ theme }) => theme.purple};
-	font-size: 14px;
+	font-size: 12px;
 	cursor: pointer;
 	text-decoration: underline;
 `;

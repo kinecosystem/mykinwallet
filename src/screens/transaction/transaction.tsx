@@ -15,6 +15,7 @@ import { navigate, Link } from 'gatsby';
 import inputFields from './inputFields.tsx';
 import { PublicKey } from '../../models/keys';
 import { Transaction as SolanaTransaction } from '@solana/web3.js';
+import { ENV_NAME } from '../../config';
 
 interface IFormData {
 	destinationAccount?: string;
@@ -113,15 +114,15 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 
 		if (!store.solana.serviceConfig || !store.solana.serviceConfig.tokenProgram) {
 			actions.getServiceConfig();
-		}
-		if (store.solana.tokenAccounts.length == 0 || store.solana.tokenAccountUpdateRequired) {
+        }
+        if (store.solana.tokenAccounts.length == 0 || store.solana.accountUpdateRequired) {
 			actions.resolveTokenAccounts(PublicKey.fromString(store.blockchain.publicKey).toBase58());
 		}
 
 		// if unsigned transaction have been made & its not on page mount
 		if (store.solana.transaction && !initial) navigate('/review-payment');
 		if (initial) actions.resetTransactions();
-	}, [store.blockchain.account, store.solana.transaction, store.blockchain.publicKey, store.solana.tokenAccountUpdateRequired]);
+	}, [store.blockchain.account, store.solana.transaction, store.blockchain.publicKey, store.solana.accountUpdateRequired]);
 
 	useEffect(() => {
 		actions.resetTemplateErrors();
@@ -136,14 +137,14 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 				</HeaderContainer>
 				{store.blockchain.publicKey && (
 					<WalletInfo
-					networkType="Public"
-					walletAddress={store.blockchain.publicKey}
-					tokenAccounts={store.solana.tokenAccounts}
-					balances={store.solana.balances}
-					ledgerConnected={store.blockchain.ledgerConnected}
-					derivationPath={store.blockchain.derviationPath}
-					createTokenAccountFunc={onCreateTokenAccount}
-					/>
+                        environment={ENV_NAME}
+                        walletAddress={store.blockchain.publicKey}
+                        tokenAccounts={store.solana.tokenAccounts}
+                        balances={store.solana.balances}
+                        ledgerConnected={store.blockchain.ledgerConnected}
+                        derivationPath={store.blockchain.derviationPath}
+                        createTokenAccountFunc={onCreateTokenAccount}
+                        />
 				)}
 
 				<GrayedArea visible={store.solana.tokenAccounts.length == 0} className="grayedArea" />
@@ -210,7 +211,7 @@ interface ITransaction {
 				token: Uint8Array;
 				subsidizer: Uint8Array;
 			};
-			tokenAccountUpdateRequired: boolean;
+			accountUpdateRequired: boolean;
 		};
 	};
 	actions: {

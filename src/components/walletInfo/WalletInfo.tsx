@@ -3,6 +3,7 @@ import { WalletInfoContainer, WalletInfoItem, Wallet_seperator, Wallet_seperator
 import handleCopy from '../../components/helpers/copy';
 import showAddress from '../helpers/showAddressOnLedger';
 import { PublicKey } from '../../models/keys';
+import { EXPLORER_URL_PARAMS } from '../../config';
 
 interface IWalletInfo {
 	walletAddress: string;
@@ -10,7 +11,7 @@ interface IWalletInfo {
 	balances: object;
 	ledgerConnected: boolean;
 	derivationPath: any;
-	networkType: string;
+	environment: string;
 	createTokenAccountFunc: () => {};
 }
 const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
@@ -26,10 +27,13 @@ const WalletInfo = (props: IWalletInfo) => {
 					<span className="wallet-info">{props.walletAddress}</span>
 					<Footer>
 						<p onClick={() => handleCopy(props.walletAddress)}>Copy address</p>
-						{props.ledgerConnected && <p onClick={() => showAddress(props.derivationPath)}>Display address on your device</p>}
 					</Footer>
 					<span className="wallet-info"><b>Solana (Kin 4):</b></span>
-					<span className="wallet-info">{pk.toBase58()}</span>
+					<span className="wallet-info">
+                        <a target="__blank" href={`https://explorer.solana.com/address/${pk.toBase58()+EXPLORER_URL_PARAMS}`}>
+                            {pk.toBase58()}
+                        </a>
+                    </span>
 					<Footer>
 						<p onClick={() => handleCopy(pk.toBase58())}>Copy address</p>
 					</Footer>
@@ -43,7 +47,12 @@ const WalletInfo = (props: IWalletInfo) => {
 				<span className="wallet-info">{"No token accounts"}</span> : 
 				props.tokenAccounts.map((tokenAccount, i) => (
 					<div key={i}>
-					<span className="wallet-info">{tokenAccount}</span><div/>
+                        <span className="wallet-info">
+                            <a target="__blank" href={`https://explorer.solana.com/address/${tokenAccount+EXPLORER_URL_PARAMS}`}>
+                                {tokenAccount}
+                            </a>
+                        </span>
+                    <div/>
 					<span className="wallet-info">Balance: {props.balances[tokenAccount]} Kin</span>
 					<Footer>
 						<p onClick={() => handleCopy(tokenAccount)}>Copy token account address</p>
@@ -51,16 +60,20 @@ const WalletInfo = (props: IWalletInfo) => {
 					</div>
 				))
 			}
+			</div>
+			</WalletInfoItem>
+            <Wallet_seperator />
+            <WalletInfoItem>
 			<Footer>
 				<p onClick={() => props.createTokenAccountFunc()}>Create new token account (random address)</p>
 			</Footer>
-			</div>
-			</WalletInfoItem>
+            <div><i><b>Please Note</b>: If you are using a ledger device, action may be required on your device.</i></div>
+            </WalletInfoItem>
 			<Wallet_seperator />
 			<WalletInfoItem>
 				<div className="WalletInfoItem__container">
-					<span>Network</span>
-					<span className="wallet-info">{props.networkType}</span>
+					<span>Environment</span>
+					<span className="wallet-info">{props.environment}</span>
 				</div>
 			</WalletInfoItem>
 		</WalletInfoContainer>
