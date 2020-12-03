@@ -52,6 +52,13 @@ export default function(state = initialState, action: any) {
 		case type.RESET_TRANSACTION_DATA: {
 			return { ...state, blockchain: { ...state.blockchain, signedTransaction: false, unsignedTransaction: false } };
 		}
+		case type.RESET_PUBLIC_KEY_DATA: {
+			return {
+				...state,
+				blockchain: { ...state.blockchain, publicKey: false },
+				solana: { ...state.solana, publicKey: false, tokenAccounts: [], balances: {} }
+			};
+		}
 		case type.SET_SOLANA_PUBLIC_KEY:
 		case type.SET_SERVICE_CONFIG:
 		case type.SET_RECENT_BLOCKHASH:

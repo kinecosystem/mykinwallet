@@ -6,8 +6,6 @@ import { Br_lg,Br_xl } from 'common/selectors';
 
 const ErrorsTemplate = error => {
 	switch (error) {
-		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
-
 		case 'Failed to sign with Ledger device: U2F TIMEOUT':
 			return {
 				head: `Failed to sign with your Ledger device. Session timeout.`,
@@ -22,13 +20,32 @@ const ErrorsTemplate = error => {
 				head: `Failed to sign with Ledger device:`,
 				text: <ErrorStyle>The attached device is not a valid Ledger device.</ErrorStyle>
 			};
+		case 'No WebUSB interface found for your Ledger device. Please upgrade firmware or contact techsupport.':
+			return {
+				head:'No WebUSB interface found.',
+				text: (
+					<ErrorStyle>
+						Connect your Ledger device, unlock it <Br_lg/> <Br_xl/> and open the Kin (SPL) application.
+					</ErrorStyle>
+				),
+			}
+		case 'Ledger device: UNKNOWN_ERROR (0x6804)':
+		case 'Ledger device: INS_NOT_SUPPORTED (0x6d00)':
+			return {
+				head: 'Ledger device error.',
+				text: (
+					<ErrorStyle>
+						Please ensure your device is unlocked and the Kin (SPL) application is open.
+					</ErrorStyle>
+				),
+			}
 		default:
 			return { head: error, text: '' };
 	}
 };
 
 const ErrorsTemplateRed = error => {
-	switch (error) {
+    switch (error) {
 		case 'Error: invalid encoded string':
 			return 'Validation failed. Please check that you entered the right address.';
 		case 'Error: invalid version byte. expected 144, got 48':
@@ -51,6 +68,8 @@ const ErrorsTemplateRed = error => {
 			return 'Failed to sign with your Ledger device. Session timeout.';
 		case 'Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE':
 			return 'Failed to sign with your Ledger device. Session timeout.';
+		case 'TransportStatusError: Ledger device: UNKNOWN_ERROR (0x6808)':
+			return 'Failed to sign with your Ledger device. Please ensure the "Allow blind sign" setting in the Kin (SPL) app is set to "Yes".';
 		default:
 			return error;
 	}
