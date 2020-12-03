@@ -10,7 +10,7 @@ interface IPaymentInfo {
 	purple: string;
 	tokenAccount: string;
 	destinationAccount: string;
-	network: string;
+	environment: string;
 	memo: string;
 }
 
@@ -21,7 +21,7 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 	tokenAccount,
 	destinationAccount,
 	balance,
-	network,
+	environment,
 	memo
 }) => {
 	return (
@@ -33,10 +33,10 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 					<div>{amount} KIN</div>
 				</Item>
 			)}
-			{network && (
+			{environment && (
 				<Item>
-					<span>Network</span>
-					<div>{network}</div>
+					<span>Environment</span>
+					<div>{environment}</div>
 				</Item>
 			)}
 

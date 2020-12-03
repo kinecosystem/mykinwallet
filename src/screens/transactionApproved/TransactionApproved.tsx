@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import balanceCalculator from 'src/components/helpers/balanceCalculator';
 import bs58 from 'bs58';
 import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
+import { EXPLORER_URL_PARAMS } from '../../config';
 
 const IndexPage = props => {
 	const stepByPath = () => (props.isLedgerConnected ? 5 : 4);
@@ -75,7 +76,7 @@ const TransactionApproved: React.FunctionComponent<ITransactionApproved> = ({ st
 	}, []);
 	return (
 		<ApprovedPaymentStyled>
-			<H3>Transaction approved</H3>
+			<H3>Transaction submitted</H3>
 			<P>Here are the details of your payment:</P>
 			{store.transactionForm.kinAmount && store.solana.signature && (
 				<PaymentInformation
@@ -101,12 +102,12 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(IndexPage);
 
 const Transaction = ({ signature }) => (
-	<a target="__blank" href={`https://explorer.solana.com/tx/${signature}`}>
+	<a target="__blank" href={`https://explorer.solana.com/tx/${signature+EXPLORER_URL_PARAMS}`}>
 		{signature}
 	</a>
 );
 const Account = ({ account }) => (
-	<a target="__blank" href={`https://explorer.solana.com/address/${account}`}>
+	<a target="__blank" href={`https://explorer.solana.com/address/${account+EXPLORER_URL_PARAMS}`}>
 		account
 	</a>
 );

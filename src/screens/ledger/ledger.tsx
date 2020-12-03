@@ -4,6 +4,8 @@ import { LedgerStyle, LedgerHeader, PurpleTitle, ButtonContainer } from './style
 import { H3, Button } from 'common/selectors';
 import DerivationPath from './DerivationPath';
 import { navigate } from 'gatsby';
+import { PublicKey } from '../../models/keys';
+import { ENV_NAME } from '../../config';
 
 const IndexPage = props => {
 	return (
@@ -25,7 +27,10 @@ interface ILedger {
 			terms: boolean;
 			publicKey: string;
 			derviationPath: string;
-		};
+        };
+        solana: {
+            publicKey: string;
+        }
 	};
 	actions: {
 		getPublicKey: Function;
@@ -66,9 +71,12 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 				<H3>Network and address</H3>
 			</LedgerHeader>
 			<PurpleTitle>
-				<span>Network:</span> Kin Public
+				<span>Environment:</span> {ENV_NAME}
 			</PurpleTitle>
-			<DerivationPath initial={store.blockchain.derviationPath} onChange={handleSelect} address={store.blockchain.publicKey} />
+            <DerivationPath 
+                initial={store.blockchain.derviationPath} onChange={handleSelect} 
+                stellarAddress={store.blockchain.publicKey}
+                solanaAddress={store.solana.publicKey} />
 
 			<ButtonContainer>
 				<Button onClick={handleButton}>Access my wallet</Button>

@@ -23,7 +23,6 @@ export class Kin4Ledger {
 		const path = solana_derivation_path(account, undefined);
 		const keyBytes = await solana_ledger_get_pubkey(this.transport, path);
 		const encoded = bs58.encode(keyBytes);
-		console.log(encoded);
 		return new PublicKey(encoded);
 	};
 

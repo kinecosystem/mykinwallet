@@ -14,25 +14,20 @@ import { AccountSize, AuthorityType, TokenProgram } from '../../../solana/token-
 import { MemoProgram } from '../../../solana/memo-program';
 import { Transaction, PublicKey as SolanaPublicKey, Account, SystemProgram } from '@solana/web3.js';
 import { Kin4Ledger } from '../../../solana/kin-4-ledger';
+import { AGORA_URL } from '../../../config';
 
 // to make test net pass true
-const bc = new Kin.Blockchain(true);
+const bc = new Kin.Blockchain();
 const kin4Ledger = new Kin4Ledger();
 
-const agoraURL = 'http://localhost:8085';
-const agoraHeaders = {
-	'Content-Type': 'application/proto'
-};
+const createAccountURL = AGORA_URL + '/api/kin.agora.account.v4.Account/CreateAccount';
+const resolveTokenAccountsURL = AGORA_URL + '/api/kin.agora.account.v4.Account/ResolveTokenAccounts';
+const getAccountInfoURL = AGORA_URL + '/api/kin.agora.account.v4.Account/GetAccountInfo';
 
-const createAccountURL = agoraURL + '/api/kin.agora.account.v4.Account/CreateAccount';
-const resolveTokenAccountsURL = agoraURL + '/api/kin.agora.account.v4.Account/ResolveTokenAccounts';
-const getAccountInfoURL = agoraURL + '/api/kin.agora.account.v4.Account/GetAccountInfo';
-
-const getServiceConfigURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetServiceConfig';
-const getRecentBlockhashURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetRecentBlockhash';
-const getMinimumBalanceForRentExceptionURL =
-	agoraURL + '/api/kin.agora.transaction.v4.Transaction/GetMinimumBalanceForRentExemption';
-const submitTransactionURL = agoraURL + '/api/kin.agora.transaction.v4.Transaction/SubmitTransaction';
+const getServiceConfigURL = AGORA_URL + '/api/kin.agora.transaction.v4.Transaction/GetServiceConfig';
+const getRecentBlockhashURL = AGORA_URL + '/api/kin.agora.transaction.v4.Transaction/GetRecentBlockhash';
+const getMinBalanceURL = AGORA_URL + '/api/kin.agora.transaction.v4.Transaction/GetMinimumBalanceForRentExemption';
+const submitTransactionURL = AGORA_URL + '/api/kin.agora.transaction.v4.Transaction/SubmitTransaction';
 
 function* loading(bool) {
 	yield put({
@@ -81,11 +76,15 @@ function* getPublicKey(action) {
 		yield loading(true);
 		yield kin4Ledger.connect();
 		const key = yield kin4Ledger.getPublicKey(getAccountFromPath(action.payload.trim()));
-		console.log();
+		const pk = PublicKey.fromBase58(key.toBase58());
 
 		yield put({
 			type: types.SET_PUBLIC_KEY,
-			payload: { publicKey: PublicKey.fromBase58(key.toBase58()).stellarAddress() }
+			payload: { publicKey: pk.stellarAddress() }
+		});
+		yield put({
+			type: types.SET_SOLANA_PUBLIC_KEY,
+			payload: { publicKey: pk.toBase58() }
 		});
 		// trigger end load
 		yield loading(false);
@@ -634,7 +633,7 @@ function* createTokenAccount(action) {
 
 		const minBalanceReq = new transactionpb.GetMinimumBalanceForRentExemptionRequest();
 		minBalanceReq.setSize(AccountSize);
-		const minBalanceHttpResp = yield submitAgoraReq(getMinimumBalanceForRentExceptionURL, minBalanceReq.serializeBinary());
+		const minBalanceHttpResp = yield submitAgoraReq(getMinBalanceURL, minBalanceReq.serializeBinary());
 		const minBalanceResp = transactionpb.GetMinimumBalanceForRentExemptionResponse.deserializeBinary(minBalanceHttpResp.data);
 
 		const tx = getCreateAccountTx(
@@ -728,7 +727,7 @@ function* createTokenAccountWithLedger(action) {
 
 		const minBalanceReq = new transactionpb.GetMinimumBalanceForRentExemptionRequest();
 		minBalanceReq.setSize(165);
-		const minBalanceHttpResp = yield submitAgoraReq(getMinimumBalanceForRentExceptionURL, minBalanceReq.serializeBinary());
+		const minBalanceHttpResp = yield submitAgoraReq(getMinBalanceURL, minBalanceReq.serializeBinary());
 		const minBalanceResp = transactionpb.GetMinimumBalanceForRentExemptionResponse.deserializeBinary(minBalanceHttpResp.data);
 
 		const tx = getCreateAccountTx(
@@ -743,7 +742,6 @@ function* createTokenAccountWithLedger(action) {
 		tx.partialSign(new Account(tokenAccount.secretKey()));
 
 		const signedTransaction = yield kin4Ledger.signTransaction(pathAccount, tx);
-		console.log(signedTransaction);
 
 		const protoTx = new commonpb.Transaction();
 		protoTx.setValue(
@@ -792,7 +790,6 @@ function* createTokenAccountWithLedger(action) {
 		}
 		yield loading(false);
 	} catch (error) {
-		console.log(error);
 		yield put(setTemplateErrors([error.toString()]));
 		yield loading(false);
 	}
@@ -843,7 +840,9 @@ function submitAgoraReq(url: string, data: Uint8Array): Promise<AxiosResponse> {
 		method: 'post',
 		url: url,
 		data: data,
-		headers: agoraHeaders,
+		headers: {
+			'Content-Type': 'application/proto'
+		},
 		responseType: 'arraybuffer'
 	});
 }
