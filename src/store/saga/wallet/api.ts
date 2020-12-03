@@ -657,7 +657,7 @@ function* createTokenAccount(action) {
 
 		const createReq = new accountpb.CreateAccountRequest();
 		createReq.setTransaction(protoTx);
-		createReq.setCommitment(commonpb.Commitment.SINGLE);
+		createReq.setCommitment(commonpb.Commitment.MAX);
 
 		const createHttpResp = yield submitAgoraReq(createAccountURL, createReq.serializeBinary());
 		const createResp = accountpb.CreateAccountResponse.deserializeBinary(createHttpResp.data);
@@ -753,7 +753,7 @@ function* createTokenAccountWithLedger(action) {
 
 		const createReq = new accountpb.CreateAccountRequest();
 		createReq.setTransaction(protoTx);
-		createReq.setCommitment(commonpb.Commitment.SINGLE);
+		createReq.setCommitment(commonpb.Commitment.MAX);
 
 		const createHttpResp = yield submitAgoraReq(createAccountURL, createReq.serializeBinary());
 		const createResp = accountpb.CreateAccountResponse.deserializeBinary(createHttpResp.data);
