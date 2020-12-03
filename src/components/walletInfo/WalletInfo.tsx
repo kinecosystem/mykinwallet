@@ -67,7 +67,9 @@ const WalletInfo = (props: IWalletInfo) => {
 			<Footer>
 				<p onClick={() => props.createTokenAccountFunc()}>Create new token account (random address)</p>
 			</Footer>
-            <div><i><b>Please Note</b>: If you are using a ledger device, action may be required on your device.</i></div>
+            <div><i><b>Please Note: </b>
+                <a target="__blank" href={'https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment'}>Max commitment</a> is 
+                used for this create account transaction, so this may take some time. Additionally, if you are using a ledger device, action will be required on your device.</i></div>
             </WalletInfoItem>
 			<Wallet_seperator />
 			<WalletInfoItem>
