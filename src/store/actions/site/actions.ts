@@ -15,6 +15,12 @@ export const setLedgerConnected = payload => {
 };
 
 // public key
+export const requestPublicKey = payload => {
+	return {
+		type: types.REQUEST_PUBLIC_KEY,
+		payload
+	};
+};
 export const getPublicKey = payload => {
 	return {
 		type: types.GET_PUBLIC_KEY,
@@ -131,6 +137,11 @@ export const setTerms = () => {
 };
 
 // Solana
+export const resetPublicKeyData = () => {
+	return {
+		type: types.RESET_PUBLIC_KEY_DATA
+	};
+};
 export const resolveTokenAccounts = payload => {
 	return {
 		type: types.RESOLVE_TOKEN_ACCOUNTS,

@@ -15,6 +15,7 @@ import {
 	getUnsignedTransaction,
 	resetUnsignedTransaction,
 	isLedgerConnected,
+	requestPublicKey,
 	getPublicKey,
 	getAccount,
 	resetAll,
@@ -23,6 +24,7 @@ import {
 	setLoader,
 	setAccount,
 	resetTransactions,
+	resetPublicKeyData,
 	resolveTokenAccounts,
 	getAccountInfo,
 	getServiceConfig,
@@ -126,6 +128,7 @@ const mapDispatchToProps = dispatch => {
 				setDerivationPath,
 				getUnsignedTransaction,
 				setSignTransaction,
+				requestPublicKey,
 				getAccount,
 				resetTemplateErrors,
 				setTemplateErrors,
@@ -135,6 +138,7 @@ const mapDispatchToProps = dispatch => {
 				setSignTransactionKeyPair,
 				setAccount,
 				resetTransactions,
+				resetPublicKeyData,
 				resolveTokenAccounts,
 				getAccountInfo,
 				getServiceConfig,
@@ -168,11 +172,13 @@ interface Iactions {
 	resetTemplateErrors: Function;
 	setTemplateErrors: Function;
 	isLedgerConnected: Function;
+	requestPublicKey: Function;
 	getPublicKey: Function;
 	getIsKeyPairValid: Function;
 	setSignTransactionKeyPair: Function;
 	setAccount: Function;
 	resetTransactions: Function;
+	resetPublicKeyData: Function;
 	resolveTokenAccounts: Function;
 	getAccountInfo: Function;
 	getServiceConfig: Function;

@@ -9,7 +9,7 @@
 		"@kinecosystem/kin-sdk": "^0.20.3",
 		"@ledgerhq/hw-app-str": "4.39.0",
 		"@ledgerhq/hw-transport-u2f": "4.39.0",
-		"@ledgerhq/hw-transport-webusb": "5.34.0",
+		"@ledgerhq/hw-transport-webusb": "^5.34.1",
 		"@solana/web3.js": "^0.87.1",
 		"bignumber.js": "^9.0.1",
 		"body-scroll-lock": "^2.6.1",

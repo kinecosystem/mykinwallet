@@ -33,7 +33,7 @@ interface ILedger {
         }
 	};
 	actions: {
-		getPublicKey: Function;
+		requestPublicKey: Function;
 		setTemplateErrors: Function;
 		setDerivationPath: Function;
 		resetTemplateErrors: Function;
@@ -51,7 +51,7 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 	const handleSelect = value => {
 		actions.setAccount({ account: false });
 		actions.resetTemplateErrors();
-		actions.getPublicKey(value);
+		actions.requestPublicKey(value);
 		actions.setDerivationPath(value);
 	};
 
@@ -62,7 +62,7 @@ const Ledger: React.FunctionComponent<ILedger> = ({ store, actions }) => {
 			} else {
 				navigate('/transaction', { state: { type: 'ledger' } });
 			}
-		if (!store.blockchain.publicKey) actions.setTemplateErrors(['Choose derivation path']);
+		if (!store.blockchain.publicKey || !store.solana.publicKey) actions.setTemplateErrors(['Choose derivation path and approve on ledger device.']);
 	};
 
 	return (

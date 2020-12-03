@@ -23,6 +23,7 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, stellarA
 			<header>
 				<H3>Choose Derivation Path: </H3>
 			</header>
+			<p><b>Please Note:</b> Upon selection, the address will be displayed on your device and approval will be required.</p>
 			<Select
 				defaultValue={initial && initial}
 				placeholder="Choose BIP path"
@@ -44,18 +45,18 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, stellarA
 				]}
 			/>
 
-			{(select || initial) && (
+			{(select || initial) && solanaAddress && (
 				<>
-					<AddressContainer>
-						<span><b>STELLAR ADDRESS (KIN 2/3)</b></span>
-						<div className={`base`}>{stellarAddress && <>{addressGenerator(stellarAddress, window.innerWidth < 576)}</>}</div>
-					</AddressContainer>
-					<CopyAddress onClick={() => handleCopy(stellarAddress)}>Copy address</CopyAddress>
                     <AddressContainer>
 						<span><b>SOLANA ADDRESS (KIN 2/3)</b></span>
 						<div className={`base`}>{solanaAddress && <>{addressGenerator(solanaAddress, window.innerWidth < 576)}</>}</div>
 					</AddressContainer>
 					<CopyAddress onClick={() => handleCopy(solanaAddress)}>Copy address</CopyAddress>
+					<AddressContainer>
+						<span><b>STELLAR ADDRESS (KIN 2/3)</b></span>
+						<div className={`base`}>{stellarAddress && <>{addressGenerator(stellarAddress, window.innerWidth < 576)}</>}</div>
+					</AddressContainer>
+					<CopyAddress onClick={() => handleCopy(stellarAddress)}>Copy address</CopyAddress>
 				</>
 			)}
 		</DerivationStyle>

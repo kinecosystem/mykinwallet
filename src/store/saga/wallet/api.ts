@@ -1,7 +1,7 @@
 import { takeLatest, put } from 'redux-saga/effects';
 import types from '../../actions/site/types';
 import * as Kin from 'kin-wallet';
-import { setTemplateErrors } from '../../actions/errors/actionsErrors';
+import { resetTemplateErrors, setTemplateErrors } from '../../actions/errors/actionsErrors';
 import commonpb from '@kinecosystem/agora-api/node/common/v4/model_pb';
 import accountpb from '@kinecosystem/agora-api/node/account/v4/account_service_pb';
 import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
@@ -51,7 +51,6 @@ function* isLedgerConnected(action) {
 		});
 
 		// check if ledger connected
-		yield kin4Ledger.connect();
 		yield kin4Ledger.getPublicKey(0);
 
 		// set connected
@@ -62,19 +61,55 @@ function* isLedgerConnected(action) {
 
 		yield loading(false);
 	} catch (error) {
+		yield loading(false);
 		if (error.message) {
 			yield put(setTemplateErrors([error.message]));
 		} else {
 			yield put(setTemplateErrors([error]));
 		}
 	}
-	yield loading(false);
+}
+
+function* requestPublicKey(action) {
+	try {
+		yield loading(true);
+
+		// Reset previously existing public key-related data
+		yield put({
+			type: types.RESET_PUBLIC_KEY_DATA
+		});
+
+		const key = yield kin4Ledger.getPublicKeyWithDisplay(getAccountFromPath(action.payload.trim()));
+		const pk = PublicKey.fromBase58(key.toBase58());
+
+		yield put({
+			type: types.SET_PUBLIC_KEY,
+			payload: { publicKey: pk.stellarAddress() }
+		});
+		yield put({
+			type: types.SET_SOLANA_PUBLIC_KEY,
+			payload: { publicKey: pk.toBase58() }
+		});
+		yield loading(false);
+	} catch (error) {
+		yield loading(false);
+		if (error.message) {
+			yield put(setTemplateErrors([error.message]));
+		} else {
+			yield put(setTemplateErrors([error]));
+		}
+	}
 }
 
 function* getPublicKey(action) {
 	try {
 		yield loading(true);
-		yield kin4Ledger.connect();
+
+		// Reset previously existing public key-related data
+		yield put({
+			type: types.RESET_PUBLIC_KEY_DATA
+		});
+
 		const key = yield kin4Ledger.getPublicKey(getAccountFromPath(action.payload.trim()));
 		const pk = PublicKey.fromBase58(key.toBase58());
 
@@ -90,7 +125,11 @@ function* getPublicKey(action) {
 		yield loading(false);
 	} catch (error) {
 		yield loading(false);
-		yield put(setTemplateErrors([error]));
+		if (error.message) {
+			yield put(setTemplateErrors([error.message]));
+		} else {
+			yield put(setTemplateErrors([error]));
+		}
 	}
 }
 
@@ -527,7 +566,6 @@ function* signAndSubmitTransactionWithLedger(action) {
 	var signedTransaction;
 	try {
 		yield loading(true);
-		yield kin4Ledger.connect();
 		const pathAccount = getAccountFromPath(derivationPath);
 
 		const req = new transactionpb.GetRecentBlockhashRequest();
@@ -703,7 +741,6 @@ function* createTokenAccountWithLedger(action) {
 	const [derivationPath, tokenProgram, token, subsidizer] = action.payload;
 	try {
 		yield loading(true);
-		yield kin4Ledger.connect();
 		const pathAccount = getAccountFromPath(derivationPath);
 
 		const tokenProgramKey = new SolanaPublicKey(tokenProgram);
@@ -856,6 +893,7 @@ function getAccountFromPath(derivationPath: string): number {
 // watcher
 function* blockchainSaga() {
 	yield takeLatest(types.IS_LEDGER_CONNECTED, isLedgerConnected);
+	yield takeLatest(types.REQUEST_PUBLIC_KEY, requestPublicKey);
 	yield takeLatest(types.GET_PUBLIC_KEY, getPublicKey);
 	yield takeLatest(types.GET_ACCOUNT, getAccount);
 	yield takeLatest(types.GET_UNSIGNED_TRANSACTION, getUnsignedTransaction);
