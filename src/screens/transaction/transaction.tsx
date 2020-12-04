@@ -150,7 +150,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 				<GrayedArea visible={store.solana.tokenAccounts.length == 0} className="grayedArea" />
 				<Styled.formContainer>
 					<H3>Send Kin</H3>
-					<formStyled.formLabel>Sender token account*<formStyled.subLabel/></formStyled.formLabel>
+					<formStyled.formLabel>Sender Token Account*<formStyled.subLabel/></formStyled.formLabel>
 					<Select
 						placeholder="Choose sender token account"
 						onChange={val => {
