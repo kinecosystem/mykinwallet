@@ -48,7 +48,7 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, stellarA
 			{(select || initial) && solanaAddress && (
 				<>
                     <AddressContainer>
-						<span><b>SOLANA ADDRESS (KIN 2/3)</b></span>
+						<span><b>SOLANA ADDRESS (KIN 4)</b></span>
 						<div className={`base`}>{solanaAddress && <>{addressGenerator(solanaAddress, window.innerWidth < 576)}</>}</div>
 					</AddressContainer>
 					<CopyAddress onClick={() => handleCopy(solanaAddress)}>Copy address</CopyAddress>
