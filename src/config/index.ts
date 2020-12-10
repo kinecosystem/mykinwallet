@@ -4,11 +4,11 @@ enum Environment {
 }
 
 // Change this value to switch environments
-export const ENV = Environment.Test;
+export const ENV = Environment.Prod;
 
 const AGORA_URLS = new Map<number, string>([
-	[Environment.Test, 'http://localhost:8085'],
-	[Environment.Prod, 'http://localhost:8085']
+	[Environment.Test, 'https://gateway.agorainfra.dev'],
+	[Environment.Prod, 'https://gateway.agorainfra.net']
 ]);
 export const AGORA_URL = AGORA_URLS.get(ENV);
 
