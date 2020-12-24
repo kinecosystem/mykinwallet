@@ -12,6 +12,7 @@ interface IWalletInfo {
 	derivationPath: any;
 	environment: string;
 	createTokenAccountFunc: () => {};
+	fetchTokenAccountsFunc: () => {};
 }
 const IntlNumber = number => new Intl.NumberFormat('ja-JP').format(number);
 
@@ -42,6 +43,9 @@ const WalletInfo = (props: IWalletInfo) => {
 			<WalletInfoItem>
 			<div className="WalletInfoItem__container">
 			<span>Kin Token Accounts</span>
+			<Footer>
+			<p onClick={() => props.fetchTokenAccountsFunc()}>Refresh token accounts</p>
+			</Footer>
 			{props.tokenAccounts.length == 0 ? 
 				<span className="wallet-info">{"No token accounts"}</span> : 
 				props.tokenAccounts.map((tokenAccount, i) => (
@@ -61,15 +65,17 @@ const WalletInfo = (props: IWalletInfo) => {
 			}
 			</div>
 			</WalletInfoItem>
-			<Wallet_seperator />
+			{props.tokenAccounts.length == 0 && <Wallet_seperator />}
+			{props.tokenAccounts.length == 0 && 
 			<WalletInfoItem>
 			<Footer>
-				<p onClick={() => props.createTokenAccountFunc()}>Create new token account (random address)</p>
+				<p onClick={() => props.createTokenAccountFunc()}>Create token account</p>
 			</Footer>
-			<div><i><b>Please Note: </b>
-				<a target="__blank" href={'https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment'}>Max commitment</a> is 
-				used for this create account transaction, so this may take some time. Additionally, if you are using a ledger device, action will be required on your device.</i></div>
-			</WalletInfoItem>
+			<div><i><b>Please Note: </b><br/>
+				- If you are using a ledger device, action will be required on your device.<br/>
+				- <a target="__blank" href={'https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment'}>Single commitment</a> is 
+				used for this create account transaction, so you may need to refresh your token accounts to see the new account.<br/></i></div>
+			</WalletInfoItem>}
 			<Wallet_seperator />
 			<WalletInfoItem>
 				<div className="WalletInfoItem__container">

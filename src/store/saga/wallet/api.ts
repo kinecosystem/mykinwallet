@@ -331,11 +331,7 @@ function* resolveTokenAccounts(action) {
 		yield loading(false);
 	} catch (error) {
 		yield loading(false);
-		if (error.response) {
-			yield put(setTemplateErrors([error.response.title]));
-		} else {
-			yield put(setTemplateErrors([error.message]));
-		}
+		yield put(setTemplateErrors([`Failed to resolve token accounts (${error.toString()})`]));
 	}
 }
 
@@ -369,12 +365,8 @@ function* getAccountInfo(action) {
 			yield put(setTemplateErrors([`Token account ${accountID} not found`]));
 		}
 	} catch (error) {
+		yield put(setTemplateErrors([`Failed to get account info (${error.toString()})`]));
 		yield loading(false);
-		if (error.response) {
-			yield put(setTemplateErrors([error.response.title]));
-		} else {
-			yield put(setTemplateErrors([error.message]));
-		}
 	}
 }
 
@@ -404,8 +396,8 @@ function* getServiceConfig() {
 		// trigger load
 		yield loading(false);
 	} catch (error) {
-		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
+		yield loading(false);
 	}
 }
 
@@ -426,8 +418,8 @@ function* getRecentBlockhash() {
 		// trigger load
 		yield loading(false);
 	} catch (error) {
-		yield loading(false);
 		yield put(setTemplateErrors([error.toString()]));
+		yield loading(false);
 	}
 }
 
@@ -472,9 +464,8 @@ function* getSolanaTransaction(action) {
 		});
 		yield loading(false);
 	} catch (error) {
-		yield loading(false);
-
 		yield put(setTemplateErrors([error.toString()]));
+		yield loading(false);
 	}
 }
 
@@ -556,8 +547,8 @@ function* signAndSubmitTransaction(action) {
 		}
 		yield loading(false);
 	} catch (error) {
+		yield put(setTemplateErrors([`Failed to sign and submit transaction (${error.toString()})`]));
 		yield loading(false);
-		yield put(setTemplateErrors([error.toString()]));
 	}
 }
 
@@ -634,7 +625,7 @@ function* signAndSubmitTransactionWithLedger(action) {
 		}
 		yield loading(false);
 	} catch (error) {
-		yield put(setTemplateErrors([error.toString()]));
+		yield put(setTemplateErrors([`Failed to sign and submit transaction (${error.toString()})`]));
 		yield loading(false);
 	}
 }
@@ -653,8 +644,6 @@ function* createTokenAccount(action) {
 		} catch (error) {
 			owner = PrivateKey.fromBase58(secret);
 		}
-
-		const tokenAccount = PrivateKey.random();
 
 		var subsidizerKey: SolanaPublicKey;
 		if (subsidizer) {
@@ -676,14 +665,14 @@ function* createTokenAccount(action) {
 
 		const tx = getCreateAccountTx(
 			recentBlockhash,
-			tokenAccount.publicKey().solanaKey(),
+			owner.publicKey().solanaKey(),
 			owner.publicKey().solanaKey(),
 			subsidizerKey,
 			tokenProgramKey,
 			tokenKey,
 			minBalanceResp.getLamports()
 		);
-		tx.partialSign(new Account(owner.secretKey()), new Account(tokenAccount.secretKey()));
+		tx.partialSign(new Account(owner.secretKey()));
 
 		const protoTx = new commonpb.Transaction();
 		protoTx.setValue(
@@ -695,13 +684,24 @@ function* createTokenAccount(action) {
 
 		const createReq = new accountpb.CreateAccountRequest();
 		createReq.setTransaction(protoTx);
-		createReq.setCommitment(commonpb.Commitment.MAX);
+		createReq.setCommitment(commonpb.Commitment.SINGLE);
 
 		const createHttpResp = yield submitAgoraReq(createAccountURL, createReq.serializeBinary());
 		const createResp = accountpb.CreateAccountResponse.deserializeBinary(createHttpResp.data);
 
 		switch (createResp.getResult()) {
 			case accountpb.CreateAccountResponse.Result.OK:
+				// TODO: one day maybe add notifications instead of using errors for displaying tx ids
+				yield put(
+					setTemplateErrors([
+						`Submitted transaction to create token account ${bs58.encode(
+							createResp
+								.getAccountInfo()
+								.getAccountId()
+								.getValue_asU8()
+						)} with single commitment.`
+					])
+				);
 				yield put({
 					type: types.SET_ACCOUNT_UPDATE_REQUIRED,
 					payload: true
@@ -732,7 +732,7 @@ function* createTokenAccount(action) {
 		}
 		yield loading(false);
 	} catch (error) {
-		yield put(setTemplateErrors([error.toString()]));
+		yield put(setTemplateErrors([`Create token account request failed (${error.toString()})`]));
 		yield loading(false);
 	}
 }
@@ -746,8 +746,6 @@ function* createTokenAccountWithLedger(action) {
 		const tokenProgramKey = new SolanaPublicKey(tokenProgram);
 		const tokenKey = new SolanaPublicKey(token);
 		const owner = yield kin4Ledger.getPublicKey(pathAccount);
-
-		const tokenAccount = PrivateKey.random();
 
 		var subsidizerKey: SolanaPublicKey;
 		if (subsidizer) {
@@ -769,14 +767,13 @@ function* createTokenAccountWithLedger(action) {
 
 		const tx = getCreateAccountTx(
 			recentBlockhash,
-			tokenAccount.publicKey().solanaKey(),
+			owner,
 			owner,
 			subsidizerKey,
 			tokenProgramKey,
 			tokenKey,
 			minBalanceResp.getLamports()
 		);
-		tx.partialSign(new Account(tokenAccount.secretKey()));
 
 		const signedTransaction = yield kin4Ledger.signTransaction(pathAccount, tx);
 
@@ -790,13 +787,24 @@ function* createTokenAccountWithLedger(action) {
 
 		const createReq = new accountpb.CreateAccountRequest();
 		createReq.setTransaction(protoTx);
-		createReq.setCommitment(commonpb.Commitment.MAX);
+		createReq.setCommitment(commonpb.Commitment.SINGLE);
 
 		const createHttpResp = yield submitAgoraReq(createAccountURL, createReq.serializeBinary());
 		const createResp = accountpb.CreateAccountResponse.deserializeBinary(createHttpResp.data);
 
 		switch (createResp.getResult()) {
 			case accountpb.CreateAccountResponse.Result.OK:
+				// TODO: one day maybe add notifications instead of using errors for displaying tx ids
+				yield put(
+					setTemplateErrors([
+						`Submitted transaction to create ${bs58.encode(
+							createResp
+								.getAccountInfo()
+								.getAccountId()
+								.getValue_asU8()
+						)} with single commitment.`
+					])
+				);
 				yield put({
 					type: types.SET_ACCOUNT_UPDATE_REQUIRED,
 					payload: true
@@ -827,7 +835,7 @@ function* createTokenAccountWithLedger(action) {
 		}
 		yield loading(false);
 	} catch (error) {
-		yield put(setTemplateErrors([error.toString()]));
+		yield put(setTemplateErrors([`Create token account request failed (${error.toString()})`]));
 		yield loading(false);
 	}
 }

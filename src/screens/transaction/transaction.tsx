@@ -105,6 +105,10 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		}
 	}
 
+	const onFetchTokenAccounts = () => {
+		actions.resolveTokenAccounts(PublicKey.fromString(store.blockchain.publicKey).toBase58());
+	}
+
 	useEffect(() => {
 		// if publicKey couldnt be retrived
 		if (!store.blockchain.publicKey) {
@@ -143,7 +147,8 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
                         balances={store.solana.balances}
                         ledgerConnected={store.blockchain.ledgerConnected}
                         derivationPath={store.blockchain.derviationPath}
-                        createTokenAccountFunc={onCreateTokenAccount}
+						createTokenAccountFunc={onCreateTokenAccount}
+						fetchTokenAccountsFunc={onFetchTokenAccounts}
                         />
 				)}
 
