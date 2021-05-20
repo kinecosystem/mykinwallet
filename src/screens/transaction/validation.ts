@@ -38,7 +38,7 @@ const validator = ({ tokenAccount, memo, destinationAccount, kinAmount }) => {
 
 	// kin amount validation
 	if (kinAmount) {
-		if (kinAmount > 100000000) errors.kinAmount = 'Too high';
+		if (kinAmount > 500000000) errors.kinAmount = 'Too high';
 		if (kinAmount < 0.001) errors.kinAmount = 'Too low';
 	}
 

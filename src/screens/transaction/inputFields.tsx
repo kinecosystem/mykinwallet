@@ -22,8 +22,8 @@ const inputFields: {
 		name: 'kinAmount',
 		type: 'number',
 		label: 'Kin Amount*',
-		placeholder: 'Max amount 100M Kin',
-		max: 100000000,
+		placeholder: 'Max amount 500M Kin',
+		max: 500000000,
 		min: 1,
 		step: 'any',
 		maxlength: 9
