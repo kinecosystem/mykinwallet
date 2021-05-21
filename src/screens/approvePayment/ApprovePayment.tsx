@@ -7,6 +7,7 @@ import { MessageTextContainer, GoBack } from '../reviewPayment/style';
 import { MessageText } from 'src/components/messages/info';
 import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
 import { Transaction as SolanaTransaction } from '@solana/web3.js';
+import { PrivateKey } from '../../models/keys';
 
 const IndexPage = props => {
 	const [isSignOut, setIsSignOut] = useState('signOut');
@@ -39,6 +40,7 @@ interface IApprovePayment {
 		};
 		solana: {
 			transaction: SolanaTransaction;
+			additionalSigners: PrivateKey[];
 			signature: Uint8Array;
 			submitResponse: transactionpb.SubmitTransactionResponse;
 		}
@@ -57,7 +59,7 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ setHideSignO
 	const [txActionInitiated, setTxActionInitiated] = useState(true);
 	// state to prevent auto navigation on error at mounting
 	const handleApprove = () => {
-		actions.signAndSubmitTransactionWithLedger([store.blockchain.derviationPath, store.solana.transaction])
+		actions.signAndSubmitTransactionWithLedger([store.blockchain.derviationPath, store.solana.transaction, store.solana.additionalSigners])
 		actions.resetTemplateErrors();
 		setTxActionInitiated(true);
 	};
@@ -75,7 +77,7 @@ const ApprovePayment: React.FunctionComponent<IApprovePayment> = ({ setHideSignO
 	}, [store.solana.transaction, store.errors, store.solana.submitResponse, store.solana.signature]);
 	useEffect(() => {
 		// ask use to approve ledger transaction at page load
-		actions.signAndSubmitTransactionWithLedger([store.blockchain.derviationPath, store.solana.transaction])
+		actions.signAndSubmitTransactionWithLedger([store.blockchain.derviationPath, store.solana.transaction, store.solana.additionalSigners])
 	}, []);
 	return (
 		<ApprovePaymentStyled>

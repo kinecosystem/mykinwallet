@@ -77,7 +77,7 @@
 		"deploy": "gatsby-plugin-s3 deploy",
 		"develop": "gatsby develop --host 0.0.0.0",
 		"deployS3": "gatsby build && gatsby-plugin-s3 deploy",
-		"developSecure": "gatsby develop -S",
+		"developSecure": "gatsby develop -S --host 0.0.0.0",
 		"format": "prettier --write src/**/*.{js,jsx}",
 		"start": "npm run develop",
 		"serve": "gatsby serve",

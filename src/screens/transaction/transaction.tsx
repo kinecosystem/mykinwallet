@@ -13,7 +13,7 @@ import WalletInfo from 'src/components/walletInfo/WalletInfo';
 import validate from './validation';
 import { navigate, Link } from 'gatsby';
 import inputFields from './inputFields.tsx';
-import { PublicKey } from '../../models/keys';
+import { PublicKey, PrivateKey } from '../../models/keys';
 import { Transaction as SolanaTransaction } from '@solana/web3.js';
 import { ENV_NAME } from '../../config';
 
@@ -50,7 +50,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 	let [tokenAccount, setTokenAccount] = useState("");
 
 	const fee = 0;  // TODO: verify fee
-	
+
 	// TODO: move to localization
 	const onSubmit = formValues => {
 		const { destinationAccount, kinAmount, memo } = formValues;
@@ -61,7 +61,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 		if (!store.solana.balances[tokenAccount]) {
 			return actions.setTemplateErrors(['Invalid token account'])
 		}
-		
+
 		const balance = Number(store.solana.balances[tokenAccount]);
 		validate(formValues, balance);
 		const amountPlusFee = Number(formValues.kinAmount) + fee;
@@ -71,10 +71,10 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 
 		const account = store.blockchain.publicKey;
 		actions.getSolanaTransaction([
-			account, 
-			tokenAccount, 
-			destinationAccount, 
-			kinAmount, 
+			account,
+			tokenAccount,
+			destinationAccount,
+			kinAmount,
 			memo || '',
 			store.solana.serviceConfig.tokenProgram,
 			store.solana.serviceConfig.subsidizer,

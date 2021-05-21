@@ -10,6 +10,7 @@ import balanceCalculator from 'src/components/helpers/balanceCalculator';
 import transactionpb from '@kinecosystem/agora-api/node/transaction/v4/transaction_service_pb';
 import { Transaction as SolanaTransaction } from '@solana/web3.js';
 import { ENV_NAME } from '../../config';
+import { PrivateKey } from '../../models/keys';
 
 const IndexPage = props => {
 	const outOfByPath = () => (props.isLedgerConnected ? 5 : 4);
@@ -42,7 +43,8 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 		} else {
 			const tx = store.solana.transaction;
 			const secret = store.blockchain.secret;
-			actions.signAndSubmitTransaction([tx, secret]);
+			const additionalSigners = store.solana.additionalSigners;
+			actions.signAndSubmitTransaction([tx, secret, additionalSigners]);
 		}
 	};
 	useEffect(() => {
@@ -80,6 +82,7 @@ const ApprovePayment: React.FunctionComponent<IReviewPaymentStyled> = ({ store, 
 					destinationAccount={store.transactionForm.destinationAccount}
 					memo={store.transactionForm.memo}
 					balance={transactionValid && balanceAfterTransaction}
+					createRequired={store.solana.createRequired}
 				/>
 			)}
 			<MessageTextContainer visible={transactionValid}>
@@ -116,6 +119,8 @@ interface IReviewPaymentStyled {
 			tokenAccounts: string[];
 			balances: object;
 			recentBlockhash: Uint8Array;
+			additionalSigners: PrivateKey[];
+			createRequired: boolean;
 			transaction: SolanaTransaction;
 			signature: Uint8Array;
 			submitResponse: transactionpb.SubmitTransactionResponse;

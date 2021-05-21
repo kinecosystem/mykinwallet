@@ -12,6 +12,7 @@ interface IPaymentInfo {
 	destinationAccount: string;
 	environment: string;
 	memo: string;
+	createRequired: boolean;
 }
 
 const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
@@ -22,7 +23,8 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 	destinationAccount,
 	balance,
 	environment,
-	memo
+	memo,
+	createRequired
 }) => {
 	return (
 		<PaymentInfoStyled border={purple === 'purple'}>
@@ -82,6 +84,16 @@ const PaymentInfo: React.FunctionComponent<IPaymentInfo> = ({
 						<summary>Source account balance after the transaction</summary>
 					</div>
 					<div data-item="balance">{balance} KIN</div>
+				</Item>
+			)}
+			{/** create required */}
+			{createRequired && (
+				<Item>
+					<div>
+						<span>Create Required</span>
+						<summary><font color="red">The destination account does not exist. Ensure the destination is correct</font></summary>
+					</div>
+					<div>Destination account will be created</div>
 				</Item>
 			)}
 		</PaymentInfoStyled>

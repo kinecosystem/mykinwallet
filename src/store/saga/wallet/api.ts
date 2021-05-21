@@ -425,10 +425,35 @@ function* getRecentBlockhash() {
 
 function* getSolanaTransaction(action) {
 	const [publicKey, tokenAccount, destinationAccount, kinAmount, memo, tokenProgram, subsidizer] = action.payload;
+
+	var createRequired: boolean = false;
+	var destinationAccountKey: SolanaPublicKey;
+
 	try {
 		yield loading(true);
 
+		try {
+			const accountID = new commonpb.SolanaAccountId();
+			accountID.setValue(PublicKey.fromBase58(destinationAccount).buffer);
+			const req = new accountpb.ResolveTokenAccountsRequest();
+			req.setAccountId(accountID);
+
+			const httpResp = yield submitAgoraReq(resolveTokenAccountsURL, req.serializeBinary());
+			const resp = accountpb.ResolveTokenAccountsResponse.deserializeBinary(httpResp.data);
+
+			if (resp.getTokenAccountsList().length == 0) {
+				createRequired = true;
+			} else {
+				destinationAccountKey = new SolanaPublicKey(resp.getTokenAccountsList()[0].getValue_asU8());
+			}
+		} catch (error) {
+			yield loading(false);
+			yield put(setTemplateErrors([`Failed to resolve token accounts (${error.toString()})`]));
+			return;
+		}
+
 		const owner = PublicKey.fromString(publicKey).solanaKey();
+		const tokenProgramKey = new SolanaPublicKey(tokenProgram);
 		var feePayer: SolanaPublicKey;
 		if (subsidizer) {
 			feePayer = new SolanaPublicKey(subsidizer);
@@ -441,15 +466,73 @@ function* getSolanaTransaction(action) {
 			instructions.push(MemoProgram.memo({ data: memo }));
 		}
 
+		var tempKey: PrivateKey;
+		var additionalSigners: PrivateKey[];
+		if (createRequired) {
+			const getServiceConfigReq = new transactionpb.GetServiceConfigRequest();
+			const getServiceConfigHttpResp = yield submitAgoraReq(getServiceConfigURL, getServiceConfigReq.serializeBinary());
+			const getServiceConfigResp = transactionpb.GetServiceConfigResponse.deserializeBinary(getServiceConfigHttpResp.data);
+
+			const minBalanceReq = new transactionpb.GetMinimumBalanceForRentExemptionRequest();
+			minBalanceReq.setSize(AccountSize);
+			const minBalanceHttpResp = yield submitAgoraReq(getMinBalanceURL, minBalanceReq.serializeBinary());
+			const minBalanceResp = transactionpb.GetMinimumBalanceForRentExemptionResponse.deserializeBinary(minBalanceHttpResp.data);
+
+			const token = new SolanaPublicKey(getServiceConfigResp.getToken().getValue_asU8());
+			tempKey = PrivateKey.random();
+			destinationAccountKey = tempKey.publicKey().solanaKey();
+			additionalSigners = [tempKey];
+
+			instructions.push(
+				SystemProgram.createAccount({
+					fromPubkey: feePayer,
+					newAccountPubkey: tempKey.publicKey().solanaKey(),
+					lamports: minBalanceResp.getLamports(),
+					space: AccountSize,
+					programId: tokenProgramKey
+				}),
+				TokenProgram.initializeAccount(
+					{
+						account: tempKey.publicKey().solanaKey(),
+						mint: token,
+						owner: tempKey.publicKey().solanaKey()
+					},
+					tokenProgramKey
+				),
+				TokenProgram.setAuthority(
+					{
+						account: tempKey.publicKey().solanaKey(),
+						currentAuthority: tempKey.publicKey().solanaKey(),
+						newAuthority: feePayer,
+						authorityType: AuthorityType.CloseAccount
+					},
+					tokenProgramKey
+				),
+				TokenProgram.setAuthority(
+					{
+						account: tempKey.publicKey().solanaKey(),
+						currentAuthority: tempKey.publicKey().solanaKey(),
+						newAuthority: PublicKey.fromBase58(destinationAccount).solanaKey(),
+						authorityType: AuthorityType.AccountHolder
+					},
+					tokenProgramKey
+				)
+			);
+		}
+
+		// If the destination account does not exist, we need to create an auxillary account.
+		// This is the same as creating token accounts (as we've done before), and then sending
+		// to that.
+
 		instructions.push(
 			TokenProgram.transfer(
 				{
 					source: PublicKey.fromBase58(tokenAccount).solanaKey(),
-					dest: PublicKey.fromBase58(destinationAccount).solanaKey(),
+					dest: destinationAccountKey,
 					owner: PublicKey.fromString(publicKey).solanaKey(),
 					amount: BigInt(kinToQuarks(kinAmount.toString()))
 				},
-				new SolanaPublicKey(tokenProgram)
+				tokenProgramKey
 			)
 		);
 
@@ -460,7 +543,7 @@ function* getSolanaTransaction(action) {
 
 		yield put({
 			type: types.SET_SOLANA_TRANSACTION,
-			payload: { transaction: tx }
+			payload: { transaction: tx, additionalSigners: additionalSigners, createRequired: createRequired }
 		});
 		yield loading(false);
 	} catch (error) {
@@ -470,7 +553,7 @@ function* getSolanaTransaction(action) {
 }
 
 function* signAndSubmitTransaction(action) {
-	const [transaction, secret] = action.payload;
+	const [transaction, secret, additionalSigners] = action.payload;
 	try {
 		yield loading(true);
 
@@ -488,6 +571,12 @@ function* signAndSubmitTransaction(action) {
 
 		transaction.recentBlockhash = bs58.encode(Buffer.from(resp.getBlockhash()!.getValue_asU8()));
 		transaction.partialSign(new Account(pk.secretKey()));
+
+		if (additionalSigners) {
+			for (var signer of additionalSigners) {
+				transaction.partialSign(new Account(signer.secretKey()));
+			}
+		}
 
 		const protoTx = new commonpb.Transaction();
 		protoTx.setValue(
@@ -553,7 +642,7 @@ function* signAndSubmitTransaction(action) {
 }
 
 function* signAndSubmitTransactionWithLedger(action) {
-	const [derivationPath, transaction] = action.payload;
+	const [derivationPath, transaction, additionalSigners] = action.payload;
 	var signedTransaction;
 	try {
 		yield loading(true);
@@ -564,6 +653,11 @@ function* signAndSubmitTransactionWithLedger(action) {
 		const resp = transactionpb.GetRecentBlockhashResponse.deserializeBinary(httpResp.data);
 
 		transaction.recentBlockhash = bs58.encode(Buffer.from(resp.getBlockhash()!.getValue_asU8()));
+		if (additionalSigners) {
+			for (var signer of additionalSigners) {
+				transaction.partialSign(new Account(signer.secretKey()));
+			}
+		}
 
 		signedTransaction = yield kin4Ledger.signTransaction(pathAccount, transaction);
 
