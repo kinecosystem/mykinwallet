@@ -435,16 +435,28 @@ function* getSolanaTransaction(action) {
 		try {
 			const accountID = new commonpb.SolanaAccountId();
 			accountID.setValue(PublicKey.fromBase58(destinationAccount).buffer);
-			const req = new accountpb.ResolveTokenAccountsRequest();
-			req.setAccountId(accountID);
 
-			const httpResp = yield submitAgoraReq(resolveTokenAccountsURL, req.serializeBinary());
-			const resp = accountpb.ResolveTokenAccountsResponse.deserializeBinary(httpResp.data);
+			const accountInfoReq = new accountpb.GetAccountInfoRequest();
+			accountInfoReq.setAccountId(accountID);
+			accountInfoReq.setCommitment(commonpb.Commitment.SINGLE);
 
-			if (resp.getTokenAccountsList().length == 0) {
-				createRequired = true;
+			const httpResp = yield submitAgoraReq(getAccountInfoURL, accountInfoReq.serializeBinary());
+			const resp = accountpb.GetAccountInfoResponse.deserializeBinary(httpResp.data);
+
+			if (resp.getResult() == accountpb.GetAccountInfoResponse.Result.OK) {
+				destinationAccountKey = PublicKey.fromBase58(destinationAccount).solanaKey();
 			} else {
-				destinationAccountKey = new SolanaPublicKey(resp.getTokenAccountsList()[0].getValue_asU8());
+				const resolveReq = new accountpb.ResolveTokenAccountsRequest();
+				resolveReq.setAccountId(accountID);
+
+				const httpResp = yield submitAgoraReq(resolveTokenAccountsURL, resolveReq.serializeBinary());
+				const resp = accountpb.ResolveTokenAccountsResponse.deserializeBinary(httpResp.data);
+
+				if (resp.getTokenAccountsList().length == 0) {
+					createRequired = true;
+				} else {
+					destinationAccountKey = new SolanaPublicKey(resp.getTokenAccountsList()[0].getValue_asU8());
+				}
 			}
 		} catch (error) {
 			yield loading(false);
