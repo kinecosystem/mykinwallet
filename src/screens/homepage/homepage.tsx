@@ -31,12 +31,39 @@ interface IHompage {
 const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 	const [errors] = useState([
 		<Fragment>
+			<T_14_16_lg color={volcanoRed} family="Verdana">
+				DEPRECATION NOTICE
+			</T_14_16_lg>{' '}
+			<br />
+			<T_14_16_lg color={volcanoRed}>
+				MyKinWallet uses a custom derivation path introduced to enable Solana migration from Stellar. <br />
+				With migration completed, we will deprecate this path, ending support on December 31st 2022. Using Solana's standardized
+				path has &nbsp;
+				<a target="_blank" href="https://twitter.com/DanPaul000/status/1380933553530183681">
+					several advantages
+				</a>
+				&nbsp; including:
+				<ul>
+					<li>Wallet choice</li>
+					<li>Ease of use</li>
+					<li>Keeping with Solana's latest standards</li>
+				</ul>
+				<br />
+				Please follow{' '}
+				<a target="_blank" href="https://kin.org/?page_id=3957">
+					{' '}
+					these instructions
+				</a>{' '}
+				to switch derviation paths as soon as possible.
+			</T_14_16_lg>
+		</Fragment>,
+		<Fragment>
 			<T_14_16_lg color={volcanoRed} family="SailecBold">
 				DON’T GET PHISHED!
 			</T_14_16_lg>{' '}
 			<br />
 			<T_14_16_lg color={volcanoRed}>
-			Make sure you enter the correct MyKinWallet URL in your browser's navigation bar and bookmark it (CTRL+D) for future use.
+				Make sure you enter the correct MyKinWallet URL in your browser's navigation bar and bookmark it (CTRL+D) for future use.
 			</T_14_16_lg>
 		</Fragment>
 	]);
