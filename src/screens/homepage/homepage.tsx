@@ -50,7 +50,7 @@ const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 				</ul>
 				<br />
 				Please follow{' '}
-				<a target="_blank" href="https://kin.org/?page_id=3957">
+				<a target="_blank" href="https://kin.org/mykinwallet-deprecation/">
 					{' '}
 					these instructions
 				</a>{' '}
