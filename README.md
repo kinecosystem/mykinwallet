@@ -12,8 +12,11 @@ Inside your cli write:
 After the clone is done, enter the following command in your cli
 
     
-    npm install
-    
+    yarn install
+
+
+You may need a specific version of Node for installation to succeed. (Tested on Node 12.0.0)
+
 
 After the installation is done, enter the following command in your cli 
 
