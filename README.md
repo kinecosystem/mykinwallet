@@ -24,7 +24,9 @@ After the installation is done, enter the following command in your cli
     npm run developSecure
 
 **How deploy the project**
-run: 
-    npm run build
+run:
 
-and just take the new public folder that was created
+    npm run build
+    npm run deploy
+
+Make sure your cli is set to its `kinblockchain` profile to deploy to the correct bucket.
