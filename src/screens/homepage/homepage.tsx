@@ -58,12 +58,12 @@ const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 			</T_14_16_lg>
 		</Fragment>,
 		<Fragment>
-			<T_14_16_lg color={volcanoRed} family="SailecBold">
-				DON’T GET PHISHED!
-			</T_14_16_lg>{' '}
-			<br />
 			<T_14_16_lg color={volcanoRed}>
-				Make sure you enter the correct MyKinWallet URL in your browser's navigation bar and bookmark it (CTRL+D) for future use.
+				IMPORTANT!
+			</T_14_16_lg>{' '}
+			<T_14_16_lg color={volcanoRed}>
+				1. Bookmark MyKinWallet (CTRL+D) for future use and avoid phishing.<br/>
+				2. This wallet is only designed to transact with KIN. Do not send SOL.
 			</T_14_16_lg>
 		</Fragment>
 	]);
