@@ -41,7 +41,8 @@ const DerivationPath: FunctionComponent<IDerivationPath> = ({ onChange, stellarA
 					"44'/2017'/6'",
 					"44'/2017'/7'",
 					"44'/2017'/8'",
-					"44'/2017'/9'"
+					"44'/2017'/9'",
+					"44'/2017'/10'"
 				]}
 			/>
 
