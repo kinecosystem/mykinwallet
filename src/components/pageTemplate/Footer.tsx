@@ -18,7 +18,7 @@ const FooterComponent = ({ hide, path, store, resetAll }) => (
 		)}
 		<Support>
 			<FooterItem className="cSupp">
-				<a href="mailto:migration-support@kin.org" target="_top">
+				<a href="mailto:info@kin.org" target="_top">
 					<A>Customer Support</A>
 				</a>
 			</FooterItem>
