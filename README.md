@@ -17,9 +17,3 @@ You may need a specific version of Node for installation to succeed. (Tested on 
 After the installation is done, enter the following command in your cli
 
     npm run developSecure
-
-**How deploy the project**
-run:
-
-    npm run build
-    npm run deploy
