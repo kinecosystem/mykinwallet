@@ -71,6 +71,21 @@ export const headerIcon = styled.div`
 	cursor: pointer;
 `;
 
+export const headerBanner = styled.div`
+	text-align: center;
+	background: red;
+	color: white;
+	font-size: larger;
+	padding: 15px 0 10px;
+	a {
+		color: white;
+		text-decoration: underline;
+	}
+	span {
+		margin: 0 10px;
+	}
+`;
+
 export const icon = styled.img`
 	width: 65px;
 	height: 65px;

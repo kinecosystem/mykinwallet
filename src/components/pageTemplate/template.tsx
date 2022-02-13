@@ -96,8 +96,8 @@ const Template: FunctionComponent<ITemplateProps> = props => {
 					</SideContainer_content>
 				</SideContainer>
 				{github && (
-					<a href="https://github.com/kinecosystem/mykinwallet" target="__blank">
-						<Github>Github -></Github>
+					<a href="https://github.com/kinecosystem/mykinwallet" target="__blank" rel='noreferrer'>
+						<Github>Github &rarr; </Github>
 					</a>
 				)}
 			</Structure_container>
