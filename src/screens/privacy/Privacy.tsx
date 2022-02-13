@@ -253,7 +253,7 @@ const Privacy = ({ location }) => {
 								<li>
 									<b>ACCESS/ACCURACY.</b> To the extent that you do provide us with Personal Data, we wish to maintain accurate
 									Personal Data. If you would like to delete or correct any of your Personal Data that we may be storing, you may
-									submit an access request by sending an email to: <a href="mailto:privacy@kin.org">privacy@kin.org</a> Your email
+									submit an access request by sending an email to: <a href="mailto:info@kin.org">info@kin.org</a> Your email
 									should include adequate details of your request (for example: the name of the team or organization).
 								</li>
 								<li>
@@ -261,7 +261,7 @@ const Privacy = ({ location }) => {
 									Accordingly, we do not intend to collect Personal Data from anyone we know to be under 16 years. If we learn
 									that we have collected Personal Data from a child under 16 years, we will delete that information as quickly as
 									possible. If you believe that we might have any such information, please contact us at:{' '}
-									<a href="mailto:privacy@kin.org">privacy@kin.org</a>.
+									<a href="mailto:info@kin.org">info@kin.org</a>.
 								</li>
 								<li>
 									<b>SECURITY.</b> The security of Personal Data is important to us. We follow generally accepted industry
@@ -269,7 +269,7 @@ const Privacy = ({ location }) => {
 									Personal Data submitted to us. However, no method of transmission over the Internet, or method of electronic
 									storage, is 100% secure. Therefore, while we strive to use reasonable acceptable means to protect your Personal
 									Data, we cannot guarantee its absolute security or confidentiality. If you have any questions about security of
-									the Service, you can contact us at: <a href="mailto:privacy@kin.org">privacy@kin.org</a>.
+									the Service, you can contact us at: <a href="mailto:info@kin.org">info@kin.org</a>.
 								</li>
 								<li>
 									<b>MERGER, SALE OR BANKRUPTCY.</b> In the event that we are acquired by or merged with a third party entity, or
@@ -281,7 +281,7 @@ const Privacy = ({ location }) => {
 									registered user, California Business and Professions Code Section 22581 permits you to remove content or
 									Personal Data you have publicly posted. If you wish to remove such content or Personal Data and you specify
 									which content or Personal Data you wish to be removed, we will do so in accordance with applicable law. To make
-									such a request, please send an email to <a href="mailto:privacy@kin.org">privacy@kin.org</a> Please be aware
+									such a request, please send an email to <a href="mailto:info@kin.org">info@kin.org</a> Please be aware
 									that after removal you will not be able to restore removed content. In addition, LEGAL_1:54645129.4 such removal
 									does not ensure complete or comprehensive removal of the content or Personal Data you have posted and that there
 									may be circumstances in which the law does not require us to enable removal of content.
@@ -308,7 +308,7 @@ const Privacy = ({ location }) => {
 												You have the right to object to or restrict our use of your Personal Data for direct marketing purposes or
 												under certain circumstances when the legal bases for using your information is based upon our legitimate
 												interest. If you wish to object to our use of your information, you can send a request to delete this
-												information by <a href="mailto:privacy@kin.org?subject=Object/Restrict%20processing">clicking here.</a>
+												information by <a href="mailto:info@kin.org?subject=Object/Restrict%20processing">clicking here.</a>
 											</div>
 										</li>
 										<li>
@@ -318,7 +318,7 @@ const Privacy = ({ location }) => {
 													<b>Right to Erasure.</b>
 												</u>{' '}
 												You have the right to have your personal data erased and no longer processed. You can send us a request to
-												delete your application by<a href=' mailto:privacy@kin.org?subject=Data%20deletion'> clicking here.</a> Upon receiving the request, we will make a reasonable effort to
+												delete your application by<a href=' mailto:info@kin.org?subject=Data%20deletion'> clicking here.</a> Upon receiving the request, we will make a reasonable effort to
 												delete your Personal Data from our internal network within a reasonable period of time as long as we are
 												not obligated to preserve your information due to things like law enforcement preservation requests,
 												subpoenas, investigations, litigation, or otherwise meet any of our other legal obligations. We may also
@@ -331,7 +331,7 @@ const Privacy = ({ location }) => {
 												<u>
 													<b>Data Portability.</b>
 												</u>{' '}
-												You can exercise your right to export your personal data by <a href="mailto:privacy@kin.org?subject=Port%20my%20data">clicking here.</a>
+												You can exercise your right to export your personal data by <a href="mailto:info@kin.org?subject=Port%20my%20data">clicking here.</a>
 											</div>
 										</li>
 										<li>
@@ -382,7 +382,7 @@ const Privacy = ({ location }) => {
 									<b>COMMITMENT.</b> We are committed to protecting your privacy. Protecting your privacy online is an evolving
 									area, and we are constantly evolving our Service to meet these demands. If you have any comments or questions
 									regarding our Privacy Policy, or your Personal Data that we may be storing and using, please contact us at
-									privacy@kin.org
+									info@kin.org
 								</li>
 								<li>
 									<b>LINKS TO OTHER SITES.</b> The Services contain links to other third-party websites or applications. Once you
@@ -405,7 +405,7 @@ const Privacy = ({ location }) => {
 									Attention: Privacy Office <br />
 									c/o 137 Glasgow Street, Suite 525 <br />
 									Kitchener, ON N2G 4X8 <br />
-									<a href="mailto:privacy@kin.org">privacy@kin.org</a>
+									<a href="mailto:info@kin.org">info@kin.org</a>
 								</li>
 								<li>
 									<b>CHANGES TO PRIVACY POLICY.</b> Be sure to check back often for the latest information on our privacy
