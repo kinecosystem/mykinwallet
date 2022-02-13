@@ -17,7 +17,7 @@ const Title = () => {
 			</div>
 			<section>
 				For more details: <br />{' '}
-				<a target="_blank" href="https://www.kin.org/migrationLedger">
+				<a target="_blank" rel='noreferrer' href="https://www.kin.org/migrationLedger">
 					{' '}
 					kin.org/migrationLedger
 				</a>
