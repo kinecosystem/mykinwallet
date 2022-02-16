@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { Link, navigate } from 'gatsby';
+import { headerBanner } from "./styles";
 import * as Styled from './styles';
 import { MenuButton } from './hamburgerMenuButton';
 import { MobileMenu } from './mobileMenu';
@@ -63,6 +64,15 @@ const Header = ({ background, isOnTop }: IProps) => {
 
 	return (
 		<Styled.header background={background ? background : false} isOnTop={isOnTop}>
+			<Styled.headerBanner>
+				<div>
+					<span>⚠️ WARNING ⚠️</span>
+					<span>Only use MyKinWallet to send KIN to other wallets. Do <b>NOT</b> use it to send KIN to exchanges!</span>
+					<span>
+						<a href="https://kin.org/mykinwallet-more-info" target='_blank' rel='noreferrer'>More info here.</a>
+					</span>
+				</div>
+			</Styled.headerBanner>
 			<Grid>
 				<Styled.headerContainer>
 					<Styled.headerIcon onClick={() => (window.location = 'https://www.kin.org/')}>

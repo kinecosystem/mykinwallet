@@ -7,7 +7,6 @@ import { H3, Button } from 'common/selectors';
 import { SelectPremade as Select } from 'src/components/antd/index';
 import formInput from 'src/components/formInput/formInput';
 import * as formStyled from 'src/components/formInput/style';
-import { authFormTheme } from 'style/theme/generalVariables';
 import * as Styled from './style';
 import WalletInfo from 'src/components/walletInfo/WalletInfo';
 import validate from './validation';
@@ -131,7 +130,7 @@ const Transaction: React.FunctionComponent<ITransaction> = ({
 	useEffect(() => {
 		actions.resetTemplateErrors();
 	}, []);
-	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
+	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} />);
 	return (
 		<TransactionStyled>
 			<TransactionContent>

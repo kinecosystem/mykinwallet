@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Template from 'src/components/pageTemplate/template';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { KeyAccessContainer, TitleContainer, Form, ButtonContainer } from './style';
-import { authFormTheme } from 'style/theme/generalVariables';
 import { H3, Button } from 'common/selectors';
 import formInput from 'src/components/formInput/formInput';
 import validate from './validation';
@@ -82,7 +81,7 @@ const KeyAccess: React.FunctionComponent<IKeyAccess> = props => {
 	}, [errors, initial]);
 
 	const { handleSubmit } = props;
-	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} {...authFormTheme} />);
+	const formFields = inputFields.map(item => <Field key={item.name} {...item} component={formInput} />);
 
 	const onSubmit = formValues => {
 		props.actions.getIsKeyPairValid(formValues.privateKey);

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import media from 'common/breakpoints';
-import { grid, flexRow } from 'common/mixin';
+import { flexRow } from 'common/mixin';
 
 export const Item = styled.div`
 	border: solid 2px ${({ theme }) => theme.blackish};
