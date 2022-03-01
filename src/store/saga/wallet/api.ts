@@ -12,7 +12,8 @@ import { PrivateKey, PublicKey } from '../../../models/keys';
 import { kinToQuarks, quarksToKin } from '../../../models/utils';
 import { AccountSize, AuthorityType, TokenProgram } from '../../../solana/token-program';
 import { MemoProgram } from '../../../solana/memo-program';
-import { Transaction, PublicKey as SolanaPublicKey, Account, SystemProgram } from '@solana/web3.js';
+import { Transaction, PublicKey as SolanaPublicKey, Account, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { createKinMemo } from '@kin-tools/kin-memo';
 import { Kin4Ledger } from '../../../solana/kin-4-ledger';
 import { AGORA_URL } from '../../../config';
 
@@ -955,10 +956,22 @@ function getCreateAccountTx(
 	token: SolanaPublicKey,
 	minBalance: number
 ): Transaction {
+	// Create correctly formatted memo string, including your App Index
+	const appIndexMemo = createKinMemo({
+		appIndex: 385 // https://portal.kin.org/apps/cl06w429x00718b3im4x5k0nc
+	});
+	// Create Memo Instruction for KRE Ingestion - Must be Memo Program v1, not v2
+	const appIndexMemoInstruction = new TransactionInstruction({
+		keys: [],
+		programId: new SolanaPublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
+		data: Buffer.from(appIndexMemo)
+	});
+
 	return new Transaction({
 		feePayer: subsidizer,
 		recentBlockhash: recentBlockhash
 	}).add(
+		appIndexMemoInstruction, // Must be the first instruction
 		SystemProgram.createAccount({
 			fromPubkey: subsidizer,
 			newAccountPubkey: tokenAccount,
