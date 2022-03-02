@@ -28,17 +28,6 @@ const inputFields: {
 		step: 'any',
 		maxlength: 9
 	},
-	// Remove Memo so that we can always include the AppIndex with transactions
-	// If included along with App Index, get "invalid transaction: multiple app indexes" error
-	// {
-	// 	name: 'memo',
-	// 	label: 'Memo',
-	// 	bottomLabelBold: 'Please Note: ',
-	// 	bottomLabelRegular:
-	// 		'Some exchanges or swap companies require using a memo. Please check the relevant destination site for specific instructions.',
-	// 	placeholder: 'Memo text',
-	// 	maxlength: 28
-	// }
 ];
 
 export default inputFields;

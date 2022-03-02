@@ -564,10 +564,6 @@ function* getSolanaTransaction(action) {
 			)
 		);
 
-		if (memo !== undefined && memo.length != 0) {
-			instructions.push(MemoProgram.memo({ data: memo }));
-		}
-
 		// TODO: might be from subsidizer?
 		const tx = new Transaction({
 			feePayer: feePayer
