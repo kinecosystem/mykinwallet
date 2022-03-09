@@ -6,6 +6,7 @@
 	"author": "Kin-ecosystem",
 	"dependencies": {
 		"@babel/polyfill": "^7.12.1",
+		"@kin-tools/kin-memo": "^1.2.2",
 		"@kinecosystem/agora-api": "^0.23.0",
 		"@kinecosystem/kin-sdk": "^0.20.3",
 		"@ledgerhq/hw-app-str": "4.39.0",
