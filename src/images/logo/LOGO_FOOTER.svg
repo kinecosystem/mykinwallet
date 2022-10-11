@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
-    <title>Group</title>
-    <desc>Created with Sketch.</desc>
+<svg width="640px" height="640px" viewBox="0 0 640 640" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>kin-logo-violet</title>
     <defs>
-        <filter x="-30.0%" y="-30.0%" width="160.0%" height="160.0%" filterUnits="objectBoundingBox" id="filter-1">
-            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
-            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
-            <feColorMatrix values="0 0 0 0 0.707002944   0 0 0 0 0.707002944   0 0 0 0 0.707002944  0 0 0 1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
-            <feMerge>
-                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
-                <feMergeNode in="SourceGraphic"></feMergeNode>
-            </feMerge>
-        </filter>
-        <path d="M39.8457292,24.7423007 C39.8457292,25.751683 39.0303243,26.5695876 38.0239417,26.5695876 L36.3226401,26.5695876 C34.4938534,26.5695876 33.0120262,28.0559143 33.0120262,29.8897004 L33.005027,29.8897004 C33.005027,31.7234865 34.7053287,33.2098132 36.5341154,33.2098132 L38.0379401,33.2098132 C39.0363236,33.2098132 39.8457292,34.0217185 39.8457292,35.0221019 L39.8457292,40.0225187 L34.8128162,40.0225187 C33.8144326,40.0225187 33.005027,39.2106134 33.005027,38.2097301 L33.005027,36.5364252 C33.005027,34.703139 31.461707,33.1548196 29.6329203,33.1548196 L29.6329203,33.1483204 C27.8041335,33.1483204 26.3822993,34.7706312 26.3822993,36.7024059 L26.3822993,38.2252283 C26.3822993,39.2176126 25.5798929,40.0225187 24.5895084,40.0225187 L20.1200297,40.0225187 L20.1200297,19.7973774 L24.6260042,19.7973774 C25.5958911,19.7973774 26.3822993,20.5857854 26.3822993,21.558672 L26.3822993,23.2494748 C26.3822993,25.0832609 27.9571157,26.6620768 29.7859024,26.6620768 C31.6146891,26.6620768 33.005027,25.0832609 33.005027,23.2494748 L33.005027,21.6241643 C33.005027,20.614782 33.8209318,19.7973774 34.8268145,19.7973774 L39.8457292,19.7973774 L39.8457292,24.7423007 Z M59.2559656,25.0582638 C58.2765798,21.8721354 56.697264,19.1259557 51.5873599,14.0565469 L45.7735379,8.28771963 C40.6641338,3.21831083 37.9054555,1.66049251 34.7118279,0.706103808 C31.5187003,-0.247784949 28.2565808,-0.235286406 25.0704523,0.744099377 C21.8848238,1.72348516 19.1386441,3.30280098 14.0687354,8.41220512 L8.28790954,14.2385256 C3.21850074,19.3479298 1.66068241,22.107108 0.706293714,25.3002356 C-0.248094985,28.4938632 -0.2350965,31.7554828 0.744289282,34.9416112 C1.72367507,38.1272397 3.30299088,40.8739194 8.41239502,45.9433282 L14.226217,51.7116555 C19.3361211,56.7815642 22.0942994,58.3393826 25.287927,59.2932713 C28.4815545,60.24816 31.7431742,60.2351615 34.9293026,59.2557757 C38.115431,58.2763899 40.8616108,56.6970741 45.9310196,51.58717 L51.7118454,45.7613494 C56.7812542,40.6514454 58.3395725,37.893267 59.2934612,34.6996395 C60.2478499,31.5060119 60.2353514,28.2438923 59.2559656,25.0582638 L59.2559656,25.0582638 Z" id="path-2"></path>
-        <filter x="-15.0%" y="-15.0%" width="130.0%" height="130.0%" filterUnits="objectBoundingBox" id="filter-3">
-            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
-            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
-            <feColorMatrix values="0 0 0 0 0.571322279   0 0 0 0 0.571322279   0 0 0 0 0.571322279  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
-        </filter>
+        <linearGradient x1="60.0887809%" y1="4.42746035%" x2="9.37661992%" y2="107.844854%" id="linearGradient-1">
+            <stop stop-color="#7D43FF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#7D43FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="66.102312%" y1="106.43771%" x2="3.93840629%" y2="-14.9259259%" id="linearGradient-2">
+            <stop stop-color="#7D43FF" offset="0%"></stop>
+            <stop stop-color="#7D43FF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
     </defs>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="logos" transform="translate(-133.000000, -56.000000)">
-            <g id="Group" filter="url(#filter-1)" transform="translate(143.000000, 66.000000)">
-                <path d="M14,30 C14,21.1631515 21.387,14 30.5,14 C39.613,14 47,21.1631515 47,30 C47,38.8368485 39.613,46 30.5,46 C21.387,46 14,38.8368485 14,30" id="Fill-1-Copy" fill="#1F1F1F"></path>
-                <g id="Fill-4-Copy">
-                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
-                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
-                </g>
+    <g id="Kin-Logo-Violet" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="kin-logo-violet">
+            <rect id="Rectangle" x="0" y="0" width="640" height="640"></rect>
+            <g id="kin-icon-violet" transform="translate(63.000000, 23.000000)" fill-rule="nonzero">
+                <polygon id="Path" fill="#7546F6" points="5.68434189e-14 148.5 5.68434189e-14 445.51 257.21 594.01 257.21 5.68434189e-14"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-1)" points="257.21 5.68434189e-14 257.21 297.01 514.43 148.5"></polygon>
+                <polygon id="Path" fill="#7546F6" points="514.43 148.5 257.21 297.01 514.42 445.51"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-2)" points="514.43 445.51 257.21 297.01 257.21 594.01"></polygon>
             </g>
         </g>
     </g>

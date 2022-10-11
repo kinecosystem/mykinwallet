@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
-    <title>Test 3</title>
-    <desc>Created with Sketch.</desc>
+<svg width="640px" height="640px" viewBox="0 0 640 640" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>kin-logo-violet</title>
     <defs>
-        <path d="M247.532973,219.443532 C247.532973,220.317914 246.826228,221.02708 245.954143,221.02708 L244.479526,221.02708 C242.894523,221.02708 241.61018,222.315414 241.61018,223.90453 L241.604612,223.90453 C241.604612,225.493767 243.078018,226.782102 244.663021,226.782102 L245.966126,226.782102 C246.831311,226.782102 247.532973,227.485457 247.532973,228.352457 L247.532973,232.686486 L243.170854,232.686486 C242.305548,232.686486 241.604612,231.983009 241.604612,231.115405 L241.604612,229.664636 C241.604612,228.076004 240.267012,226.734413 238.682008,226.734413 L238.682008,226.728603 C237.096883,226.728603 235.864829,228.134587 235.864829,229.809035 L235.864829,231.128477 C235.864829,231.988698 235.16934,232.686486 234.310932,232.686486 L230.437568,232.686486 L230.437568,215.157918 L234.342523,215.157918 C235.183017,215.157918 235.864829,215.840939 235.864829,216.684094 L235.864829,218.149629 C235.864829,219.738624 237.229542,221.107086 238.814546,221.107086 C240.399428,221.107086 241.604612,219.738624 241.604612,218.149629 L241.604612,216.740861 C241.604612,215.866478 242.311237,215.157918 243.183321,215.157918 L247.532973,215.157918 L247.532973,219.443532 Z M264.355073,219.717079 C263.506348,216.955946 262.137399,214.575722 257.709314,210.182263 L252.670467,205.182885 C248.242382,200.789305 245.851502,199.43912 243.083828,198.612184 C240.316153,197.785127 237.489049,197.796142 234.727911,198.644864 C231.966773,199.493587 229.586544,200.862412 225.193076,205.29061 L220.182915,210.340219 C215.789326,214.768295 214.439138,217.15917 213.61208,219.926839 C212.785142,222.694507 212.796157,225.521727 213.644881,228.282738 C214.493606,231.043992 215.862555,233.424095 220.290761,237.817675 L225.329487,242.816932 C229.757693,247.210512 232.148452,248.560819 234.916248,249.387875 C237.683922,250.214932 240.511026,250.203797 243.272164,249.355074 C246.033181,248.506351 248.41341,247.137405 252.806999,242.709208 L257.81716,237.65972 C262.210628,233.231522 263.560816,230.840647 264.387874,228.072978 C265.214933,225.30531 265.203797,222.478211 264.355073,219.717079 L264.355073,219.717079 Z" id="path-1"></path>
-        <filter x="-17.3%" y="-17.3%" width="134.6%" height="134.6%" filterUnits="objectBoundingBox" id="filter-2">
-            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
-            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
-            <feColorMatrix values="0 0 0 0 0.0979393116   0 0 0 0 0.0979393116   0 0 0 0 0.0979393116  0 0 0 0.865084135 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
-        </filter>
+        <linearGradient x1="60.0887809%" y1="4.42746035%" x2="9.37661992%" y2="107.844854%" id="linearGradient-1">
+            <stop stop-color="#7D43FF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#7D43FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="66.102312%" y1="106.43771%" x2="3.93840629%" y2="-14.9259259%" id="linearGradient-2">
+            <stop stop-color="#7D43FF" offset="0%"></stop>
+            <stop stop-color="#7D43FF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
     </defs>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="logos" transform="translate(-207.000000, -192.000000)">
-            <g id="Test-3">
-                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
-                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+    <g id="Kin-Logo-Violet" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="kin-logo-violet">
+            <rect id="Rectangle" x="0" y="0" width="640" height="640"></rect>
+            <g id="kin-icon-violet" transform="translate(63.000000, 23.000000)" fill-rule="nonzero">
+                <polygon id="Path" fill="#7546F6" points="5.68434189e-14 148.5 5.68434189e-14 445.51 257.21 594.01 257.21 5.68434189e-14"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-1)" points="257.21 5.68434189e-14 257.21 297.01 514.43 148.5"></polygon>
+                <polygon id="Path" fill="#7546F6" points="514.43 148.5 257.21 297.01 514.42 445.51"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-2)" points="514.43 445.51 257.21 297.01 257.21 594.01"></polygon>
             </g>
         </g>
     </g>
