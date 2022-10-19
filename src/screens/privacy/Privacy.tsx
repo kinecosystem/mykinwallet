@@ -29,7 +29,7 @@ const Privacy = ({ location }) => {
 					<Grid>
 						<ModalHeader>
 							<div>
-								<img src={LogoGreen} alt="modal_icon" /> Kin
+								<img src={LogoGreen} alt="modal_icon" height={42} /> Kin
 							</div>
 							<ModalStyledX
 								onClick={() => {
