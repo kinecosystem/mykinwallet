@@ -46,7 +46,7 @@ const ModalG: React.FunctionComponent<IModal> = ({ button, type, children, title
 				<Grid>
 					<ModalHeader>
 						<div>
-							<img src={LogoGreen} alt="modal_icon" /> Kin Ecosystem
+							<img src={LogoGreen} alt="modal_icon" height={42} /> Kin Ecosystem
 						</div>
 						<ModalStyledX onClick={handleCancel}>
 							<img src={blackClose} alt="X" />
