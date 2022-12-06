@@ -32,7 +32,7 @@
 		"gatsby-transformer-sharp": "^2.1.17",
 		"kin-wallet": "^1.1.0",
 		"lodash": "^4.17.14",
-		"moment": "^2.24.0",
+		"moment": "^2.29.4",
 		"prop-types": "^15.7.2",
 		"rc-progress": "^2.3.0",
 		"react": "^16.8.6",
