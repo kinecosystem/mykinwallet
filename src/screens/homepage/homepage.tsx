@@ -37,20 +37,11 @@ const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 			<br />
 			<T_14_16_lg color={volcanoRed}>
 				MyKinWallet uses a custom derivation path introduced to enable Solana migration from Stellar. <br />
-				With migration completed, we will deprecate this path, ending support on December 31st 2022. Using Solana's standardized
-				path has &nbsp;
-				<a target="_blank" href="https://twitter.com/DanPaul000/status/1380933553530183681">
-					several advantages
-				</a>
-				&nbsp; including:
-				<ul>
-					<li>Wallet choice</li>
-					<li>Ease of use</li>
-					<li>Keeping with Solana's latest standards</li>
-				</ul>
+				With migration completed, we will deprecate this path, ending support on December 31st 2022.
+				<br />
 				<br />
 				Please follow{' '}
-				<a target="_blank" href="https://kin.org/mykinwallet-deprecation/">
+				<a target="_blank" href="https://www.kin.org/news/kin-migration-trust-wallet-mykinwallet-and-the-erc-20-swap#mykinwallet">
 					{' '}
 					these instructions
 				</a>{' '}
@@ -58,11 +49,10 @@ const Homepage: FunctionComponent<IHompage> = ({ actions, store }) => {
 			</T_14_16_lg>
 		</Fragment>,
 		<Fragment>
+			<T_14_16_lg color={volcanoRed}>IMPORTANT!</T_14_16_lg>{' '}
 			<T_14_16_lg color={volcanoRed}>
-				IMPORTANT!
-			</T_14_16_lg>{' '}
-			<T_14_16_lg color={volcanoRed}>
-				1. Bookmark MyKinWallet (CTRL+D) for future use and avoid phishing.<br/>
+				1. Bookmark MyKinWallet (CTRL+D) for future use and avoid phishing.
+				<br />
 				2. This wallet is only designed to transact with KIN. Do not send SOL.
 			</T_14_16_lg>
 		</Fragment>
